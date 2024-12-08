@@ -19,7 +19,7 @@ public class DatabaseCRUD {
     public Connection koneksi;
     public DatabaseCRUD() {
         try {
-            String url = "jdbc:mysql://localhost/sistem_desa";
+            String url = "jdbc:mysql://localhost:3306/sistem_desa";
             String username = "root";
             String password = "";
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
