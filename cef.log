@@ -1,0 +1,24 @@
+[1204/154828.265:VERBOSE1:pref_proxy_config_tracker_impl.cc(187)] 000007EC000C0600: set chrome proxy config service to 000007EC000A4380
+[1204/154828.282:VERBOSE1:webrtc_internals.cc(120)] Could not get the download directory.
+[1204/154828.283:VERBOSE1:media_stream_manager.cc(1113)] MSM::InitializeMaybeAsync([this=000007EC00061B00])
+[1204/154828.283:VERBOSE1:media_stream_manager.cc(1113)] MDM::MediaDevicesManager()
+[1204/154828.283:VERBOSE1:media_stream_manager.cc(1113)] MSM::MediaStreamManager([this=000007EC00061B00]))
+[1204/154828.353:VERBOSE1:first_party_sets_handler_impl.cc(262)] Empty path. Failed initializing First-Party Sets database.
+[1204/154828.420:ERROR:gpu_init.cc(523)] Passthrough is not supported, GL is disabled, ANGLE is 
+[1204/154828.528:VERBOSE1:configured_proxy_resolution_service.cc(1095)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[1204/154928.406:VERBOSE1:pref_proxy_config_tracker_impl.cc(187)] 000005E4000D4600: set chrome proxy config service to 000005E4000BC380
+[1204/154928.414:VERBOSE1:webrtc_internals.cc(120)] Could not get the download directory.
+[1204/154928.414:VERBOSE1:media_stream_manager.cc(1113)] MSM::InitializeMaybeAsync([this=000005E400049C80])
+[1204/154928.414:VERBOSE1:media_stream_manager.cc(1113)] MDM::MediaDevicesManager()
+[1204/154928.414:VERBOSE1:media_stream_manager.cc(1113)] MSM::MediaStreamManager([this=000005E400049C80]))
+[1204/154928.423:VERBOSE1:first_party_sets_handler_impl.cc(262)] Empty path. Failed initializing First-Party Sets database.
+[1204/154928.466:ERROR:gpu_init.cc(523)] Passthrough is not supported, GL is disabled, ANGLE is 
+[1204/154928.530:VERBOSE1:configured_proxy_resolution_service.cc(1095)] Failed configuring with PAC script, falling-back to manual proxy servers.
+[1204/155011.339:VERBOSE1:pref_proxy_config_tracker_impl.cc(187)] 00000370000D4600: set chrome proxy config service to 00000370000BC380
+[1204/155011.351:VERBOSE1:webrtc_internals.cc(120)] Could not get the download directory.
+[1204/155011.353:VERBOSE1:media_stream_manager.cc(1113)] MSM::InitializeMaybeAsync([this=0000037000035C80])
+[1204/155011.353:VERBOSE1:media_stream_manager.cc(1113)] MDM::MediaDevicesManager()
+[1204/155011.353:VERBOSE1:media_stream_manager.cc(1113)] MSM::MediaStreamManager([this=0000037000035C80]))
+[1204/155011.367:VERBOSE1:first_party_sets_handler_impl.cc(262)] Empty path. Failed initializing First-Party Sets database.
+[1204/155011.468:ERROR:gpu_init.cc(523)] Passthrough is not supported, GL is disabled, ANGLE is 
+[1204/155011.541:VERBOSE1:configured_proxy_resolution_service.cc(1095)] Failed configuring with PAC script, falling-back to manual proxy servers.

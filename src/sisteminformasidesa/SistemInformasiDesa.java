@@ -19,7 +19,7 @@ public class SistemInformasiDesa {
      */
     public static void main(String[] args) {
         DatabaseCRUD db = new DatabaseCRUD();
-        new ListSurat().setVisible(true);
+        new Login().setVisible(true);
     }
     
 }

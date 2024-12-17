@@ -23,6 +23,7 @@ public class ListSurat extends javax.swing.JFrame {
     public ListSurat() {
         DatabaseCRUD db = new DatabaseCRUD();
         initComponents();
+        System.out.println(Session.id_user);
         TableView.setRowHeight(28);
         ((DefaultTableModel) TableView.getModel()).setRowCount(0);
         try {

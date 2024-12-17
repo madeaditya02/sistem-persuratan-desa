@@ -1,0 +1,229 @@
+[2024-12-04 15:48:27] ---------- Microsoft Windows NT 10.0.22631.0 (C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\ironpdfengine.log) ----------
+[2024-12-04 15:48:27] Initializing 'AppAnalytics' module
+[2024-12-04 15:48:27] Error 0x01 while validating license key
+[2024-12-04 15:48:27] Failed to create LicenseKey, returning null. Exception occurred:'Error 0x01 while validating license key'
+[2024-12-04 15:48:27] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:27] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:48:27] Creating folder deployments for win-x64
+[2024-12-04 15:48:27] Creating embedded deployments for win-x64
+[2024-12-04 15:48:27] Successfully located 'IronPdfInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:48:28] Using deployment instructions for 'default' v
+[2024-12-04 15:48:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:48:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:48:28] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:48:28] Successfully loaded 'IronPdfInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Successfully deployed 'Pdfium' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Creating new job collection resource
+[2024-12-04 15:48:28] Creating new document collection resource
+[2024-12-04 15:48:28] Successfully initialized local pdf client
+[2024-12-04 15:48:28] Initializing local Chrome client...
+[2024-12-04 15:48:28] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:48:28] Creating folder deployments for win-x64
+[2024-12-04 15:48:28] Creating embedded deployments for win-x64
+[2024-12-04 15:48:28] Successfully located 'IronInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:48:28] Using deployment instructions for 'default' v
+[2024-12-04 15:48:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:48:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:48:28] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:48:28] Successfully loaded 'IronInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Successfully deployed 'Chrome' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] Initializing Chrome renderer for OS Name: Windows, Identifier: win, Version: 10.0.22631.0, VersionName: , Domain: IronPdfEngineConsole, Thread: , Path: C:\Made Aditya\NetbeansProject\SistemPersuratanDesa
+[2024-12-04 15:48:28] 15:48:28 (1856): ~ Chrome renderer v2024.9.0.29~
+[2024-12-04 15:48:28] 15:48:28 (1856): Debugging enabled for Chrome renderer using log path 'IronSoftware.ChromeRenderer.log'
+[2024-12-04 15:48:28] 15:48:28 (1856): register JobManager as publisher for event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:48:28] 15:48:28 (1856): [EventRegistry] Register event_readyToInitializeNetworkEventsDevToolsHandler for a publisher
+[2024-12-04 15:48:28] 15:48:28 (1856): IsSingleProcess: 0
+[2024-12-04 15:48:28] 15:48:28 (1856): Creating Cef proxy controller
+[2024-12-04 15:48:28] 15:48:28 (1856): Creating Cef interface
+[2024-12-04 15:48:28] 15:48:28 (1856): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:48:28] 15:48:28 (1856): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:48:28] 15:48:28 (1856): Destroying Cef proxy event handler
+[2024-12-04 15:48:28] 15:48:28 (1856): Initializing Cef proxy controller
+[2024-12-04 15:48:28] 15:48:28 (1856): Using subprocess path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe'
+[2024-12-04 15:48:28] 15:48:28 (1856): Using framework path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] 15:48:28 (1856): Using locales path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales'
+[2024-12-04 15:48:28] 15:48:28 (1856): Using resources path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:48:28] 15:48:28 (1856): Main process 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfEngineConsole.exe'
+[2024-12-04 15:48:28] 15:48:28 (1856): gpu_mode: '0'
+[2024-12-04 15:48:28] 15:48:28 (2128): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=gpu-process --no-sandbox --headless --enable-gpu-service-logging --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:2'
+[2024-12-04 15:48:28] 15:48:28 (2128): gpu_mode: '0'
+[2024-12-04 15:48:28] 15:48:28 (1856): Cef initialization succeeded
+[2024-12-04 15:48:28] Successfully initialized local Chrome client
+[2024-12-04 15:48:28] 15:48:28 (2128): Cef context initialized
+[2024-12-04 15:48:28] 15:48:28 (2128): Registering custom scheme for rendering raw html
+[2024-12-04 15:48:28] 15:48:28 (2128): Successfully registered custom scheme
+[2024-12-04 15:48:28] 15:48:28 (2128): Cef engine initialization complete
+[2024-12-04 15:48:28] 15:48:28 (2128): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --ignore-urlfetcher-cert-requests --no-sandbox --ignore-certificate-errors --mute-audio --ignore-certificate-errors --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:8'
+[2024-12-04 15:48:28] 15:48:28 (2128): gpu_mode: '0'
+[2024-12-04 15:48:29] Error 0x01 while validating license key
+[2024-12-04 15:48:29] 15:48:29 (14976): PdfDocumentFactory created document 000001D969002390 from 67570 bytes
+[2024-12-04 15:48:29] 15:48:29 (14976): Document opened from vector
+[2024-12-04 15:48:29] 15:48:29 (14976): Storing new document 0
+[2024-12-04 15:48:29] Document 0 has 1 references remaining (+1)
+[2024-12-04 15:48:29] In-memory object store fetching document 1a3e58da-9cd1-4834-8d03-e5f5e3a2d3cc
+[2024-12-04 15:48:29] In-memory object store fetching document 1a3e58da-9cd1-4834-8d03-e5f5e3a2d3cc
+[2024-12-04 15:48:29] 15:48:29 (21976): !!! Error while replacing text: failed to find text 'judul surat'
+[2024-12-04 15:48:29] 15:48:29 (21976): Error while replacing text: failed to find text 'judul surat'
+[2024-12-04 15:48:29] IronSoftware.Exceptions.IronSoftwareNativeException: Error while replacing text 'judul surat' in document 0: 'Error while replacing text: failed to find text 'judul surat''.
+
+To learn how to solve this issue please read https://ironpdf.com/troubleshooting/ironpdf-native-exception/ [Issue Code IRONPDF-NATIVE-EXECPTION]
+   at IronSoftware.Pdfium.PdfClient`1.RetrieveNativeErrorAndThrow(String local_errorMessage)
+   at IronSoftware.Pdfium.PdfClient`1.ReplaceText(IPdfDocumentId id, Int32 pageIndex, String oldText, String newText)
+   at IronPdfEngine.IronPdfServiceHandler.Pdfium_Text_ReplaceText(PdfiumReplaceTextRequestP request, ServerCallContext context) in D:\a\1\src\IronPdfEngine\IronPdfServiceHandler.Text.cs:line 141
+[2024-12-04 15:49:28] ---------- Microsoft Windows NT 10.0.22631.0 (C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\ironpdfengine.log) ----------
+[2024-12-04 15:49:28] Initializing 'AppAnalytics' module
+[2024-12-04 15:49:28] Error 0x01 while validating license key
+[2024-12-04 15:49:28] Failed to create LicenseKey, returning null. Exception occurred:'Error 0x01 while validating license key'
+[2024-12-04 15:49:28] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:49:28] Creating folder deployments for win-x64
+[2024-12-04 15:49:28] Creating embedded deployments for win-x64
+[2024-12-04 15:49:28] Successfully located 'IronPdfInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:49:28] Using deployment instructions for 'default' v
+[2024-12-04 15:49:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:49:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:49:28] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:49:28] Successfully loaded 'IronPdfInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Successfully deployed 'Pdfium' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Creating new job collection resource
+[2024-12-04 15:49:28] Creating new document collection resource
+[2024-12-04 15:49:28] Successfully initialized local pdf client
+[2024-12-04 15:49:28] Initializing local Chrome client...
+[2024-12-04 15:49:28] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:49:28] Creating folder deployments for win-x64
+[2024-12-04 15:49:28] Creating embedded deployments for win-x64
+[2024-12-04 15:49:28] Successfully located 'IronInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:49:28] Using deployment instructions for 'default' v
+[2024-12-04 15:49:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:49:28] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:49:28] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:49:28] Successfully loaded 'IronInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Successfully deployed 'Chrome' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] Initializing Chrome renderer for OS Name: Windows, Identifier: win, Version: 10.0.22631.0, VersionName: , Domain: IronPdfEngineConsole, Thread: , Path: C:\Made Aditya\NetbeansProject\SistemPersuratanDesa
+[2024-12-04 15:49:28] 15:49:28 (24736): ~ Chrome renderer v2024.9.0.29~
+[2024-12-04 15:49:28] 15:49:28 (24736): Debugging enabled for Chrome renderer using log path 'IronSoftware.ChromeRenderer.log'
+[2024-12-04 15:49:28] 15:49:28 (24736): register JobManager as publisher for event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:49:28] 15:49:28 (24736): [EventRegistry] Register event_readyToInitializeNetworkEventsDevToolsHandler for a publisher
+[2024-12-04 15:49:28] 15:49:28 (24736): IsSingleProcess: 0
+[2024-12-04 15:49:28] 15:49:28 (24736): Creating Cef proxy controller
+[2024-12-04 15:49:28] 15:49:28 (24736): Creating Cef interface
+[2024-12-04 15:49:28] 15:49:28 (24736): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:49:28] 15:49:28 (24736): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:49:28] 15:49:28 (24736): Destroying Cef proxy event handler
+[2024-12-04 15:49:28] 15:49:28 (24736): Initializing Cef proxy controller
+[2024-12-04 15:49:28] 15:49:28 (24736): Using subprocess path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe'
+[2024-12-04 15:49:28] 15:49:28 (24736): Using framework path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] 15:49:28 (24736): Using locales path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales'
+[2024-12-04 15:49:28] 15:49:28 (24736): Using resources path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:49:28] 15:49:28 (24736): Main process 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfEngineConsole.exe'
+[2024-12-04 15:49:28] 15:49:28 (24736): gpu_mode: '0'
+[2024-12-04 15:49:28] 15:49:28 (956): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=gpu-process --no-sandbox --headless --enable-gpu-service-logging --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:2'
+[2024-12-04 15:49:28] 15:49:28 (956): gpu_mode: '0'
+[2024-12-04 15:49:28] 15:49:28 (24736): Cef initialization succeeded
+[2024-12-04 15:49:28] 15:49:28 (956): Cef context initialized
+[2024-12-04 15:49:28] Successfully initialized local Chrome client
+[2024-12-04 15:49:28] 15:49:28 (956): Registering custom scheme for rendering raw html
+[2024-12-04 15:49:28] 15:49:28 (956): Successfully registered custom scheme
+[2024-12-04 15:49:28] 15:49:28 (956): Cef engine initialization complete
+[2024-12-04 15:49:28] 15:49:28 (956): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --ignore-urlfetcher-cert-requests --no-sandbox --ignore-certificate-errors --mute-audio --ignore-certificate-errors --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:8'
+[2024-12-04 15:49:28] 15:49:28 (956): gpu_mode: '0'
+[2024-12-04 15:49:29] Error 0x01 while validating license key
+[2024-12-04 15:49:29] 15:49:29 (13728): PdfDocumentFactory created document 0000026D76DCEC90 from 67570 bytes
+[2024-12-04 15:49:29] 15:49:29 (13728): Document opened from vector
+[2024-12-04 15:49:29] 15:49:29 (13728): Storing new document 0
+[2024-12-04 15:49:29] Document 0 has 1 references remaining (+1)
+[2024-12-04 15:49:29] In-memory object store fetching document 297a4442-2c7c-4d0d-8d59-585e1a7da2dc
+[2024-12-04 15:49:29] In-memory object store fetching document 297a4442-2c7c-4d0d-8d59-585e1a7da2dc
+[2024-12-04 15:49:29] 15:49:29 (11452): !!! Error while replacing text: failed to find text 'judul surat'
+[2024-12-04 15:49:29] 15:49:29 (11452): Error while replacing text: failed to find text 'judul surat'
+[2024-12-04 15:49:29] IronSoftware.Exceptions.IronSoftwareNativeException: Error while replacing text 'judul surat' in document 0: 'Error while replacing text: failed to find text 'judul surat''.
+
+To learn how to solve this issue please read https://ironpdf.com/troubleshooting/ironpdf-native-exception/ [Issue Code IRONPDF-NATIVE-EXECPTION]
+   at IronSoftware.Pdfium.PdfClient`1.RetrieveNativeErrorAndThrow(String local_errorMessage)
+   at IronSoftware.Pdfium.PdfClient`1.ReplaceText(IPdfDocumentId id, Int32 pageIndex, String oldText, String newText)
+   at IronPdfEngine.IronPdfServiceHandler.Pdfium_Text_ReplaceText(PdfiumReplaceTextRequestP request, ServerCallContext context) in D:\a\1\src\IronPdfEngine\IronPdfServiceHandler.Text.cs:line 141
+[2024-12-04 15:50:10] ---------- Microsoft Windows NT 10.0.22631.0 (C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\ironpdfengine.log) ----------
+[2024-12-04 15:50:10] Initializing 'AppAnalytics' module
+[2024-12-04 15:50:10] Error 0x01 while validating license key
+[2024-12-04 15:50:10] Failed to create LicenseKey, returning null. Exception occurred:'Error 0x01 while validating license key'
+[2024-12-04 15:50:11] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:50:11] Creating folder deployments for win-x64
+[2024-12-04 15:50:11] Creating embedded deployments for win-x64
+[2024-12-04 15:50:11] Successfully located 'IronPdfInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:50:11] Using deployment instructions for 'default' v
+[2024-12-04 15:50:11] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:50:11] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:50:11] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfInterop.dll'
+[2024-12-04 15:50:11] Successfully loaded 'IronPdfInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Successfully deployed 'Pdfium' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Creating new job collection resource
+[2024-12-04 15:50:11] Creating new document collection resource
+[2024-12-04 15:50:11] Successfully initialized local pdf client
+[2024-12-04 15:50:11] Initializing local Chrome client...
+[2024-12-04 15:50:11] Using deployment directory 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Creating deployment candidates using root path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\' (download: False)
+[2024-12-04 15:50:11] Creating folder deployments for win-x64
+[2024-12-04 15:50:11] Creating embedded deployments for win-x64
+[2024-12-04 15:50:11] Successfully located 'IronInterop' at 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Determining deployment commands for platform 'Windows' v10.0.22631.0
+[2024-12-04 15:50:11] Using deployment instructions for 'default' v
+[2024-12-04 15:50:11] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:50:11] Attempting to load Windows library 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:50:11] Successfully loaded native library from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronInterop.dll'
+[2024-12-04 15:50:11] Successfully loaded 'IronInterop' version '2024.9.0.29' from 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Successfully deployed 'Chrome' using 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] Initializing Chrome renderer for OS Name: Windows, Identifier: win, Version: 10.0.22631.0, VersionName: , Domain: IronPdfEngineConsole, Thread: , Path: C:\Made Aditya\NetbeansProject\SistemPersuratanDesa
+[2024-12-04 15:50:11] 15:50:11 (22296): ~ Chrome renderer v2024.9.0.29~
+[2024-12-04 15:50:11] 15:50:11 (22296): Debugging enabled for Chrome renderer using log path 'IronSoftware.ChromeRenderer.log'
+[2024-12-04 15:50:11] 15:50:11 (22296): register JobManager as publisher for event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:50:11] 15:50:11 (22296): [EventRegistry] Register event_readyToInitializeNetworkEventsDevToolsHandler for a publisher
+[2024-12-04 15:50:11] 15:50:11 (22296): IsSingleProcess: 0
+[2024-12-04 15:50:11] 15:50:11 (22296): Creating Cef proxy controller
+[2024-12-04 15:50:11] 15:50:11 (22296): Creating Cef interface
+[2024-12-04 15:50:11] 15:50:11 (22296): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:50:11] 15:50:11 (22296): JobManager subscribes a new sub, eventStr=event_readyToInitializeNetworkEventsDevToolsHandler
+[2024-12-04 15:50:11] 15:50:11 (22296): Destroying Cef proxy event handler
+[2024-12-04 15:50:11] 15:50:11 (22296): Initializing Cef proxy controller
+[2024-12-04 15:50:11] 15:50:11 (22296): Using subprocess path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe'
+[2024-12-04 15:50:11] 15:50:11 (22296): Using framework path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] 15:50:11 (22296): Using locales path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales'
+[2024-12-04 15:50:11] 15:50:11 (22296): Using resources path 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\'
+[2024-12-04 15:50:11] 15:50:11 (22296): Main process 'C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronPdfEngineConsole.exe'
+[2024-12-04 15:50:11] 15:50:11 (22296): gpu_mode: '0'
+[2024-12-04 15:50:11] 15:50:11 (9048): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=gpu-process --no-sandbox --headless --enable-gpu-service-logging --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:2'
+[2024-12-04 15:50:11] 15:50:11 (9048): gpu_mode: '0'
+[2024-12-04 15:50:11] 15:50:11 (22296): Cef initialization succeeded
+[2024-12-04 15:50:11] 15:50:11 (9048): Cef context initialized
+[2024-12-04 15:50:11] Successfully initialized local Chrome client
+[2024-12-04 15:50:11] 15:50:11 (9048): Registering custom scheme for rendering raw html
+[2024-12-04 15:50:11] 15:50:11 (9048): Successfully registered custom scheme
+[2024-12-04 15:50:11] 15:50:11 (9048): Cef engine initialization complete
+[2024-12-04 15:50:11] 15:50:11 (9048): Launching child process '"C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\IronCefSubprocess.exe" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --ignore-urlfetcher-cert-requests --no-sandbox --ignore-certificate-errors --mute-audio --ignore-certificate-errors --locales-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64\\locales" --log-severity=verbose --resources-dir-path="C:\Made Aditya\NetbeansProject\SistemPersuratanDesa\IronPdfEngine.2024.9.3.Windows.x64" --lang=en-US --user-data-dir="C:\Users\Acer\AppData\Local\Temp" /prefetch:8'
+[2024-12-04 15:50:11] 15:50:11 (9048): gpu_mode: '0'
+[2024-12-04 15:50:12] Error 0x01 while validating license key
+[2024-12-04 15:50:12] 15:50:12 (23676): PdfDocumentFactory created document 00000213E6E1A750 from 67570 bytes
+[2024-12-04 15:50:12] 15:50:12 (23676): Document opened from vector
+[2024-12-04 15:50:12] 15:50:12 (23676): Storing new document 0
+[2024-12-04 15:50:12] Document 0 has 1 references remaining (+1)
+[2024-12-04 15:50:12] In-memory object store fetching document 0a0c88e6-2109-4501-95bf-2f3f43f23c08
+[2024-12-04 15:50:12] In-memory object store fetching document 0a0c88e6-2109-4501-95bf-2f3f43f23c08
+[2024-12-04 15:50:12] 15:50:12 (14416): Warning! No font data was provided for font '', defaulting to standard font 'Times-Roman' instead
+[2024-12-04 15:50:12] 15:50:12 (14416): Warning! No font data was provided for font '', defaulting to standard font 'Times-Roman' instead
+[2024-12-04 15:50:13] Retrieving binary data for document 0a0c88e6-2109-4501-95bf-2f3f43f23c08 with 0 signatures
+[2024-12-04 15:50:13] Retrieved license key from inline variable
+[2024-12-04 15:50:13] Error 0x01 while validating license key
+[2024-12-04 15:50:13] Retrieved license key from inline variable
+[2024-12-04 15:50:13] Error 0x01 while validating license key
+[2024-12-04 15:50:13] IronSoftware.Exceptions.LicensingException: IronPDF must be licensed for development.
+Please receive a free trial key instantly to your email by visiting:
+https://ironpdf.com/licensing/?utm_source=product
+   at IronPdf.License.AssertLicense() in D:\a\1\src\IronPdf\Licensing\License.cs:line 106
+   at IronPdfEngine.IronPdfServiceHandler.Pdfium_GetBinaryData(IAsyncStreamReader`1 requestStream, IServerStreamWriter`1 responseStream, ServerCallContext context) in D:\a\1\src\IronPdfEngine\IronPdfServiceHandler.cs:line 192
