@@ -14,6 +14,54 @@ public class pagePimpinan extends javax.swing.JFrame {
      */
     public pagePimpinan() {
         initComponents();
+        kirimSurat.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                kirimSurat.setBackground(new java.awt.Color(0, 128, 0)); // Green background
+                kirimSurat.setForeground(java.awt.Color.WHITE);          // White text
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                kirimSurat.setBackground(java.awt.Color.WHITE);          // Restore background
+                kirimSurat.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
+            }
+        });
+        suratMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                suratMasuk.setBackground(new java.awt.Color(0, 128, 0)); // Green background
+                suratMasuk.setForeground(java.awt.Color.WHITE);          // White text
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                suratMasuk.setBackground(java.awt.Color.WHITE);          // Restore background
+                suratMasuk.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
+            }
+        });
+        disposisiMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                disposisiMasuk.setBackground(new java.awt.Color(0, 128, 0)); // Green background
+                disposisiMasuk.setForeground(java.awt.Color.WHITE);          // White text
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                disposisiMasuk.setBackground(java.awt.Color.WHITE);          // Restore background
+                disposisiMasuk.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
+            }
+        });
+        kirimDisposisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                kirimDisposisi.setBackground(new java.awt.Color(0, 128, 0)); // Green background
+                kirimDisposisi.setForeground(java.awt.Color.WHITE);          // White text
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                kirimDisposisi.setBackground(java.awt.Color.WHITE);          // Restore background
+                kirimDisposisi.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
+            }
+        });
     }
 
     /**
@@ -26,13 +74,6 @@ public class pagePimpinan extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        kirimSurat = new javax.swing.JLabel();
-        Status1 = new javax.swing.JLabel();
-        Status2 = new javax.swing.JLabel();
-        Status3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        kirimSurat2 = new javax.swing.JLabel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -178,8 +219,15 @@ public class pagePimpinan extends javax.swing.JFrame {
         jLabel72 = new javax.swing.JLabel();
         jLabel73 = new javax.swing.JLabel();
         jTextField66 = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
+        jPanel10 = new javax.swing.JPanel();
+        kirimSurat = new javax.swing.JButton();
+        suratMasuk = new javax.swing.JButton();
+        kirimDisposisi = new javax.swing.JButton();
+        disposisiMasuk = new javax.swing.JButton();
+        pengajuanSurat = new javax.swing.JButton();
+        usernameLabel = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jComboBox5 = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -195,100 +243,6 @@ public class pagePimpinan extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setBackground(new java.awt.Color(0, 102, 51));
-        jPanel1.setForeground(new java.awt.Color(0, 102, 51));
-
-        kirimSurat.setBackground(new java.awt.Color(255, 255, 255));
-        kirimSurat.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        kirimSurat.setForeground(new java.awt.Color(255, 255, 255));
-        kirimSurat.setText("Surat masuk");
-        kirimSurat.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kirimSuratMouseClicked(evt);
-            }
-        });
-
-        Status1.setBackground(new java.awt.Color(255, 255, 255));
-        Status1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        Status1.setForeground(new java.awt.Color(255, 255, 255));
-        Status1.setText("Disposisi Masuk");
-        Status1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Status1MouseClicked(evt);
-            }
-        });
-
-        Status2.setBackground(new java.awt.Color(255, 255, 255));
-        Status2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        Status2.setForeground(new java.awt.Color(255, 255, 255));
-        Status2.setText("Kirim Disposisi");
-        Status2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Status2MouseClicked(evt);
-            }
-        });
-
-        Status3.setBackground(new java.awt.Color(255, 255, 255));
-        Status3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        Status3.setForeground(new java.awt.Color(255, 255, 255));
-        Status3.setText("Pengajuan");
-        Status3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Status3MouseClicked(evt);
-            }
-        });
-
-        kirimSurat2.setBackground(new java.awt.Color(255, 255, 255));
-        kirimSurat2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        kirimSurat2.setForeground(new java.awt.Color(255, 255, 255));
-        kirimSurat2.setText("Kirim Surat");
-        kirimSurat2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                kirimSurat2MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Status3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(kirimSurat)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1))
-                    .addComponent(kirimSurat2)
-                    .addComponent(Status2)
-                    .addComponent(Status1))
-                .addGap(0, 12, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(jLabel1)
-                        .addGap(27, 27, 27))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(kirimSurat2)
-                        .addGap(18, 18, 18)
-                        .addComponent(kirimSurat)))
-                .addGap(18, 18, 18)
-                .addComponent(Status2)
-                .addGap(18, 18, 18)
-                .addComponent(Status1)
-                .addGap(18, 18, 18)
-                .addComponent(Status3)
-                .addContainerGap(145, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 520));
 
         jLabel2.setText("Sifat Surat");
 
@@ -466,7 +420,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("tab2", jPanel2);
+        jTabbedPane2.addTab("Kirim Surat", jPanel2);
 
         jButton11.setText("Cari");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -683,7 +637,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("tab1", jPanel5);
+        jTabbedPane2.addTab("Surat masuk", jPanel5);
 
         jLabel42.setText("Sifat Surat");
 
@@ -843,7 +797,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("tab3", jPanel6);
+        jTabbedPane2.addTab("Kirim Disposisi", jPanel6);
 
         jLabel43.setText("Sifat Surat");
 
@@ -1005,7 +959,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("tab4", jPanel7);
+        jTabbedPane2.addTab("Disposisi Masuk", jPanel7);
 
         jLabel54.setText("Agama");
 
@@ -1141,34 +1095,32 @@ public class pagePimpinan extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(jPanel15Layout.createSequentialGroup()
-                                            .addComponent(jLabel68)
-                                            .addGap(49, 49, 49)
-                                            .addComponent(jTextField61))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
-                                            .addComponent(jLabel67)
-                                            .addGap(35, 35, 35)
-                                            .addComponent(jTextField60, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
-                                            .addComponent(jLabel66)
-                                            .addGap(11, 11, 11)
-                                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel70)
-                                                .addComponent(jLabel69))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel15Layout.createSequentialGroup()
-                                                    .addComponent(jTextField62, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                                    .addGap(130, 130, 130))
-                                                .addGroup(jPanel15Layout.createSequentialGroup()
-                                                    .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(0, 0, Short.MAX_VALUE))))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
-                                            .addComponent(jLabel65)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel68)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(jTextField61))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel67)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jTextField60, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel66)
+                                        .addGap(11, 11, 11)
+                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel70)
+                                            .addComponent(jLabel69))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                                .addComponent(jTextField62)
+                                                .addGap(130, 130, 130))
+                                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                                .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addGroup(jPanel15Layout.createSequentialGroup()
+                                        .addComponent(jLabel65)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel64)
@@ -1295,43 +1247,77 @@ public class pagePimpinan extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jTabbedPane2.addTab("tab5", jPanel8);
+        jTabbedPane2.addTab("Pengajuan Surat", jPanel8);
 
         getContentPane().add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 780, 470));
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 160, Short.MAX_VALUE)
+        jPanel10.setBackground(new java.awt.Color(0, 146, 89));
+
+        kirimSurat.setText("Kirim Surat");
+
+        suratMasuk.setText("Surat Masuk");
+
+        kirimDisposisi.setText("Kirim Disposisi");
+
+        disposisiMasuk.setText("Disposisi Masuk");
+
+        pengajuanSurat.setText("Pengajuan surat");
+
+        usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/User_fill@3x (2).png"))); // NOI18N
+        usernameLabel.setText("Username");
+        usernameLabel.setMaximumSize(new java.awt.Dimension(501, 444));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Privilege user");
+
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(kirimSurat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(suratMasuk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(kirimDisposisi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(disposisiMasuk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pengajuanSurat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18)
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(kirimSurat)
+                .addGap(7, 7, 7)
+                .addComponent(suratMasuk)
+                .addGap(7, 7, 7)
+                .addComponent(kirimDisposisi)
+                .addGap(7, 7, 7)
+                .addComponent(disposisiMasuk)
+                .addGap(7, 7, 7)
+                .addComponent(pengajuanSurat))
         );
 
-        getContentPane().add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 160, 150));
-        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 590, -1, -1));
+        getContentPane().add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void kirimSuratMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kirimSuratMouseClicked
-      
-    }//GEN-LAST:event_kirimSuratMouseClicked
   
-    private void Status1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Status1MouseClicked
-        
-    }//GEN-LAST:event_Status1MouseClicked
-
-    private void Status2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Status2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Status2MouseClicked
-
-    private void Status3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Status3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Status3MouseClicked
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1343,10 +1329,6 @@ public class pagePimpinan extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void kirimSurat2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kirimSurat2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kirimSurat2MouseClicked
 
     private void jComboBox15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox15ActionPerformed
         // TODO add your handling code here:
@@ -1421,9 +1403,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Status1;
-    private javax.swing.JLabel Status2;
-    private javax.swing.JLabel Status3;
+    private javax.swing.JButton disposisiMasuk;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1443,7 +1423,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox20;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1452,6 +1432,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
@@ -1495,7 +1476,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -1507,7 +1488,6 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -1518,7 +1498,6 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
@@ -1574,7 +1553,10 @@ public class pagePimpinan extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
-    private javax.swing.JLabel kirimSurat;
-    private javax.swing.JLabel kirimSurat2;
+    private javax.swing.JButton kirimDisposisi;
+    private javax.swing.JButton kirimSurat;
+    private javax.swing.JButton pengajuanSurat;
+    private javax.swing.JButton suratMasuk;
+    private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
