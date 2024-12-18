@@ -66,6 +66,11 @@ public class FormSurat extends javax.swing.JFrame {
         jLabel5.setText("Jenis Surat");
 
         inputJenisSurat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surat Kematian", "Surat Kelahiran", "Surat Izin Keramaian", "Surat Kurang Mampu", "Surat Permohonan Akte" }));
+        inputJenisSurat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputJenisSuratActionPerformed(evt);
+            }
+        });
 
         choosedFileName.setText("jLabel6");
         choosedFileName.setPreferredSize(new java.awt.Dimension(37, 100));
@@ -148,6 +153,10 @@ public class FormSurat extends javax.swing.JFrame {
             this.choosedFileName.setText("<html>"+openFile.getSelectedFile().getName()+"</html>");
         }
     }//GEN-LAST:event_btnTTDActionPerformed
+
+    private void inputJenisSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputJenisSuratActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputJenisSuratActionPerformed
 
     /**
      * @param args the command line arguments
