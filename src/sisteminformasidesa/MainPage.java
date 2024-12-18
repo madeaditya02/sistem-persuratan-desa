@@ -4,6 +4,11 @@
  */
 package sisteminformasidesa;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Acer
@@ -17,7 +22,21 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage() {
         this.db = new DatabaseCRUD();
         initComponents();
-        System.out.println(Session.username);
+        tabelSurat.setRowHeight(28);
+        ((DefaultTableModel) tabelSurat.getModel()).setRowCount(0);
+        try {
+            Statement s = this.db.koneksi.createStatement();
+            String sql = "SELECT * FROM surat JOIN user ON surat.id_warga = user.id_user WHERE user.id_user = '"+Session.id_user+"'";
+            ResultSet r = s.executeQuery(sql);
+            if (r != null) {
+                while (r.next()) {
+                    Object[] row_data = {r.getString("judul_surat"), r.getString("no_ktp"), r.getString("mulai_berlaku"), r.getString("status")};
+                    ((DefaultTableModel) tabelSurat.getModel()).addRow(row_data);
+                }
+            }
+        } catch(SQLException e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -29,124 +48,72 @@ public class MainPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menuSuratKelahiran = new javax.swing.JButton();
-        menuSuratKematian = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelSurat = new javax.swing.JTable();
+        btnBuatSurat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        menuSuratKelahiran.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        menuSuratKelahiran.setText("Surat Kelahiran");
-        menuSuratKelahiran.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSuratKelahiranActionPerformed(evt);
-            }
-        });
-
-        menuSuratKematian.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        menuSuratKematian.setText("Surat Kematian");
-        menuSuratKematian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSuratKematianActionPerformed(evt);
-            }
-        });
-
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setText("Surat Kurang Mampu");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setText("Surat Izin Keramaian");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton5.setText("Surat Permohonan Akte");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Pembuatan Surat");
+
+        tabelSurat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Jenis Surat", "NIK", "Tanggal Surat", "Status"
+            }
+        ));
+        jScrollPane1.setViewportView(tabelSurat);
+
+        btnBuatSurat.setText("Buat Surat");
+        btnBuatSurat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuatSuratActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuSuratKematian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(menuSuratKelahiran, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jButton5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(116, 116, 116)
+                                .addComponent(jLabel1))
+                            .addComponent(btnBuatSurat))
+                        .addGap(0, 136, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(menuSuratKelahiran, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(menuSuratKematian, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addComponent(btnBuatSurat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuSuratKelahiranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSuratKelahiranActionPerformed
+    private void btnBuatSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuatSuratActionPerformed
         this.dispose();
-        new FormSurat("Surat Kelahiran").setVisible(true);
-    }//GEN-LAST:event_menuSuratKelahiranActionPerformed
-
-    private void menuSuratKematianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSuratKematianActionPerformed
-        this.dispose();
-        new FormSurat("Surat Kematian").setVisible(true);
-    }//GEN-LAST:event_menuSuratKematianActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        new FormPembuatanSurat().setVisible(true);
+    }//GEN-LAST:event_btnBuatSuratActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,11 +151,9 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnBuatSurat;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton menuSuratKelahiran;
-    private javax.swing.JButton menuSuratKematian;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabelSurat;
     // End of variables declaration//GEN-END:variables
 }
