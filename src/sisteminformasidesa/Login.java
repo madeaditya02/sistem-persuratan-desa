@@ -136,7 +136,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(bagianKananLayout.createSequentialGroup()
                         .addGap(178, 178, 178)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         bagianKananLayout.setVerticalGroup(
             bagianKananLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
