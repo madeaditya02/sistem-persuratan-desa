@@ -65,7 +65,7 @@ public class FormPembuatanSurat extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("FORMULIR PEMBUATAN SURAT");
 
-        inputJenisSurat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surat keterangan kematian", "Surat keterangan kelahiran", "Surat keterangan kurang mampu ", "Surat izin keramaian ", "Surat permohonan akte", " " }));
+        inputJenisSurat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surat Keterangan Kematian", "Surat Keterangan Kelahiran", "Surat Keterangan Kurang mampu ", "Surat Izin Keramaian ", "Surat Permohonan Akte", " " }));
         inputJenisSurat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputJenisSuratActionPerformed(evt);
@@ -162,10 +162,9 @@ public class FormPembuatanSurat extends javax.swing.JFrame {
                         .addGap(87, 87, 87)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(inputTglSelesai, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                        .addComponent(inputTglMulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(inputTglMulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(9, 9, 9)
                 .addComponent(btnSubmitSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58))
@@ -207,7 +206,6 @@ public class FormPembuatanSurat extends javax.swing.JFrame {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String str_tgl_mulai = format.format(tgl_mulai);
         String str_tgl_selesai = format.format(tgl_selesai);
-        System.out.println(nik + " " + jenis_surat + " " + str_tgl_mulai + " " + Session.id_user);
         try {
             Statement s = this.db.koneksi.createStatement();
             String sql = "SELECT * FROM user WHERE no_ktp = '"+nik+"'";
