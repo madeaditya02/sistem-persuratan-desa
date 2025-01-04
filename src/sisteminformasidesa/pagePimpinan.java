@@ -26,9 +26,9 @@ public class pagePimpinan extends javax.swing.JFrame {
     private DefaultTableModel model;
     public pagePimpinan() {
         initComponents();
-         model = new DefaultTableModel();
+        model = new DefaultTableModel();
         TabelSuratLuar.setModel(model);
-
+        
         // Add columns to the table
         model.addColumn("Sifat Surat");
         model.addColumn("Jenis Surat");
@@ -40,6 +40,20 @@ public class pagePimpinan extends javax.swing.JFrame {
         model.addColumn("Catatan");
         model.addColumn("Lampiran");
         
+        DefaultTableModel modelDisposisi = new DefaultTableModel();
+        tabelDisposisi.setModel(modelDisposisi);
+
+        modelDisposisi.addColumn("ID Disposisi");
+        modelDisposisi.addColumn("Nomor Surat");
+        modelDisposisi.addColumn("Tanggal Surat");
+        modelDisposisi.addColumn("Perihal");
+        modelDisposisi.addColumn("Penerima");
+        modelDisposisi.addColumn("Instruksi");
+        modelDisposisi.addColumn("Sifat");
+        modelDisposisi.addColumn("Catatan");
+        modelDisposisi.addColumn("Deadline");
+        modelDisposisi.addColumn("Respon");
+        modelDisposisi.addColumn("Lampiran");  
         
         kirimSurat.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -122,6 +136,48 @@ public class pagePimpinan extends javax.swing.JFrame {
         }
     }
     
+    private void loadDisposisiTable() {
+    model.getDataVector().removeAllElements();
+    model.fireTableDataChanged();
+    
+    try {
+        DatabaseCRUD db = new DatabaseCRUD();
+        Connection conn = db.koneksi;
+        
+        // Updated query to exclude created_at and updated_at but include additional columns from surat_luar
+        String query = "SELECT disposisi.id_disposisi, disposisi.id_mail, "
+                + "surat_luar.no_surat, surat_luar.tanggal_surat, surat_luar.perihal, "
+                + "disposisi.penerima, disposisi.instruksi, disposisi.sifat, disposisi.catatan, "
+                + "disposisi.deadline, disposisi.respon, surat_luar.lampiran "
+                + "FROM disposisi "
+                + "INNER JOIN surat_luar ON disposisi.id_mail = surat_luar.id_mail;";
+        
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+        
+        // Get the table model
+        DefaultTableModel model = (DefaultTableModel) tabelDisposisi.getModel();
+
+        while (rs.next()) {
+            Object[] row = {
+                rs.getInt("id_disposisi"),
+                rs.getString("no_surat"),      // From surat_luar
+                rs.getString("tanggal_surat"), // From surat_luar
+                rs.getString("perihal"),       // From surat_luar
+                rs.getString("penerima"),
+                rs.getString("instruksi"),
+                rs.getString("sifat"),
+                rs.getString("catatan"),
+                rs.getString("deadline"),
+                rs.getString("respon"),
+                rs.getBytes("lampiran"), // If you need to handle binary data like images/files
+            };
+            model.addRow(row);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
+    }
+    }
     private void populatesifatBox() {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
@@ -181,36 +237,17 @@ public class pagePimpinan extends javax.swing.JFrame {
         }
     }
     
-    private void populatepengirimBox() {
-        try {
-            DatabaseCRUD db = new DatabaseCRUD();
-            Connection conn = db.koneksi;
-
-            String query = "SELECT * FROM user"; 
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String username = rs.getString("nama_lengkap");
-                pengirimBox.addItem(username); 
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error populating combobox: " + e.getMessage());
-        }
-    }
-    
     private void populatepnerimaBoxDisposisi() {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
 
-            String query = "SELECT * FROM user"; 
+            String query = "SELECT * FROM jabatan WHERE Id_Jabatan > 4"; 
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String username = rs.getString("nama_lengkap");
+                String username = rs.getString("Nama_Jabatan");
                 penerimaDisposisiBox.addItem(username); 
             }
 
@@ -257,7 +294,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        kirimDisposisiTab = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
@@ -283,7 +320,6 @@ public class pagePimpinan extends javax.swing.JFrame {
         lampiran = new javax.swing.JTextField();
         attachFile = new javax.swing.JButton();
         sifatBox = new javax.swing.JComboBox<>();
-        pengirimBox = new javax.swing.JComboBox<>();
         jabatanPengirim = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
@@ -313,7 +349,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         catatanField = new javax.swing.JTextArea();
         jLabel21 = new javax.swing.JLabel();
-        jButton12 = new javax.swing.JButton();
+        dispossiBtn = new javax.swing.JButton();
         ViewfileButton = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
@@ -349,18 +385,21 @@ public class pagePimpinan extends javax.swing.JFrame {
         jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
-        jTextField38 = new javax.swing.JTextField();
-        jTextField41 = new javax.swing.JTextField();
-        jTextField46 = new javax.swing.JTextField();
+        sifatDisposisiMasuk = new javax.swing.JTextField();
+        noDisposisiMasuk = new javax.swing.JTextField();
+        tanggalDisposisiMasuk = new javax.swing.JTextField();
         jScrollPane12 = new javax.swing.JScrollPane();
-        jTextArea6 = new javax.swing.JTextArea();
-        jTextField47 = new javax.swing.JTextField();
-        jTextField49 = new javax.swing.JTextField();
-        jTextField50 = new javax.swing.JTextField();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        catatanDisposisiMasuk = new javax.swing.JTextArea();
+        instruksiDisposisiMasuk = new javax.swing.JTextField();
+        perihalDisposisiMasuk = new javax.swing.JTextField();
+        deadlineDisposisiMasuk = new javax.swing.JTextField();
+        terimaBTN = new javax.swing.JButton();
+        tolakBTN = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelDisposisi = new javax.swing.JTable();
+        jLabel74 = new javax.swing.JLabel();
+        lampiranDisposisiMasuk = new javax.swing.JTextField();
+        View = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
@@ -496,12 +535,6 @@ public class pagePimpinan extends javax.swing.JFrame {
             }
         });
 
-        pengirimBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pengirimBoxActionPerformed(evt);
-            }
-        });
-
         jabatanPengirim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gubernur", "Bupati", "Camat", "Other" }));
         jabatanPengirim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -544,7 +577,6 @@ public class pagePimpinan extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(attachFile)
                             .addComponent(sifatBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pengirimBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jabatanPengirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(247, Short.MAX_VALUE))
         );
@@ -571,9 +603,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(pengirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pengirimBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(pengirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -617,7 +647,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Kirim Surat", jPanel2);
+        kirimDisposisiTab.addTab("Kirim Surat", jPanel2);
 
         jButton11.setText("Cari");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -686,6 +716,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         PengirimField.setText("jTextField5");
 
         perihalField.setText("jTextField8");
+        perihalField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                perihalFieldActionPerformed(evt);
+            }
+        });
 
         jLabel17.setText("perihal");
 
@@ -703,10 +738,10 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         jLabel21.setText("Catatan");
 
-        jButton12.setText("Disposisi");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        dispossiBtn.setText("Disposisi");
+        dispossiBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                dispossiBtnActionPerformed(evt);
             }
         });
 
@@ -759,7 +794,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel21)
                                     .addComponent(jLabel20)
-                                    .addComponent(jButton12))))
+                                    .addComponent(dispossiBtn))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -821,7 +856,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                             .addComponent(ViewfileButton)
                             .addComponent(jLabel20))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton12)))
+                        .addComponent(dispossiBtn)))
                 .addGap(18, 18, 18)
                 .addComponent(jButton11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -844,10 +879,10 @@ public class pagePimpinan extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Surat masuk", jPanel5);
+        kirimDisposisiTab.addTab("Surat masuk", jPanel5);
 
         jLabel42.setText("Sifat Surat");
 
@@ -873,6 +908,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         });
 
         nomorSuratDisposisi.setText("jTextField3");
+        nomorSuratDisposisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomorSuratDisposisiActionPerformed(evt);
+            }
+        });
 
         tanggalSuratDisposisi.setText("jTextField4");
 
@@ -1024,7 +1064,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Kirim Disposisi", jPanel6);
+        kirimDisposisiTab.addTab("Kirim Disposisi", jPanel6);
 
         jLabel43.setText("Sifat Surat");
 
@@ -1040,37 +1080,37 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         jLabel57.setText("Deadline");
 
-        jTextField38.setText("jTextField1");
+        sifatDisposisiMasuk.setText("jTextField1");
 
-        jTextField41.setText("jTextField3");
+        noDisposisiMasuk.setText("jTextField3");
 
-        jTextField46.setText("jTextField4");
+        tanggalDisposisiMasuk.setText("jTextField4");
 
-        jTextArea6.setColumns(20);
-        jTextArea6.setRows(5);
-        jScrollPane12.setViewportView(jTextArea6);
+        catatanDisposisiMasuk.setColumns(20);
+        catatanDisposisiMasuk.setRows(5);
+        jScrollPane12.setViewportView(catatanDisposisiMasuk);
 
-        jTextField47.setText("jTextField6");
+        instruksiDisposisiMasuk.setText("jTextField6");
 
-        jTextField49.setText("jTextField8");
+        perihalDisposisiMasuk.setText("jTextField8");
 
-        jTextField50.setText("jTextField9");
+        deadlineDisposisiMasuk.setText("jTextField9");
 
-        jButton13.setText("Terima");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+        terimaBTN.setText("Terima");
+        terimaBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                terimaBTNActionPerformed(evt);
             }
         });
 
-        jButton14.setText("Tolak");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
+        tolakBTN.setText("Tolak");
+        tolakBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
+                tolakBTNActionPerformed(evt);
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelDisposisi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1081,7 +1121,23 @@ public class pagePimpinan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane6.setViewportView(jTable2);
+        tabelDisposisi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelDisposisiMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tabelDisposisi);
+
+        jLabel74.setText("Lampiran");
+
+        lampiranDisposisiMasuk.setText("jTextField9");
+
+        View.setText("View");
+        View.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1099,56 +1155,74 @@ public class pagePimpinan extends javax.swing.JFrame {
                             .addGap(18, 18, 18)
                             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane12)
-                                .addComponent(jTextField47)
-                                .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(instruksiDisposisiMasuk)
+                                .addComponent(sifatDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel14Layout.createSequentialGroup()
                             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel57)
-                                .addComponent(jButton13))
+                                .addComponent(terimaBTN))
                             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel14Layout.createSequentialGroup()
                                     .addGap(6, 6, Short.MAX_VALUE)
-                                    .addComponent(jButton14)
+                                    .addComponent(tolakBTN)
                                     .addGap(470, 470, 470))
                                 .addGroup(jPanel14Layout.createSequentialGroup()
                                     .addGap(33, 33, 33)
-                                    .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(deadlineDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE)))))
                     .addComponent(jLabel52)
                     .addComponent(jLabel55)
-                    .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField49, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField41, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel14Layout.createSequentialGroup()
+                            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel14Layout.createSequentialGroup()
+                                    .addGap(106, 106, 106)
+                                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(perihalDisposisiMasuk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tanggalDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(noDisposisiMasuk, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel74, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lampiranDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(View)
+                            .addGap(6, 6, 6))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel47)
-                    .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel47)
+                            .addComponent(noDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lampiranDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel74)
+                            .addComponent(View))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel52)
-                    .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel55)
-                    .addComponent(jTextField49, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(perihalDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel53)
-                    .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(instruksiDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sifatDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel43))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1156,12 +1230,12 @@ public class pagePimpinan extends javax.swing.JFrame {
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField50, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deadlineDisposisiMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel57))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton13)
-                    .addComponent(jButton14))
+                    .addComponent(terimaBTN)
+                    .addComponent(tolakBTN))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1180,13 +1254,13 @@ public class pagePimpinan extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Disposisi Masuk", jPanel7);
+        kirimDisposisiTab.addTab("Disposisi Masuk", jPanel7);
 
         jLabel54.setText("Agama");
 
@@ -1474,9 +1548,9 @@ public class pagePimpinan extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jTabbedPane2.addTab("Pengajuan Surat", jPanel8);
+        kirimDisposisiTab.addTab("Pengajuan Surat", jPanel8);
 
-        getContentPane().add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 780, 600));
+        getContentPane().add(kirimDisposisiTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 780, 470));
 
         jPanel10.setBackground(new java.awt.Color(0, 146, 89));
 
@@ -1622,33 +1696,44 @@ public class pagePimpinan extends javax.swing.JFrame {
         String SifatSuratDisposisi = sifatSuratDisposisi.getText();
         String CatatanDisposisi = catatanIntruksiDisposisi.getText();
         String DeadlineDisposisi = deadlineDisposisi.getText();
+        String nomorSurat = nomorSuratDisposisi.getText();
         try{
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
 
             // 3. Fetch Penerima ID
-            String getPenerimaIdQuery = "SELECT id_user FROM user WHERE nama_lengkap = ?";
-            PreparedStatement getPenerimaIdStmt = conn.prepareStatement(getPenerimaIdQuery);
-            getPenerimaIdStmt.setString(1, PenerimaDisposisi);
-            ResultSet penerimaIdResult = getPenerimaIdStmt.executeQuery();
-            int penerimaId = -1; // Or some default value indicating an error
-            if (penerimaIdResult.next()) {
-                penerimaId = penerimaIdResult.getInt("id_user");
+            String getIdJabatanQuery = "SELECT Id_Jabatan FROM jabatan WHERE Nama_Jabatan = ?";
+            PreparedStatement getidJabatanStmt = conn.prepareStatement(getIdJabatanQuery);
+            getidJabatanStmt.setString(1, PenerimaDisposisi);
+            ResultSet JabatanIdResult = getidJabatanStmt.executeQuery();
+            int JabatanId = -1; 
+            if (JabatanIdResult.next()) {
+                JabatanId = JabatanIdResult.getInt("Id_Jabatan");
+            }
+            // 3. Fetch Penerima ID
+            String getIdMailQuery = "SELECT id_mail FROM surat_luar WHERE no_surat = ?"; 
+            PreparedStatement getIdMailStmt = conn.prepareStatement(getIdMailQuery); 
+            getIdMailStmt.setString(1, nomorSurat); // Replace 'noSurat' with the actual variable containing the no_surat value 
+            ResultSet mailIdResult = getIdMailStmt.executeQuery(); 
+            int mailId = -1;  
+            if (mailIdResult.next()) { 
+                mailId = mailIdResult.getInt("id_mail"); 
             }
             
-            String query = "INSERT INTO disposisi (nama_penerima, instruksi, sifat, catatan, deadline) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO disposisi (id_mail, penerima, instruksi, sifat, catatan, deadline) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, penerimaId);
-            stmt.setString(2, IntruksiDisposisi);
-            stmt.setString(3, SifatSuratDisposisi);
-            stmt.setString(6, CatatanDisposisi);
-            stmt.setString(5, DeadlineDisposisi);
+            stmt.setInt(1, mailId);
+            stmt.setInt(2, JabatanId);
+            stmt.setString(3, IntruksiDisposisi);
+            stmt.setString(4, SifatSuratDisposisi);
+            stmt.setString(5, CatatanDisposisi);
+            stmt.setString(6, DeadlineDisposisi);
 
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Data successfully added!");
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }          // TODO add your handling code here:
+        }          
     }//GEN-LAST:event_kirimDisposisiSuratActionPerformed
 
     private void penerimaDisposisiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penerimaDisposisiBoxActionPerformed
@@ -1664,17 +1749,86 @@ public class pagePimpinan extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox18ActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton12ActionPerformed
+    private void dispossiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispossiBtnActionPerformed
+        String SifatSurat = SifatField.getText();
+        String NomorSurat = NomorField.getText();
+        String TanggalSurat = tanggalField.getText();
+        String Perihal = perihalField.getText();
+        
+        sifatSuratDisposisi.setText(SifatSurat);
+        sifatSuratDisposisi.setEditable(false);
+        nomorSuratDisposisi.setText(NomorSurat);
+        nomorSuratDisposisi.setEditable(false);
+        tanggalSuratDisposisi.setText(TanggalSurat);
+        tanggalSuratDisposisi.setEditable(false);
+        perihalDisposisi.setText(Perihal);
+        perihalDisposisi.setEditable(false);
+        kirimDisposisiTab.setSelectedIndex(2);
+        
+    }//GEN-LAST:event_dispossiBtnActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
+    private void terimaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terimaBTNActionPerformed
+        try {
+        int x = tabelDisposisi.getSelectedRow();
+        
+        if (x == -1) { 
+            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+        
+        // Database update query
+        String query = "UPDATE disposisi SET respon = 'Diterima' WHERE id_disposisi = ?";
+        
+        DatabaseCRUD db = new DatabaseCRUD();
+        Connection conn = db.koneksi;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, idDisposisi);
+        
+        int rowsUpdated = stmt.executeUpdate();
+        if (rowsUpdated > 0) {
+            JOptionPane.showMessageDialog(this, "Response updated to 'Diterima' successfully!");
+            loadDisposisiTable(); // Refresh table
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_terimaBTNActionPerformed
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton14ActionPerformed
+    private void tolakBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tolakBTNActionPerformed
+        try {
+        int x = tabelDisposisi.getSelectedRow();
+        
+        if (x == -1) { 
+            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+        
+        // Database update query
+        String query = "UPDATE disposisi SET respon = 'Ditolak' WHERE id_disposisi = ?";
+        
+        DatabaseCRUD db = new DatabaseCRUD();
+        Connection conn = db.koneksi;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, idDisposisi);
+        
+        int rowsUpdated = stmt.executeUpdate();
+        
+        if (rowsUpdated > 0) {
+            JOptionPane.showMessageDialog(this, "Response updated to 'Ditolak' successfully!");
+            loadDisposisiTable(); // Refresh table
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_tolakBTNActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
@@ -1700,16 +1854,11 @@ public class pagePimpinan extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         populatesifatBox();
         populatesifatBoxDisposisi();
-        populatepengirimBox();
         populatepnerimaBoxDisposisi();
         populateintruksiDisposisi();
         loadSuratLuarTable();
+        loadDisposisiTable();
     }//GEN-LAST:event_formWindowOpened
-
-    private void pengirimBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengirimBoxActionPerformed
-        String selectedValue = (String) pengirimBox.getSelectedItem();
-        pengirim.setText(selectedValue);
-    }//GEN-LAST:event_pengirimBoxActionPerformed
 
     private void pengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengirimActionPerformed
         // TODO add your handling code here:
@@ -1813,6 +1962,73 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
         FileNameField.setText(lampiran);
     }//GEN-LAST:event_TabelSuratLuarMouseClicked
 
+    private void perihalFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_perihalFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_perihalFieldActionPerformed
+
+    private void nomorSuratDisposisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomorSuratDisposisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomorSuratDisposisiActionPerformed
+
+    private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
+        int selectedRow = tabelDisposisi.getSelectedRow();
+
+    if (selectedRow != -1) { // Check if a row is selected
+        try {
+            // 1. Fetch the byte array from the table model
+            byte[] fileData = (byte[]) tabelDisposisi.getValueAt(selectedRow, 10); 
+
+            // 2. Determine the file type (you'll need to know this beforehand)
+            String fileType = "pdf"; // Example: Assuming it's a PDF
+
+            // 3. Create a temporary file
+            File tempFile = File.createTempFile("tempFile", "." + fileType);
+            tempFile.deleteOnExit(); // Delete the file when the JVM exits
+
+            // 4. Write the byte array to the temporary file
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(fileData);
+            fos.close();
+
+            // 5. Open the file with the default application associated with the file type
+            Desktop.getDesktop().open(tempFile);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a row.");
+    }
+    }//GEN-LAST:event_ViewActionPerformed
+
+    private void tabelDisposisiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDisposisiMouseClicked
+        try {
+    int x = tabelDisposisi.getSelectedRow();
+
+    String noSurat = tabelDisposisi.getValueAt(x, 1).toString(); 
+    String tanggalSurat = tabelDisposisi.getValueAt(x, 2).toString(); 
+    String perihal = tabelDisposisi.getValueAt(x, 3).toString(); 
+    String instruksi = tabelDisposisi.getValueAt(x, 5).toString(); 
+    String sifat = tabelDisposisi.getValueAt(x, 6).toString(); 
+    String catatan = tabelDisposisi.getValueAt(x, 7).toString(); 
+    String deadline = tabelDisposisi.getValueAt(x, 8).toString(); 
+    String lampiranDisposisi = tabelDisposisi.getValueAt(x, 10).toString(); 
+
+    // Set values to UI components
+    noDisposisiMasuk.setText(noSurat);
+    tanggalDisposisiMasuk.setText(tanggalSurat);
+    perihalDisposisiMasuk.setText(perihal);
+    instruksiDisposisiMasuk.setText(instruksi);
+    sifatDisposisiMasuk.setText(sifat);
+    catatanDisposisiMasuk.setText(catatan);
+    deadlineDisposisiMasuk.setText(deadline);
+    lampiranDisposisiMasuk.setText(lampiranDisposisi);
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+    }//GEN-LAST:event_tabelDisposisiMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1855,19 +2071,21 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JTextField PengirimField;
     private javax.swing.JTextField SifatField;
     private javax.swing.JTable TabelSuratLuar;
+    private javax.swing.JButton View;
     private javax.swing.JButton ViewfileButton;
     private javax.swing.JButton attachFile;
     private javax.swing.JTextArea catatan;
+    private javax.swing.JTextArea catatanDisposisiMasuk;
     private javax.swing.JTextArea catatanField;
     private javax.swing.JTextArea catatanIntruksiDisposisi;
     private javax.swing.JTextField deadlineDisposisi;
+    private javax.swing.JTextField deadlineDisposisiMasuk;
     private javax.swing.JTextField disposisiIntruksi;
     private javax.swing.JButton disposisiMasuk;
+    private javax.swing.JButton dispossiBtn;
     private javax.swing.JComboBox<String> instruksiDisposisiBox;
+    private javax.swing.JTextField instruksiDisposisiMasuk;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JComboBox<String> jComboBox18;
@@ -1923,6 +2141,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
@@ -1948,16 +2167,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextArea jTextArea6;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField41;
-    private javax.swing.JTextField jTextField46;
-    private javax.swing.JTextField jTextField47;
-    private javax.swing.JTextField jTextField49;
-    private javax.swing.JTextField jTextField50;
     private javax.swing.JTextField jTextField51;
     private javax.swing.JTextField jTextField52;
     private javax.swing.JTextField jTextField53;
@@ -1981,27 +2191,35 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JTextField jenisSurat;
     private javax.swing.JButton kirimDisposisi;
     private javax.swing.JButton kirimDisposisiSurat;
+    private javax.swing.JTabbedPane kirimDisposisiTab;
     private javax.swing.JButton kirimSurat;
     private javax.swing.JButton kirimdatasurat;
     private javax.swing.JTextField lampiran;
+    private javax.swing.JTextField lampiranDisposisiMasuk;
+    private javax.swing.JTextField noDisposisiMasuk;
     private javax.swing.JTextField nomorSurat;
     private javax.swing.JTextField nomorSuratDisposisi;
     private javax.swing.JTextField penerimaDisposisi;
     private javax.swing.JComboBox<String> penerimaDisposisiBox;
     private javax.swing.JButton pengajuanSurat;
     private javax.swing.JTextField pengirim;
-    private javax.swing.JComboBox<String> pengirimBox;
     private javax.swing.JTextField perihal;
     private javax.swing.JTextField perihalDisposisi;
+    private javax.swing.JTextField perihalDisposisiMasuk;
     private javax.swing.JTextField perihalField;
     private javax.swing.JComboBox<String> sifatBox;
+    private javax.swing.JTextField sifatDisposisiMasuk;
     private javax.swing.JTextField sifatSurat;
     private javax.swing.JTextField sifatSuratDisposisi;
     private javax.swing.JComboBox<String> sifatsuratdisposisibox;
     private javax.swing.JButton suratMasuk;
+    private javax.swing.JTable tabelDisposisi;
+    private javax.swing.JTextField tanggalDisposisiMasuk;
     private javax.swing.JTextField tanggalField;
     private javax.swing.JTextField tanggalSurat;
     private javax.swing.JTextField tanggalSuratDisposisi;
+    private javax.swing.JButton terimaBTN;
+    private javax.swing.JButton tolakBTN;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
