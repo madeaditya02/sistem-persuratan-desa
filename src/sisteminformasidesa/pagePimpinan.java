@@ -104,6 +104,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             }
         });
     }
+   
     private void loadSuratLuarTable() {
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
@@ -135,6 +136,53 @@ public class pagePimpinan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
         }
     }
+     private void loadHistoryTable() {
+    // Membersihkan data yang ada di tabel
+    DefaultTableModel model = (DefaultTableModel) tabelhistory.getModel();
+    model.getDataVector().removeAllElements();
+    model.fireTableDataChanged();
+    
+    try {
+        // Membuat koneksi ke database
+        DatabaseCRUD db = new DatabaseCRUD(); // Pastikan class ini memiliki properti koneksi
+        Connection conn = db.koneksi;
+        
+        // Query untuk mengambil data dari tabel disposisi dan surat_luar
+        
+         String query = "SELECT surat_luar.id_mail, surat_luar.sifat_surat, "
+                + "surat_luar.no_surat, surat_luar.tanggal_surat, surat_luar.NamaPengirim, "
+                + "surat_luar.perihal, surat_luar.lampiran, "
+                + "status_surat_luar.status, status_surat_luar.timestamp "
+                + "FROM surat_luar INNER JOIN status_surat_luar "
+                 + "ON surat_luar.id_mail = status_surat_luar.id_mail; ";
+        
+        // Menyiapkan statement dan eksekusi query
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+
+        // Iterasi hasil query untuk mengisi data ke dalam tabel
+        while (rs.next()) {
+            Object[] row = {
+                rs.getInt("id_mail"),           // ID surat
+                rs.getString("sifat_surat"),    // Sifat surat
+                rs.getString("no_surat"),       // Nomor surat
+                rs.getString("tanggal_surat"),  // Tanggal surat
+                rs.getString("nama_pengirim"),  // Nama pengirim
+                rs.getString("perihal"),        // Perihal
+                rs.getBytes("lampiran"),        // Lampiran
+                rs.getString("status"),         // Status surat
+                rs.getString("timestamp")       // Timestamp
+            };
+            model.addRow(row); // Menambahkan data ke model tabel
+        }
+        // Tutup koneksi setelah selesai
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
+    }
+     }
     
     private void loadDisposisiTable() {
     model.getDataVector().removeAllElements();
@@ -178,6 +226,8 @@ public class pagePimpinan extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
     }
     }
+    
+    
     private void populatesifatBox() {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
@@ -282,6 +332,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error populating combobox: " + e.getMessage());
         }
     }
+    
     
     
     /**
@@ -439,6 +490,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         jLabel72 = new javax.swing.JLabel();
         jLabel73 = new javax.swing.JLabel();
         jTextField66 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tabelhistory = new javax.swing.JTable();
         jPanel10 = new javax.swing.JPanel();
         kirimSurat = new javax.swing.JButton();
         suratMasuk = new javax.swing.JButton();
@@ -448,6 +504,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jComboBox5 = new javax.swing.JComboBox<>();
+        pengajuanSurat1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -578,7 +635,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                             .addComponent(attachFile)
                             .addComponent(sifatBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jabatanPengirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(308, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,6 +782,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         jLabel17.setText("perihal");
 
         jabatanField.setText("jTextField6");
+        jabatanField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jabatanFieldActionPerformed(evt);
+            }
+        });
 
         jLabel19.setText("Jabatan Pengirim");
 
@@ -1000,7 +1062,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                             .addComponent(instruksiDisposisiBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sifatsuratdisposisibox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(penerimaDisposisiBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1454,7 +1516,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField64, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel62))
@@ -1540,7 +1602,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 793, Short.MAX_VALUE)
+            .addGap(0, 815, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1549,6 +1611,61 @@ public class pagePimpinan extends javax.swing.JFrame {
         );
 
         kirimDisposisiTab.addTab("Pengajuan Surat", jPanel8);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 40)); // NOI18N
+        jLabel1.setText("Histori Surat");
+
+        tabelhistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id_mail", "Sifat surat", "No surat", "Tanggal surat", "Nama pengirim", "Perihal", "Lampiran", "Status", "timestamp"
+            }
+        ));
+        jScrollPane7.setViewportView(tabelhistory);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(275, 275, 275)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        kirimDisposisiTab.addTab("Histori Surat", jPanel1);
 
         getContentPane().add(kirimDisposisiTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 780, 470));
 
@@ -1576,6 +1693,8 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        pengajuanSurat1.setText("Histori surat");
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -1590,7 +1709,8 @@ public class pagePimpinan extends javax.swing.JFrame {
                     .addComponent(pengajuanSurat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel18)
                     .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pengajuanSurat1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -1611,7 +1731,9 @@ public class pagePimpinan extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addComponent(disposisiMasuk)
                 .addGap(7, 7, 7)
-                .addComponent(pengajuanSurat))
+                .addComponent(pengajuanSurat)
+                .addGap(7, 7, 7)
+                .addComponent(pengajuanSurat1))
         );
 
         getContentPane().add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 520));
@@ -1858,6 +1980,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         populateintruksiDisposisi();
         loadSuratLuarTable();
         loadDisposisiTable();
+        loadHistoryTable();
     }//GEN-LAST:event_formWindowOpened
 
     private void pengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengirimActionPerformed
@@ -2029,6 +2152,10 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
 }
     }//GEN-LAST:event_tabelDisposisiMouseClicked
 
+    private void jabatanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jabatanFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2092,6 +2219,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JComboBox<String> jComboBox19;
     private javax.swing.JComboBox<String> jComboBox20;
     private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2144,6 +2272,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
@@ -2156,6 +2285,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -2166,6 +2296,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField51;
@@ -2202,6 +2333,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JTextField penerimaDisposisi;
     private javax.swing.JComboBox<String> penerimaDisposisiBox;
     private javax.swing.JButton pengajuanSurat;
+    private javax.swing.JButton pengajuanSurat1;
     private javax.swing.JTextField pengirim;
     private javax.swing.JTextField perihal;
     private javax.swing.JTextField perihalDisposisi;
@@ -2214,6 +2346,7 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JComboBox<String> sifatsuratdisposisibox;
     private javax.swing.JButton suratMasuk;
     private javax.swing.JTable tabelDisposisi;
+    private javax.swing.JTable tabelhistory;
     private javax.swing.JTextField tanggalDisposisiMasuk;
     private javax.swing.JTextField tanggalField;
     private javax.swing.JTextField tanggalSurat;
