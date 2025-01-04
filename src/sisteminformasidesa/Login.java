@@ -3,6 +3,8 @@ package sisteminformasidesa;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import java.lang.reflect.Constructor;
+import javax.swing.JFrame;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -33,8 +35,19 @@ public class Login extends javax.swing.JFrame {
                 String id_user = result.getString("id_user");
                 JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.INFORMATION_MESSAGE);
                 Session.id_user = id_user;
-                Session.username = result.getString("email");
-                new MainPage().setVisible(true);
+                
+                String nama_class = "sisteminformasidesa.MainPage";
+                try {
+                    Class class_gui = Class.forName(nama_class);
+                    Constructor constructor = class_gui.getConstructor();
+                    Object instanceOfMyClass = constructor.newInstance();
+                    JFrame m = JFrame.class.cast(instanceOfMyClass);
+                    m.setVisible(true);
+                } catch(ClassNotFoundException ex) {
+                    System.out.println(ex);
+                }
+                
+//                new MainPage().setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Email atau password salah", "Login", JOptionPane.ERROR_MESSAGE);
@@ -182,7 +195,16 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        this.processLogin();
+//        this.processLogin();
+        String email = this.username.getText();
+        String password = this.password.getText();
+        boolean success = Session.login(email, password);
+        if (success) {
+            new MainPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Email atau password salah", "Login", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

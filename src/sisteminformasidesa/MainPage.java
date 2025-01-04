@@ -21,6 +21,8 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
         this.db = new DatabaseCRUD();
+        User u = Session.loggedUser;
+        System.out.println(u.agama);
         initComponents();
         tabelSurat.setRowHeight(28);
         ((DefaultTableModel) tabelSurat.getModel()).setRowCount(0);

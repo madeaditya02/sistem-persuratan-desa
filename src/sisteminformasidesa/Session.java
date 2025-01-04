@@ -4,11 +4,47 @@
  */
 package sisteminformasidesa;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author Acer
  */
 public class Session {
-    public static String id_user, username;
+    public static String id_user;
+    public static User loggedUser;
     
+    public static boolean login(String email, String password) {
+        try {
+            String url = "jdbc:mysql://localhost/kantor_desa";
+            String usernameDb = "root";
+            String passDb = "";
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            Connection koneksi = DriverManager.getConnection(url, usernameDb, passDb);
+            Statement stmt = koneksi.createStatement();
+            ResultSet result = stmt.executeQuery("SELECT * FROM user WHERE email = '"+email+"' AND password = '"+password+"'");
+            if (result.next()) {
+                id_user = result.getString("id_user");
+                loggedUser = new User(id_user);
+                return true;
+            }
+            return false;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public static void logout() {
+        id_user = null;
+        loggedUser = null;
+    }
+    
+    public static User getLoggedUser() {
+        return new User(id_user);
+    }
 }
