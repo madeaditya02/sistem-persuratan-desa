@@ -114,7 +114,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void btnBuatSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuatSuratActionPerformed
         this.dispose();
-        new FormPembuatanSurat().setVisible(true);
+        new InsertDataSurat().setVisible(true);
     }//GEN-LAST:event_btnBuatSuratActionPerformed
 
     /**
