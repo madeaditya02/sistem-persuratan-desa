@@ -1624,7 +1624,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id_mail", "Sifat surat", "No surat", "Tanggal surat", "Nama pengirim", "Perihal", "Lampiran", "Status", "timestamp"
+                "Id mail", "Sifat surat", "No surat", "Tanggal surat", "Nama pengirim", "Perihal", "Lampiran", "Status", "Timestamp"
             }
         ));
         jScrollPane7.setViewportView(tabelhistory);
