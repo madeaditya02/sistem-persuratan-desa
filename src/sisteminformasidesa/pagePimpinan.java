@@ -15,6 +15,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileOutputStream;
+import javax.swing.*;
+import javax.swing.table.*;
+import java.awt.event.*;
+import java.sql.*;
 import sisteminformasidesa.pagePimpinan;
 
 
@@ -72,18 +76,18 @@ public class pagePimpinan extends javax.swing.JFrame {
         modelPengajuan.addColumn("tanggal_lahir");
         modelPengajuan.addColumn("usia");
         modelPengajuan.addColumn("warga_negara");
-//        modelPengajuan.addColumn("agama");
-//        modelPengajuan.addColumn("jenis_kelamin");
-//        modelPengajuan.addColumn("Pekerjaan");
-//        modelPengajuan.addColumn("alamat_lengkap");
-//        modelPengajuan.addColumn("nik");
-//        modelPengajuan.addColumn("no_kk");
-//        modelPengajuan.addColumn("keperluan");
-//        modelPengajuan.addColumn("gol_darah");
+        modelPengajuan.addColumn("agama");
+        modelPengajuan.addColumn("jenis_kelamin");
+        modelPengajuan.addColumn("Pekerjaan");
+        modelPengajuan.addColumn("alamat_lengkap");
+        modelPengajuan.addColumn("nik");
+        modelPengajuan.addColumn("no_kk");
+        modelPengajuan.addColumn("keperluan");
+        modelPengajuan.addColumn("gol_darah");
 
 
 // Daftar indeks kolom yang ingin disembunyikan
-        int[] kolomYangDisembunyikan = {}; // Indeks untuk "status_sekdes" dan "tahun"
+        int[] kolomYangDisembunyikan = {7,8,9,10,11,12,13,14,15,16,17,18,19}; // Indeks untuk "status_sekdes" dan "tahun"
 
 // Loop untuk menyembunyikan kolom
         for (int index : kolomYangDisembunyikan) {
@@ -154,15 +158,15 @@ public class pagePimpinan extends javax.swing.JFrame {
                     String tempat_lahir = (String) jTable4.getValueAt(row, 8);
                     String tanggal_lahir = (String) jTable4.getValueAt(row, 9);
                     String usia = (String) jTable4.getValueAt(row, 10);
-                    String warga_negara = (String) jTable4.getValueAt(row, 11);
-//                    String agama = (String) jTable4.getValueAt(row, 12);
-//                    String jenisKelamin = (String) jTable4.getValueAt(row, 13);
-//                    String pekerjaan = (String) jTable4.getValueAt(row, 14);
-//                    String alamatLengkap = (String) jTable4.getValueAt(row, 15);
-//                    String nik = (String) jTable4.getValueAt(row, 16);
-//                    String no_kk = (String) jTable4.getValueAt(row, 17);
-//                    String keperluan = (String) jTable4.getValueAt(row, 18);
-//                    String golDarah = (String) jTable4.getValueAt(row, 18);
+                    String wargaNegara = (String) jTable4.getValueAt(row, 11);
+                    String agama = (String) jTable4.getValueAt(row, 12);
+                    String jenisKelamin = (String) jTable4.getValueAt(row, 13);
+                    String pekerjaan = (String) jTable4.getValueAt(row, 14);
+                    String alamatLengkap = (String) jTable4.getValueAt(row, 15);
+                    String nik = (String) jTable4.getValueAt(row, 16);
+                    String no_kk = (String) jTable4.getValueAt(row, 17);
+                    String keperluan = (String) jTable4.getValueAt(row, 18);
+                    String golDarah = (String) jTable4.getValueAt(row, 19);
 
 
                     // Buat instance DetailSurat
@@ -176,15 +180,15 @@ public class pagePimpinan extends javax.swing.JFrame {
                     detailSurat.setTempatLahir(tempat_lahir);
                     detailSurat.setTanggalLahir(tanggal_lahir);
                     detailSurat.setUsia(usia);
-                    detailSurat.setUsia(warga_negara);
-//                    detailSurat.setUsia(agama);
-//                    detailSurat.setUsia(jenisKelamin);
-//                    detailSurat.setUsia(pekerjaan);
-//                    detailSurat.setUsia(alamatLengkap);
-//                    detailSurat.setUsia(nik);
-//                    detailSurat.setUsia(no_kk);
-//                    detailSurat.setUsia(keperluan);
-//                    detailSurat.setUsia(golDarah);
+                    detailSurat.setWargaNegara(wargaNegara);
+                    detailSurat.setAgama(agama);
+                    detailSurat.setJenisKelamin(jenisKelamin);
+                    detailSurat.setPekerjaan(pekerjaan);
+                    detailSurat.setAlamatLengkap(alamatLengkap);
+                    detailSurat.setNik(nik);
+                    detailSurat.setNokk(no_kk);
+                    detailSurat.setKeperluan(keperluan);
+                    detailSurat.setGolDarah(golDarah);
 
                     
                     // Tampilkan DetailSurat
@@ -229,25 +233,22 @@ public class pagePimpinan extends javax.swing.JFrame {
                     rs.getString("nama_lengkap"),
                     rs.getString("sekdes"),
                     rs.getString("status_sekdes"),
-                    rs.getString("waktu_dibuka_sekdes"),
-                    rs.getString("waktu_divalidasi_sekdes"),
+                    rs.getString("kepdes"),
+                    rs.getString("status_kepdes"),
                     rs.getString("tahun"),
                     rs.getString("tempat_lahir"),
                     rs.getString("tanggal_lahir"),
                     rs.getString("usia"),
                     rs.getString("warga_negara"),
-//                    rs.getString("agama"),
-//                    rs.getString("jenis_kelamin"),
-//                    rs.getString("Pekerjaan"),
-//                    rs.getString("alamat_lengkap"),
-//                    rs.getString("nik"),
-//                    rs.getString("no_kk"),
-//                    rs.getString("keperluan"),
-//                    rs.getString("gol_darah"),
-                    rs.getString("kepdes"),
-                    rs.getString("status_kepdes"),
-                    rs.getString("waktu_dibuka_kepdes"),
-                    rs.getString("waktu_divalidasi_kepdes"),
+                    rs.getString("agama"),
+                    rs.getString("jenis_kelamin"),
+                    rs.getString("Pekerjaan"),
+                    rs.getString("alamat_lengkap"),
+                    rs.getString("nik"),
+                    rs.getString("no_kk"),
+                    rs.getString("keperluan"),
+                    rs.getString("gol_darah"),
+
                 };
                 modelPengajuan.addRow(row);
             }
