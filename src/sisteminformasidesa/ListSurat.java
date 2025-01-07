@@ -4,41 +4,100 @@
  */
 package sisteminformasidesa;
 
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Map;
+import java.sql.Connection;
+import java.util.Objects;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.JTable;
+import java.awt.Component;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+
 
 /**
  *
- * @author Acer
+ * @author ASUS
  */
 public class ListSurat extends javax.swing.JFrame {
-
+    public Connection koneksi;
     /**
-     * Creates new form ListSurat
+     * Creates new form MAIN_PAGE_UI
      */
     public ListSurat() {
-        DatabaseCRUD db = new DatabaseCRUD();
+        User u = Session.loggedUser;
         initComponents();
-        System.out.println(Session.id_user);
-        TableView.setRowHeight(28);
-        ((DefaultTableModel) TableView.getModel()).setRowCount(0);
-        try {
-            Statement s = db.koneksi.createStatement();
-            String sql = "SELECT * FROM surat";
-            ResultSet r = s.executeQuery(sql);
-            while (r.next()) {
-                Object[] row_data = {r.getString("id"), r.getString("judul_surat"), r.getString("isi_surat")};
-                ((DefaultTableModel) TableView.getModel()).addRow(row_data);
-                System.out.println("Judul Surat : "+r.getString("judul_surat"));
-                System.out.println("Isi Surat : "+r.getString("isi_surat"));
+        tabelSurat.setRowHeight(28);
+//        tabelSurat.setModel(JTableModel);
+        ((DefaultTableModel) tabelSurat.getModel()).setRowCount(0);
+        DefaultTableModel newModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 5; // Kolom "Print" yang bisa di-edit
             }
-        } catch (SQLException e) {
-
+        };
+        newModel.addColumn("Nomor Surat"); // Kolom ID surat (disembunyikan nanti)
+        newModel.addColumn("Jenis Surat");
+        newModel.addColumn("NIK");
+        newModel.addColumn("Tanggal Berlaku");
+        newModel.addColumn("Status");
+        newModel.addColumn("Print");
+        tabelSurat.setModel(newModel);
+//        ((JTableModel) tabelSurat.getModel());
+        try {
+            String url = "jdbc:mysql://localhost/kantor_desa";
+            String username = "root";
+            String password = "";
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            this.koneksi = DriverManager.getConnection(url, username, password);
+            Statement s = this.koneksi.createStatement();
+            String sql = "SELECT surat.*, status_validasi.status_sekdes, status_validasi.status_kepdes FROM surat LEFT JOIN status_validasi ON surat.nomor_surat = status_validasi.nomor_surat WHERE surat.id_user = '"+Session.loggedUser.id_user+"' ORDER BY surat.nomor_surat DESC;";
+            ResultSet r = s.executeQuery(sql);
+            if (r != null) {
+                while (r.next()) {
+                    String status = "Tidak Valid";
+                    Locale loc = new Locale.Builder().setLanguage("id").setRegion("ID").build();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", loc);
+                    SimpleDateFormat localFormat = new SimpleDateFormat("d MMMM yyyy", loc);
+                    Date tgl_mulai = null;
+                    String mulai_berlaku = "";
+                    try {
+                        if (r.getString("mulai_berlaku") != null) {
+                            tgl_mulai = sdf.parse(r.getString("mulai_berlaku"));
+                            mulai_berlaku = localFormat.format(tgl_mulai);
+                        }
+                    } catch(ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (Objects.equals(r.getString("status_sekdes"), "Valid") && Objects.equals(r.getString("status_kepdes"), "Valid")) {
+                        status = "Valid";
+                    }
+                    Object[] row_data = {r.getString("nomor_surat"), r.getString("judul_surat"), r.getString("nik"), mulai_berlaku, status, "Print"};
+                    ((DefaultTableModel) tabelSurat.getModel()).addRow(row_data);
+                }
+            }
+            tabelSurat.removeColumn(tabelSurat.getColumnModel().getColumn(0));
+        } catch(SQLException e) {
+            System.out.println(e);
         }
+        tabelSurat.getColumn("Print").setCellRenderer(new ButtonRenderer());
+        tabelSurat.getColumn("Print").setCellEditor(new ButtonEditor(new JCheckBox(), tabelSurat));
+        tabelSurat.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
     }
 
     /**
@@ -50,57 +109,142 @@ public class ListSurat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TableView = new javax.swing.JTable();
+        jSeparator1 = new javax.swing.JSeparator();
+        FRAME = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        DAFTAR_SURAT = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelSurat = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        TableView.setModel(new javax.swing.table.DefaultTableModel(
+        FRAME.setBackground(new java.awt.Color(255, 255, 255));
+        FRAME.setPreferredSize(new java.awt.Dimension(800, 500));
+        FRAME.setLayout(null);
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 51));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("PEMBUATAN SURAT");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 820, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        FRAME.add(jPanel1);
+        jPanel1.setBounds(0, 0, 820, 80);
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jScrollPane1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        tabelSurat.setFont(new java.awt.Font("Open Sans", 0, 12)); // NOI18N
+        tabelSurat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Judul", "Isi"
+                "Jenis Surat ", "NIK", "Tanggal Surat", "Status", "Print Surat"
             }
-        ));
-        jScrollPane1.setViewportView(TableView);
-        if (TableView.getColumnModel().getColumnCount() > 0) {
-            TableView.getColumnModel().getColumn(0).setPreferredWidth(16);
-        }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Data Surat");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tabelSurat.setShowGrid(true);
+        tabelSurat.setSurrendersFocusOnKeystroke(true);
+        tabelSurat.setUpdateSelectionOnSort(false);
+        jScrollPane1.setViewportView(tabelSurat);
+
+        javax.swing.GroupLayout DAFTAR_SURATLayout = new javax.swing.GroupLayout(DAFTAR_SURAT);
+        DAFTAR_SURAT.setLayout(DAFTAR_SURATLayout);
+        DAFTAR_SURATLayout.setHorizontalGroup(
+            DAFTAR_SURATLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DAFTAR_SURATLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
+        );
+        DAFTAR_SURATLayout.setVerticalGroup(
+            DAFTAR_SURATLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+        );
+
+        FRAME.add(DAFTAR_SURAT);
+        DAFTAR_SURAT.setBounds(20, 120, 750, 310);
+
+        jButton1.setBackground(new java.awt.Color(0, 153, 51));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Buat Surat");
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        FRAME.add(jButton1);
+        jButton1.setBounds(20, 90, 90, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(jLabel1)))
-                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(FRAME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(FRAME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        (new FormSurat()).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,6 +272,9 @@ public class ListSurat extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ListSurat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -138,8 +285,76 @@ public class ListSurat extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableView;
+    private javax.swing.JPanel DAFTAR_SURAT;
+    private javax.swing.JPanel FRAME;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable tabelSurat;
     // End of variables declaration//GEN-END:variables
+}
+
+class ButtonRenderer extends JButton implements TableCellRenderer {
+    public ButtonRenderer() {
+        setOpaque(true);
+    }
+
+    public Component getTableCellRendererComponent(JTable table, Object value,
+                                                   boolean isSelected, boolean hasFocus, int row, int column) {
+        setText((value == null) ? "" : value.toString());
+        return this;
+    }
+}
+
+// Kelas untuk editor tombol
+class ButtonEditor extends DefaultCellEditor {
+    protected JButton button;
+    private String label;
+    private boolean isPushed;
+    private JTable table;
+
+    public ButtonEditor(JCheckBox checkBox, JTable table) {
+        super(checkBox);
+        this.table = table;
+        button = new JButton();
+        button.setOpaque(true);
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                fireEditingStopped();
+            }
+        });
+    }
+
+    public Component getTableCellEditorComponent(JTable table, Object value,
+                                                 boolean isSelected, int row, int column) {
+        label = (value == null) ? "" : value.toString();
+        button.setText(label);
+        isPushed = true;
+        return button;
+    }
+
+    public Object getCellEditorValue() {
+        if (isPushed) {
+            // Aksi ketika tombol Print diklik
+            int selectedRow = table.getSelectedRow();
+            
+            String nomorSurat = (String) table.getModel().getValueAt(selectedRow, 0);
+            System.out.println(nomorSurat);
+            String judulSurat = (String) table.getValueAt(selectedRow, 0 + 1);
+            (new Surat(nomorSurat)).print();
+        }
+        isPushed = false;
+        return label;
+    }
+
+    public boolean stopCellEditing() {
+        isPushed = false;
+        return super.stopCellEditing();
+    }
+
+    protected void fireEditingStopped() {
+        super.fireEditingStopped();
+    }
 }

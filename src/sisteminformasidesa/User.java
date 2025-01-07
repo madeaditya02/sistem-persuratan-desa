@@ -15,7 +15,7 @@ import java.sql.Connection;
  * @author Acer
  */
 public class User {
-    public String email, password, nama_lengkap, nik, no_kk, tempat_lahir, tanggal_lahir, warga_negara, agama, jenis_kelamin, pekerjaan, alamat_desa, alamat_kec, alamat_kab, alamat_prov, gol_darah;
+    public String email, password, nama_lengkap, nik, no_kk, tempat_lahir, tanggal_lahir, warga_negara, agama, jenis_kelamin, pekerjaan, alamat_lengkap, gol_darah;
     public int id_user, id_jabatan;
     public Connection koneksi;
     
@@ -27,6 +27,7 @@ public class User {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             Connection koneksi = DriverManager.getConnection(url, username, password);
             Statement s = koneksi.createStatement();
+            System.out.println("");
             String sql = "SELECT user.*, warga.* FROM user JOIN warga ON user.nik = warga.nik WHERE user.id_user = '"+ id_user +"'";
             ResultSet r = s.executeQuery(sql);
             if (r.next()) {
@@ -43,10 +44,7 @@ public class User {
                 this.agama = r.getString("agama");
                 this.jenis_kelamin = r.getString("jenis_kelamin");
                 this.pekerjaan = r.getString("pekerjaan");
-                this.alamat_desa = r.getString("alamat_desa");
-                this.alamat_kec = r.getString("alamat_kec");
-                this.alamat_kab = r.getString("alamat_kab");
-                this.alamat_prov = r.getString("alamat_prov");
+                this.alamat_lengkap = r.getString("alamat_lengkap");
                 this.gol_darah = r.getString("gol_darah");
             }
         } catch (SQLException e) {

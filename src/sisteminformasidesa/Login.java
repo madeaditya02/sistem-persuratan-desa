@@ -16,46 +16,11 @@ import javax.swing.JFrame;
  * @author admin
  */
 public class Login extends javax.swing.JFrame {
-    public DatabaseCRUD db;
     /** 
      * Creates new form MainForm
      */
     public Login() {
-        this.db = new DatabaseCRUD();
         initComponents();
-    }
-    
-    private void processLogin() {
-        try {
-            String username = this.email.getText();
-            String password = this.password.getText();
-            Statement stmt = db.koneksi.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM user WHERE email = '"+username+"' AND password = '"+password+"'");
-            if (result.next()) {
-                String id_user = result.getString("id_user");
-                JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.INFORMATION_MESSAGE);
-                Session.id_user = id_user;
-                
-                String nama_class = "sisteminformasidesa.MAIN_PAGE_UI";
-                try {
-                    Class class_gui = Class.forName(nama_class);
-                    Constructor constructor = class_gui.getConstructor();
-                    Object instanceOfMyClass = constructor.newInstance();
-                    JFrame m = JFrame.class.cast(instanceOfMyClass);
-                    m.setVisible(true);
-                } catch(ClassNotFoundException ex) {
-                    System.out.println(ex);
-                }
-                
-//                new MainPage().setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Email atau password salah", "Login", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-            JOptionPane.showMessageDialog(null, "Terjadi kesalahan");
-        }
     }
 
     /**
@@ -197,7 +162,8 @@ public class Login extends javax.swing.JFrame {
         boolean success = Session.login(email, password);
         if (success) {
             JOptionPane.showMessageDialog(null, "Login berhasil", "Login", JOptionPane.INFORMATION_MESSAGE);
-            new MAIN_PAGE_UI().setVisible(true);
+//            new MainPage().setVisible(true);
+            new menu().setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Email atau password salah", "Login", JOptionPane.ERROR_MESSAGE);

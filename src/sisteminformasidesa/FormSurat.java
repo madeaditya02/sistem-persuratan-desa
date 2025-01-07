@@ -3,23 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package sisteminformasidesa;
-import javax.swing.JFileChooser;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
- * @author Acer
+ * @author ASUS
  */
 public class FormSurat extends javax.swing.JFrame {
-    public static String jenis_surat;
     /**
-     * Creates new form FormSurat
+     * Creates new form FormPembuatanSurat
      */
-    public FormSurat(String jenis_surat) {
-        this.jenis_surat = jenis_surat;
+    public FormSurat() {
         initComponents();
-        this.inputJenisSurat.setSelectedItem(jenis_surat);
-        this.inputJenisSurat.setEnabled(false);
-        this.choosedFileName.setText("");
     }
 
     /**
@@ -31,132 +37,233 @@ public class FormSurat extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        inputNIK = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        inputKeperluan = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        btnTTD = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         inputJenisSurat = new javax.swing.JComboBox<>();
-        choosedFileName = new javax.swing.JLabel();
+        inputNIK = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        btnSubmitSurat = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        inputKeperluan = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Form Pembuatan Surat");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
+        jPanel1.setLayout(null);
 
-        jLabel2.setText("NIK");
+        jPanel2.setBackground(new java.awt.Color(0, 153, 51));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setPreferredSize(new java.awt.Dimension(400, 400));
 
-        jLabel3.setText("Keperluan");
+        jLabel1.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("FORMULIR PEMBUATAN SURAT");
 
-        jLabel4.setText("TTD");
-
-        btnTTD.setText("Pilih FIle");
-        btnTTD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTTDActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Buat Surat");
-
-        jLabel5.setText("Jenis Surat");
-
-        inputJenisSurat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surat Kematian", "Surat Kelahiran", "Surat Izin Keramaian", "Surat Kurang Mampu", "Surat Permohonan Akte" }));
+        inputJenisSurat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Surat Keterangan Kematian", "Surat Keterangan Kelahiran", "Surat Keterangan Kurang Mampu ", "Surat Izin Keramaian ", "Surat Permohonan Akte", " " }));
         inputJenisSurat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputJenisSuratActionPerformed(evt);
             }
         });
 
-        choosedFileName.setText("jLabel6");
-        choosedFileName.setPreferredSize(new java.awt.Dimension(37, 100));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("NIK");
+
+        btnSubmitSurat.setText("Buat Surat");
+        btnSubmitSurat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitSuratActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Jenis Surat");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Keperluan");
+
+        inputKeperluan.setColumns(20);
+        inputKeperluan.setLineWrap(true);
+        inputKeperluan.setRows(5);
+        inputKeperluan.setAutoscrolls(false);
+        jScrollPane1.setViewportView(inputKeperluan);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(107, 107, 107))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnSubmitSurat)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(inputNIK)
+                            .addComponent(inputJenisSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputJenisSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSubmitSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(222, 222, 222))))
+        );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(130, 40, 510, 410);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(106, 106, 106))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(inputKeperluan))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel2))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(inputNIK)
-                                            .addComponent(inputJenisSurat, 0, 191, Short.MAX_VALUE))))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(51, 51, 51)
-                                .addComponent(btnTTD)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(choosedFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(33, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(49, 49, 49))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(inputNIK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(inputJenisSurat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(inputKeperluan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnTTD)
-                        .addComponent(jLabel4))
-                    .addComponent(choosedFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTTDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTTDActionPerformed
-        JFileChooser openFile = new JFileChooser();
-        int returnVal = openFile.showOpenDialog(null);
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " +
-                    openFile.getSelectedFile().getName());
-            this.choosedFileName.setText("<html>"+openFile.getSelectedFile().getName()+"</html>");
-        }
-    }//GEN-LAST:event_btnTTDActionPerformed
-
     private void inputJenisSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputJenisSuratActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputJenisSuratActionPerformed
+
+    private void btnSubmitSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitSuratActionPerformed
+        String nik = inputNIK.getText();
+        String jenis_surat = String.valueOf(inputJenisSurat.getSelectedItem());
+        String keperluan = inputKeperluan.getText(); 
+        String id_user = Session.id_user;
+        
+        if (!nik.equals("") && !jenis_surat.equals("") && !keperluan.equals("")) {
+            // Koneksi ke database
+            String url = "jdbc:mysql://localhost:3306/kantor_desa";
+            String user = "root";
+            String password = "";
+
+            try (Connection conn = DriverManager.getConnection(url, user, password)) {
+                // Ambil kode surat dari tabel jenis_surat
+                PreparedStatement pstmtNIK = conn.prepareStatement("SELECT * FROM warga WHERE nik = ?");
+                pstmtNIK.setString(1, nik);
+                ResultSet rsnik = pstmtNIK.executeQuery();
+                if (rsnik.next()) {
+                    String getKodeSuratQuery = "SELECT kode_surat FROM jenis_surat WHERE jenissurat = ?";
+                    String kodeSurat = null;
+
+                    try (PreparedStatement pstmtKodeSurat = conn.prepareStatement(getKodeSuratQuery)) {
+                        pstmtKodeSurat.setString(1, jenis_surat);
+                        try (ResultSet rs = pstmtKodeSurat.executeQuery()) {
+                            if (rs.next()) {
+                                kodeSurat = rs.getString("kode_surat");
+                            } else {
+                                System.out.println("Jenis surat tidak ditemukan.");
+                                return;
+                            }
+                        }
+                    }
+                    // Ambil nomor surat terakhir
+                    String getLastNoQuery = "SELECT MAX(CAST(SUBSTRING_INDEX(nomor_surat, '/', 1) AS UNSIGNED)) AS last_no FROM surat";
+                    int lastNo = 0;
+
+                    try (Statement stmt = conn.createStatement();
+                         ResultSet rs = stmt.executeQuery(getLastNoQuery)) {
+                        if (rs.next()) {
+                            lastNo = rs.getInt("last_no"); // Nomor terakhir
+                        }
+                    }
+
+                    // Nomor surat baru
+                    int newNoSurat = lastNo + 1;
+
+                    // Bulan dan tahun untuk format surat
+                    int bulan = Calendar.getInstance().get(Calendar.MONTH) + 1; // Bulan sekarang (1-12)
+                    int tahun = Calendar.getInstance().get(Calendar.YEAR); // Tahun sekarang
+
+                    // Konversi bulan ke Romawi
+                    String[] bulanRomawi = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"};
+                    String bulanRomawiStr = bulanRomawi[bulan - 1];
+
+                    // Format nomor surat
+                    String nomor_surat = newNoSurat + "/" + bulanRomawiStr + "/" + tahun;
+
+                    // Query untuk menyimpan data baru
+                    String insertQuery = "INSERT INTO surat (nik, judul_surat, keperluan, nomor_surat, kode_surat, tahun, id_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+                    try (PreparedStatement pstmtInsert = conn.prepareStatement(insertQuery)) {
+                        // Set parameter untuk query
+                        pstmtInsert.setString(1, nik);
+                        pstmtInsert.setString(2, jenis_surat);
+                        pstmtInsert.setString(3, keperluan);
+                        pstmtInsert.setString(4, nomor_surat);
+                        pstmtInsert.setString(5, kodeSurat);
+                        pstmtInsert.setInt(6, tahun);
+                        pstmtInsert.setString(7, id_user);
+
+                        // Eksekusi query
+                        int rowsInserted = pstmtInsert.executeUpdate();
+                        if (rowsInserted > 0) {
+                            JOptionPane.showMessageDialog(null, "Surat berhasil dibuat, tunggu hingga surat divalidasi", "Surat", JOptionPane.INFORMATION_MESSAGE);
+                            this.dispose();
+                            (new ListSurat()).setVisible(true);
+                            System.out.println("Data berhasil disimpan ke tabel surat dengan nomor surat: " + nomor_surat);
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "NIK tidak tersedia", "Surat", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Masukkan semua data dengan benar", "Surat", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSubmitSuratActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,26 +291,29 @@ public class FormSurat extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FormSurat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormSurat(jenis_surat).setVisible(true);
+                new FormSurat().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTTD;
-    private javax.swing.JLabel choosedFileName;
+    private javax.swing.JButton btnSubmitSurat;
     private javax.swing.JComboBox<String> inputJenisSurat;
-    private javax.swing.JTextField inputKeperluan;
+    private javax.swing.JTextArea inputKeperluan;
     private javax.swing.JTextField inputNIK;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

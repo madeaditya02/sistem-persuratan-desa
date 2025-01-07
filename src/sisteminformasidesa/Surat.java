@@ -40,6 +40,7 @@ import java.lang.Math;
 import java.text.ParseException;
 import java.util.Objects;
 import java.sql.Blob;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -197,7 +198,7 @@ public class Surat {
                         table2.addCell(new Cell().add(tgl_surat).add(new Paragraph("Sekretaris "+desa).setTextAlignment(TextAlignment.CENTER)).setBorder(Border.NO_BORDER));
                         
                         // Baris 2
-                        ResultSet res = s.executeQuery("SELECT status_validasi.*, sekdes.nik AS nik_sekdes, kepdes.nik AS nik_kepdes,sekdes_detail.nama_lengkap  AS nama_sekdes ,kepdes_detail.nama_lengkap AS nama_kepdes, ttd_kades.ttd_kepdes, ttd_sekdes.ttd_sekredes FROM status_validasi LEFT JOIN user AS sekdes ON status_validasi.sekdes = sekdes.id_user LEFT JOIN user AS kepdes ON status_validasi.kepdes = kepdes.id_user LEFT JOIN warga AS sekdes_detail ON sekdes.nik = sekdes_detail.nik LEFT JOIN warga AS  kepdes_detail ON kepdes.nik = kepdes_detail.nik LEFT JOIN ttd_kades ON ttd_kades.nik = kepdes_detail.nik LEFT JOIN ttd_sekdes ON ttd_sekdes.nik = sekdes_detail.nik WHERE status_validasi.status_sekdes = 'Valid' AND status_validasi.status_kepdes = 'Valid' AND status_validasi.nomor_surat = '"+nomor_surat+"';");
+                        ResultSet res = s.executeQuery("SELECT status_validasi.*, sekdes.nama_lengkap AS nama_sekdes, kepdes.nama_lengkap AS nama_kepdes, ttd_sekdes.ttd_sekredes, ttd_kades.ttd_kepdes FROM status_validasi JOIN warga AS kepdes ON status_validasi.kepdes = kepdes.nik LEFT JOIN warga AS sekdes ON status_validasi.sekdes = sekdes.nik LEFT JOIN ttd_kades ON status_validasi.kepdes = ttd_kades.nik LEFT JOIN ttd_sekdes ON status_validasi.sekdes = ttd_sekdes.nik WHERE status_validasi.status_sekdes = 'Valid' AND status_validasi.status_kepdes = 'Valid' AND status_validasi.nomor_surat = '"+nomor_surat+"';");
                         if (res.next()) {
                             table2.addCell(new Cell().add(new Paragraph()).setBorder(Border.NO_BORDER));
                             float tableWidth = table2.getWidth().getValue();
@@ -237,7 +238,7 @@ public class Surat {
                         table2.setFixedLayout();
                         document.add(table2);
                         document.close();
-
+                        JOptionPane.showMessageDialog(null, "Surat berhasil diunduh", "Cetak Surat", JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("PDF berhasil disimpan ke: " + filePath);
                     } catch (Exception e) {
                         e.printStackTrace();
