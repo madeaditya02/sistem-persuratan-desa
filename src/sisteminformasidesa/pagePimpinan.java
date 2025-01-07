@@ -15,6 +15,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileOutputStream;
+import sisteminformasidesa.pagePimpinan;
+
 
 /**
  *
@@ -61,13 +63,36 @@ public class pagePimpinan extends javax.swing.JFrame {
         modelPengajuan.addColumn("nomor_surat");
         modelPengajuan.addColumn("judul_surat");
         modelPengajuan.addColumn("nama_lengkap");
-        modelPengajuan.addColumn("status_sekdes");
-        modelPengajuan.addColumn("status_kepdes");
         modelPengajuan.addColumn("sekdes");
+        modelPengajuan.addColumn("status_sekdes");
         modelPengajuan.addColumn("kepdes");
-        modelPengajuan.addColumn("waktu_dibuka_sekdes");
-        modelPengajuan.addColumn("waktu_divalidasi_sekdes");
-        modelPengajuan.addColumn("keperluan");
+        modelPengajuan.addColumn("status_kepdes");
+        modelPengajuan.addColumn("tahun");
+        modelPengajuan.addColumn("tempat_lahir");
+        modelPengajuan.addColumn("tanggal_lahir");
+        modelPengajuan.addColumn("usia");
+        modelPengajuan.addColumn("warga_negara");
+//        modelPengajuan.addColumn("agama");
+//        modelPengajuan.addColumn("jenis_kelamin");
+//        modelPengajuan.addColumn("Pekerjaan");
+//        modelPengajuan.addColumn("alamat_lengkap");
+//        modelPengajuan.addColumn("nik");
+//        modelPengajuan.addColumn("no_kk");
+//        modelPengajuan.addColumn("keperluan");
+//        modelPengajuan.addColumn("gol_darah");
+
+
+// Daftar indeks kolom yang ingin disembunyikan
+        int[] kolomYangDisembunyikan = {}; // Indeks untuk "status_sekdes" dan "tahun"
+
+// Loop untuk menyembunyikan kolom
+        for (int index : kolomYangDisembunyikan) {
+            jTable4.getColumnModel().getColumn(index).setMinWidth(0);
+            jTable4.getColumnModel().getColumn(index).setMaxWidth(0);
+            jTable4.getColumnModel().getColumn(index).setPreferredWidth(0);
+        }
+
+        
         
         kirimSurat.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -122,19 +147,50 @@ public class pagePimpinan extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = jTable4.getSelectedRow();
                 if (row != -1){
-                    String nomor_surat = (String) jTable4.getValueAt (row, 0);
-                    String judul_surat = (String) jTable4.getValueAt (row, 1);
-                    String nama_lengkap = (String) jTable4.getValueAt (row, 2);
-                    String status_sekdes = (String) jTable4.getValueAt (row, 3);
-                    String status_kepdes = (String) jTable4.getValueAt (row, 4);
-                    int sekdes = (int) jTable4.getValueAt (row, 5);
-                    int kepdes = (int) jTable4.getValueAt (row, 6);
-                    String waktu_dibuka_sekdes = (String) jTable4.getValueAt (row, 7);
-                    String waktu_divalidasi_sekdes = (String) jTable4.getValueAt (row, 8);
-                    String keperluan = (String) jTable4.getValueAt (row, 9);
-                    
+                    String nomorSurat = (String) jTable4.getValueAt(row, 0); // Misalnya kolom 0 adalah nomor surat
+                    String judulSurat = (String) jTable4.getValueAt(row, 1); // Misalnya kolom 1 adalah judul surat
+                    String namaLengkap = (String) jTable4.getValueAt(row, 2); // Misalnya kolom 2 adalah nama lengkap
+                    String tahun = (String) jTable4.getValueAt(row, 7);
+                    String tempat_lahir = (String) jTable4.getValueAt(row, 8);
+                    String tanggal_lahir = (String) jTable4.getValueAt(row, 9);
+                    String usia = (String) jTable4.getValueAt(row, 10);
+                    String wargaNegara = (String) jTable4.getValueAt(row, 11);
+//                    String agama = (String) jTable4.getValueAt(row, 12);
+//                    String jenisKelamin = (String) jTable4.getValueAt(row, 13);
+//                    String pekerjaan = (String) jTable4.getValueAt(row, 14);
+//                    String alamatLengkap = (String) jTable4.getValueAt(row, 15);
+//                    String nik = (String) jTable4.getValueAt(row, 16);
+//                    String no_kk = (String) jTable4.getValueAt(row, 17);
+//                    String keperluan = (String) jTable4.getValueAt(row, 18);
+//                    String golDarah = (String) jTable4.getValueAt(row, 18);
+
+
+                    // Buat instance DetailSurat
                     DetailSurat detailSurat = new DetailSurat();
+
+                    // Set data ke DetailSurat
+                    detailSurat.setNomorSurat(nomorSurat);
+                    detailSurat.setJudulSurat(judulSurat);
+                    detailSurat.setNamaLengkap(namaLengkap);
+                    detailSurat.setTahun(tahun);
+                    detailSurat.setTempatLahir(tempat_lahir);
+                    detailSurat.setTanggalLahir(tanggal_lahir);
+                    detailSurat.setUsia(usia);
+                    detailSurat.setUsia(wargaNegara);
+//                    detailSurat.setUsia(agama);
+//                    detailSurat.setUsia(jenisKelamin);
+//                    detailSurat.setUsia(pekerjaan);
+//                    detailSurat.setUsia(alamatLengkap);
+//                    detailSurat.setUsia(nik);
+//                    detailSurat.setUsia(no_kk);
+//                    detailSurat.setUsia(keperluan);
+//                    detailSurat.setUsia(golDarah);
+
+                    
+                    // Tampilkan DetailSurat
                     detailSurat.setVisible(true);
+                    
+                    pagePimpinan.this.dispose();
                     
                 }// White text
             }
@@ -151,8 +207,15 @@ public class pagePimpinan extends javax.swing.JFrame {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            String query = "SELECT desa.kode_desa, surat.judul_surat, status_validasi.status_sekdes, status_validasi.status_kepdes, status_validasi.sekdes, status_validasi.kepdes, status_validasi.waktu_dibuka_sekdes, status_validasi.waktu_divalidasi_sekdes, jenis_surat.kode_surat, surat.tahun, surat.nomor_surat, warga.nama_lengkap, warga.tempat_lahir, warga.tanggal_lahir, TIMESTAMPDIFF(YEAR, warga.tanggal_lahir, CURRENT_DATE()) AS usia, warga.warga_negara, warga.agama, warga.jenis_kelamin, warga.Pekerjaan, warga.alamat_desa, warga.alamat_kec, warga.alamat_kab, warga.nik, warga.no_kk, surat.keperluan, surat.mulai_berlaku, surat.tgl_berakhir, warga.gol_darah\n" +
-"FROM desa LEFT JOIN warga ON desa.kode_desa = warga.kode_desa LEFT JOIN surat ON surat.nik = warga.nik LEFT JOIN jenis_surat ON surat.kode_surat = jenis_surat.kode_surat LEFT JOIN status_validasi ON status_validasi.nomor_surat = surat.nomor_surat WHERE surat.kode_surat IS NOT NULL ";
+            String query = "SELECT surat.nomor_surat, surat.judul_surat, surat.tahun, warga.nama_lengkap, "
+                    + "status_validasi.sekdes, status_validasi.status_sekdes, status_validasi.waktu_dibuka_sekdes, "
+                    + "status_validasi.waktu_divalidasi_sekdes, status_validasi.kepdes, status_validasi.status_kepdes, "
+                    + "status_validasi.status_sekdes, status_validasi.waktu_dibuka_kepdes, status_validasi.waktu_divalidasi_kepdes, "
+                    + "warga.tempat_lahir, warga.tanggal_lahir, TIMESTAMPDIFF(YEAR, warga.tanggal_lahir, CURRENT_DATE()) AS usia, "
+                    + "warga.warga_negara, warga.agama, warga.jenis_kelamin, warga.Pekerjaan, warga.alamat_lengkap, warga.nik, "
+                    + "warga.no_kk, surat.keperluan, warga.gol_darah\n"
+                    + "FROM surat LEFT JOIN warga ON surat.nik=warga.nik LEFT JOIN status_validasi ON surat.nomor_surat=status_validasi.nomor_surat\n" 
+                    + "WHERE surat.nomor_surat IS NOT NULL";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -164,13 +227,27 @@ public class pagePimpinan extends javax.swing.JFrame {
                     rs.getString("nomor_surat"),
                     rs.getString("judul_surat"),
                     rs.getString("nama_lengkap"),
-                    rs.getString("status_sekdes"),
-                    rs.getString("status_kepdes"),
                     rs.getString("sekdes"),
-                    rs.getString("kepdes"),
+                    rs.getString("status_sekdes"),
                     rs.getString("waktu_dibuka_sekdes"),
                     rs.getString("waktu_divalidasi_sekdes"),
-                    rs.getString("keperluan"),
+                    rs.getString("tahun"),
+                    rs.getString("tempat_lahir"),
+                    rs.getString("tanggal_lahir"),
+                    rs.getString("usia"),
+                    rs.getString("warga_negara"),
+//                    rs.getString("agama"),
+//                    rs.getString("jenis_kelamin"),
+//                    rs.getString("Pekerjaan"),
+//                    rs.getString("alamat_lengkap"),
+//                    rs.getString("nik"),
+//                    rs.getString("no_kk"),
+//                    rs.getString("keperluan"),
+//                    rs.getString("gol_darah"),
+                    rs.getString("kepdes"),
+                    rs.getString("status_kepdes"),
+                    rs.getString("waktu_dibuka_kepdes"),
+                    rs.getString("waktu_divalidasi_kepdes"),
                 };
                 modelPengajuan.addRow(row);
             }
@@ -403,8 +480,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error populating combobox: " + e.getMessage());
         }
+        
     }
-    
+    public void setActiveTab(int index) {
+        kirimDisposisiTab.setSelectedIndex(index);
+    }
     
     
     /**
