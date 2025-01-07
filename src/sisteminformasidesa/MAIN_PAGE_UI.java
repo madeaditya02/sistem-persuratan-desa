@@ -70,7 +70,6 @@ public class MAIN_PAGE_UI extends javax.swing.JFrame {
             ResultSet r = s.executeQuery(sql);
             if (r != null) {
                 while (r.next()) {
-                    System.out.println(Objects.equals(r.getString("status_kepdes"), "Valid"));
                     String status = "Tidak Valid";
                     Locale loc = new Locale.Builder().setLanguage("id").setRegion("ID").build();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", loc);

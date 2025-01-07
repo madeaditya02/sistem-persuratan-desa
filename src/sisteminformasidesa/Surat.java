@@ -188,23 +188,15 @@ public class Surat {
                         document.add(new Paragraph());
 
                         // Kolom ttd
-        //                image.setAutoScale(false);
                         float[] columnWidths2 = {1, 1, 1};
                         Table table2 = new Table(UnitValue.createPercentArray(columnWidths2)).useAllAvailableWidth();
                         // Baris 1
                         table2.addCell(new Cell().add(new Paragraph("Pemegang Surat").setTextAlignment(TextAlignment.CENTER)).setBorder(Border.NO_BORDER));
                         table2.addCell(new Cell().add(new Paragraph("Mengetahui,").setTextAlignment(TextAlignment.CENTER)).add(new Paragraph("Kepala "+desa).setTextAlignment(TextAlignment.CENTER)).setBorder(Border.NO_BORDER));
                         Paragraph tgl_surat = new Paragraph(desa + ", " + mulai_berlaku).setTextAlignment(TextAlignment.CENTER);
-//                        if (mulai_berlaku.equals("")) {
-//                            tgl_surat.setTextAlignment(TextAlignment.LEFT);
-//                        }
                         table2.addCell(new Cell().add(tgl_surat).add(new Paragraph("Sekretaris "+desa).setTextAlignment(TextAlignment.CENTER)).setBorder(Border.NO_BORDER));
                         
                         // Baris 2
-                        Paragraph p = new Paragraph();
-                        String imgFile = "C:\\Made Aditya\\NetbeansProject\\TestPDF2\\src\\ttd\\ttd.jpeg";
-                        ImageData data = ImageDataFactory.create(imgFile);
-                        Image image = new Image(data);
                         ResultSet res = s.executeQuery("SELECT status_validasi.*, sekdes.nik AS nik_sekdes, kepdes.nik AS nik_kepdes,sekdes_detail.nama_lengkap  AS nama_sekdes ,kepdes_detail.nama_lengkap AS nama_kepdes, ttd_kades.ttd_kepdes, ttd_sekdes.ttd_sekredes FROM status_validasi LEFT JOIN user AS sekdes ON status_validasi.sekdes = sekdes.id_user LEFT JOIN user AS kepdes ON status_validasi.kepdes = kepdes.id_user LEFT JOIN warga AS sekdes_detail ON sekdes.nik = sekdes_detail.nik LEFT JOIN warga AS  kepdes_detail ON kepdes.nik = kepdes_detail.nik LEFT JOIN ttd_kades ON ttd_kades.nik = kepdes_detail.nik LEFT JOIN ttd_sekdes ON ttd_sekdes.nik = sekdes_detail.nik WHERE status_validasi.status_sekdes = 'Valid' AND status_validasi.status_kepdes = 'Valid' AND status_validasi.nomor_surat = '"+nomor_surat+"';");
                         if (res.next()) {
                             table2.addCell(new Cell().add(new Paragraph()).setBorder(Border.NO_BORDER));
