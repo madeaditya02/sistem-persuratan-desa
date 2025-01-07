@@ -23,22 +23,21 @@ import java.io.FileOutputStream;
 public class pagePimpinan extends javax.swing.JFrame {
     private File selectedFile;            // File reference
     private byte[] fileData;
-    private DefaultTableModel model;
     public pagePimpinan() {
         initComponents();
-        model = new DefaultTableModel();
-        TabelSuratLuar.setModel(model);
+        DefaultTableModel modelSuratLuar = new DefaultTableModel();
+        TabelSuratLuar.setModel(modelSuratLuar);
         
         // Add columns to the table
-        model.addColumn("Sifat Surat");
-        model.addColumn("Jenis Surat");
-        model.addColumn("Nomor Surat");
-        model.addColumn("Tanggal Surat");
-        model.addColumn("Pengirim");
-        model.addColumn("Jabatan Pengirim");
-        model.addColumn("Perihal");
-        model.addColumn("Catatan");
-        model.addColumn("Lampiran");
+        modelSuratLuar.addColumn("Sifat Surat");
+        modelSuratLuar.addColumn("Jenis Surat");
+        modelSuratLuar.addColumn("Nomor Surat");
+        modelSuratLuar.addColumn("Tanggal Surat");
+        modelSuratLuar.addColumn("Pengirim");
+        modelSuratLuar.addColumn("Jabatan Pengirim");
+        modelSuratLuar.addColumn("Perihal");
+        modelSuratLuar.addColumn("Catatan");
+        modelSuratLuar.addColumn("Lampiran");
         
         DefaultTableModel modelDisposisi = new DefaultTableModel();
         tabelDisposisi.setModel(modelDisposisi);
@@ -106,6 +105,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     }
    
     private void loadSuratLuarTable() {
+        DefaultTableModel model = (DefaultTableModel) TabelSuratLuar.getModel();
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
         try {
@@ -114,8 +114,6 @@ public class pagePimpinan extends javax.swing.JFrame {
             String query = "SELECT * FROM surat_luar";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-
-            DefaultTableModel model = (DefaultTableModel) TabelSuratLuar.getModel();
             //model.setRowCount(0); 
 
             while (rs.next()) {
@@ -136,58 +134,56 @@ public class pagePimpinan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
         }
     }
-     private void loadHistoryTable() {
-    // Membersihkan data yang ada di tabel
-    DefaultTableModel model = (DefaultTableModel) tabelhistory.getModel();
-    model.getDataVector().removeAllElements();
-    model.fireTableDataChanged();
-    
-    try {
-        // Membuat koneksi ke database
-        DatabaseCRUD db = new DatabaseCRUD(); // Pastikan class ini memiliki properti koneksi
-        Connection conn = db.koneksi;
-        
-        // Query untuk mengambil data dari tabel disposisi dan surat_luar
-        
-         String query = "SELECT surat_luar.id_mail, surat_luar.sifat_surat, "
-                + "surat_luar.no_surat, surat_luar.tanggal_surat, surat_luar.NamaPengirim, "
-                + "surat_luar.perihal, surat_luar.lampiran, "
-                + "status_surat_luar.status, status_surat_luar.timestamp "
-                + "FROM surat_luar INNER JOIN status_surat_luar "
-                 + "ON surat_luar.id_mail = status_surat_luar.id_mail; ";
-        
-        // Menyiapkan statement dan eksekusi query
-        PreparedStatement stmt = conn.prepareStatement(query);
-        ResultSet rs = stmt.executeQuery();
+    private void loadHistoryTable() {
+        // Membersihkan data yang ada di tabel
+        DefaultTableModel modelhistoryTable = (DefaultTableModel) tabelhistory.getModel();
+        modelhistoryTable.getDataVector().removeAllElements();
+        modelhistoryTable.fireTableDataChanged();
 
-        // Iterasi hasil query untuk mengisi data ke dalam tabel
-        while (rs.next()) {
-            Object[] row = {
-                rs.getInt("id_mail"),           // ID surat
-                rs.getString("sifat_surat"),    // Sifat surat
-                rs.getString("no_surat"),       // Nomor surat
-                rs.getString("tanggal_surat"),  // Tanggal surat
-                rs.getString("nama_pengirim"),  // Nama pengirim
-                rs.getString("perihal"),        // Perihal
-                rs.getBytes("lampiran"),        // Lampiran
-                rs.getString("status"),         // Status surat
-                rs.getString("timestamp")       // Timestamp
-            };
-            model.addRow(row); // Menambahkan data ke model tabel
+        try {
+            // Membuat koneksi ke database
+            DatabaseCRUD db = new DatabaseCRUD(); // Pastikan class ini memiliki properti koneksi
+            Connection conn = db.koneksi;
+
+            // Query untuk mengambil data dari tabel disposisi dan surat_luar
+
+             String query = "SELECT surat_luar.id_mail, surat_luar.sifat_surat, "
+                    + "surat_luar.no_surat, surat_luar.tanggal_surat, surat_luar.NamaPengirim, "
+                    + "surat_luar.perihal, surat_luar.lampiran, "
+                    + "status_surat_luar.status, status_surat_luar.timestamp "
+                    + "FROM surat_luar INNER JOIN status_surat_luar "
+                     + "ON surat_luar.id_mail = status_surat_luar.id_mail; ";
+
+            // Menyiapkan statement dan eksekusi query
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            // Iterasi hasil query untuk mengisi data ke dalam tabel
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getInt("id_mail"),           // ID surat
+                    rs.getString("sifat_surat"),    // Sifat surat
+                    rs.getString("no_surat"),       // Nomor surat
+                    rs.getString("tanggal_surat"),  // Tanggal surat
+                    rs.getString("NamaPengirim"),  // Nama pengirim
+                    rs.getString("perihal"),        // Perihal
+                    rs.getBytes("lampiran"),        // Lampiran
+                    rs.getString("status"),         // Status surat
+                    rs.getString("timestamp")       // Timestamp
+                };
+                modelhistoryTable.addRow(row); // Menambahkan data ke model tabel
+            }
+            // Tutup koneksi setelah selesai
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
         }
-        // Tutup koneksi setelah selesai
-        rs.close();
-        stmt.close();
-        conn.close();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
     }
-     }
     
     private void loadDisposisiTable() {
-    model.getDataVector().removeAllElements();
-    model.fireTableDataChanged();
-    
+    DefaultTableModel model = (DefaultTableModel) tabelDisposisi.getModel();
     try {
         DatabaseCRUD db = new DatabaseCRUD();
         Connection conn = db.koneksi;
@@ -204,7 +200,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         ResultSet rs = stmt.executeQuery();
         
         // Get the table model
-        DefaultTableModel model = (DefaultTableModel) tabelDisposisi.getModel();
+        
 
         while (rs.next()) {
             Object[] row = {
@@ -1683,7 +1679,7 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/User_fill@3x (2).png"))); // NOI18N
+        usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/User_fill@3x (3).png"))); // NOI18N
         usernameLabel.setText("Username");
         usernameLabel.setMaximumSize(new java.awt.Dimension(501, 444));
 
@@ -1747,39 +1743,56 @@ public class pagePimpinan extends javax.swing.JFrame {
         String NomorSurat = nomorSurat.getText();
         String TanggalSurat = tanggalSurat.getText();
         String Pengirim = pengirim.getText();
-        String jabatan = jabatanPengirimField.getText();
-        String Penerima = jabatanPengirimField.getText();
+        String Jabatan = jabatanPengirimField.getText();
         String Perihal = perihal.getText();
         String Catatan = catatan.getText();
-        
-        try{
+
+        try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            
-            String getPengirimIdQuery = "SELECT id_user FROM user WHERE nama_lengkap = ?";
-            PreparedStatement getPengirimIdStmt = conn.prepareStatement(getPengirimIdQuery);
-            getPengirimIdStmt.setString(1, Pengirim);
-            ResultSet pengirimIdResult = getPengirimIdStmt.executeQuery();
-            int pengirimId = -1; 
-            if (pengirimIdResult.next()) {
-                pengirimId = pengirimIdResult.getInt("id_user");
-            }
-            
-            String query = "INSERT INTO surat_luar (sifat_surat, jenis_surat, no_surat, tanggal_surat, NamaPengirim, jabatan, perihal, catatan, lampiran) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, SifatSurat);
-            stmt.setString(2, JenisSurat);
-            stmt.setString(3, NomorSurat);
-            stmt.setString(4, TanggalSurat);
-            stmt.setInt(5, pengirimId);
-            stmt.setString(6, jabatan);
-            stmt.setString(7, Perihal);
-            stmt.setString(8, Catatan);
-            stmt.setBytes(9, fileData);
 
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data successfully added!");
-        } catch(Exception e){
+            // Insert into surat_luar
+            String insertSuratLuarQuery = 
+                "INSERT INTO surat_luar (sifat_surat, jenis_surat, no_surat, tanggal_surat, NamaPengirim, jabatan, perihal, catatan, lampiran) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt1 = conn.prepareStatement(insertSuratLuarQuery, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            stmt1.setString(1, SifatSurat);
+            stmt1.setString(2, JenisSurat);
+            stmt1.setString(3, NomorSurat);
+            stmt1.setString(4, TanggalSurat);
+            stmt1.setString(5, Pengirim);
+            stmt1.setString(6, Jabatan);
+            stmt1.setString(7, Perihal);
+            stmt1.setString(8, Catatan);
+            stmt1.setBytes(9, fileData); // Assuming fileData contains the file as a byte array
+
+            int rowsInserted = stmt1.executeUpdate();
+
+            if (rowsInserted > 0) {
+                // Retrieve the generated id_mail
+                ResultSet generatedKeys = stmt1.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int idMail = generatedKeys.getInt(1);
+
+                    // Insert into status_surat_luar using the generated id_mail
+                    String insertStatusSuratLuarQuery = 
+                        "INSERT INTO status_surat_luar (id_mail, status) VALUES (?, ?)";
+                    PreparedStatement stmt2 = conn.prepareStatement(insertStatusSuratLuarQuery);
+
+                    stmt2.setInt(1, idMail);
+                    stmt2.setString(2, "Terkirim"); // Example status
+
+                    stmt2.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Data successfully added!");
+                } else {
+                    throw new Exception("Failed to retrieve generated id_mail.");
+                }
+            } else {
+                throw new Exception("Failed to insert data into surat_luar.");
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_kirimdatasuratActionPerformed
