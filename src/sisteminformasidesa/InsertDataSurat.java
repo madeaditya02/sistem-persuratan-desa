@@ -44,15 +44,12 @@ public class InsertDataSurat extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         inputJenisSurat = new javax.swing.JComboBox<>();
         inputNIK = new javax.swing.JTextField();
-        inputKeperluan = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnSubmitSurat = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        inputTglMulai = new com.toedter.calendar.JDateChooser();
-        inputTglSelesai = new com.toedter.calendar.JDateChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        inputKeperluan = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,15 +95,11 @@ public class InsertDataSurat extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Keperluan");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel9.setText("s/d");
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("Berlaku");
+        inputKeperluan.setColumns(20);
+        inputKeperluan.setLineWrap(true);
+        inputKeperluan.setRows(5);
+        inputKeperluan.setAutoscrolls(false);
+        jScrollPane1.setViewportView(inputKeperluan);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -118,7 +111,7 @@ public class InsertDataSurat extends javax.swing.JFrame {
                 .addGap(107, 107, 107))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnSubmitSurat)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -129,17 +122,9 @@ public class InsertDataSurat extends javax.swing.JFrame {
                             .addComponent(inputNIK)
                             .addComponent(inputJenisSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(inputTglMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(inputTglSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83))
-                    .addComponent(inputKeperluan, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -155,23 +140,16 @@ public class InsertDataSurat extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputJenisSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(inputKeperluan)
-                        .addGap(18, 18, 18))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(87, 87, 87)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inputTglSelesai, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(inputTglMulai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(9, 9, 9)
-                .addComponent(btnSubmitSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSubmitSurat, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(101, 101, 101))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(222, 222, 222))))
         );
 
         jPanel1.add(jPanel2);
@@ -203,17 +181,17 @@ public class InsertDataSurat extends javax.swing.JFrame {
         String nik = inputNIK.getText();
         String jenis_surat = String.valueOf(inputJenisSurat.getSelectedItem());
         String keperluan = inputKeperluan.getText(); 
-        Date tgl_mulai = inputTglMulai.getDate();
-        Date tgl_selesai = inputTglSelesai.getDate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String str_tgl_mulai = format.format(tgl_mulai);
-        String str_tgl_selesai = format.format(tgl_selesai);
+        // Date tgl_mulai = inputTglMulai.getDate();
+        // Date tgl_selesai = inputTglSelesai.getDate();
+        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        // String str_tgl_mulai = format.format(tgl_mulai);
+        // String str_tgl_selesai = format.format(tgl_selesai);
         String id_user = Session.id_user;
 
-              // Koneksi ke database
-        String url = "jdbc:mysql://localhost:3306/kantor_desa"; // Ganti nama_database sesuai database Anda
-        String user = "root"; // Ganti dengan username MySQL Anda
-        String password = ""; // Ganti dengan password MySQL Anda
+        // Koneksi ke database
+        String url = "jdbc:mysql://localhost:3306/kantor_desa";
+        String user = "root";
+        String password = "";
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             // Ambil kode surat dari tabel jenis_surat
@@ -222,10 +200,9 @@ public class InsertDataSurat extends javax.swing.JFrame {
 
             try (PreparedStatement pstmtKodeSurat = conn.prepareStatement(getKodeSuratQuery)) {
                 pstmtKodeSurat.setString(1, jenis_surat);
-
                 try (ResultSet rs = pstmtKodeSurat.executeQuery()) {
                     if (rs.next()) {
-                        kodeSurat = rs.getString("kode_surat"); // Dapatkan kode_surat
+                        kodeSurat = rs.getString("kode_surat");
                     } else {
                         System.out.println("Jenis surat tidak ditemukan.");
                         return;
@@ -258,23 +235,26 @@ public class InsertDataSurat extends javax.swing.JFrame {
             String nomor_surat = newNoSurat + "/" + bulanRomawiStr + "/" + tahun;
 
             // Query untuk menyimpan data baru
-            String insertQuery = "INSERT INTO surat (nik, judul_surat, keperluan, mulai_berlaku, tgl_berakhir, nomor_surat, kode_surat, tahun, id_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO surat (nik, judul_surat, keperluan, nomor_surat, kode_surat, tahun, id_user) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement pstmtInsert = conn.prepareStatement(insertQuery)) {
                 // Set parameter untuk query
                 pstmtInsert.setString(1, nik);
                 pstmtInsert.setString(2, jenis_surat);
                 pstmtInsert.setString(3, keperluan);
-                pstmtInsert.setString(4, str_tgl_mulai);
-                pstmtInsert.setString(5, str_tgl_selesai);
-                pstmtInsert.setString(6, nomor_surat);
-                pstmtInsert.setString(7, kodeSurat);
-                pstmtInsert.setInt(8, tahun);
-                pstmtInsert.setString(9, id_user);
+//                pstmtInsert.setString(4, str_tgl_mulai);
+//                pstmtInsert.setString(5, str_tgl_selesai);
+                pstmtInsert.setString(4, nomor_surat);
+                pstmtInsert.setString(5, kodeSurat);
+                pstmtInsert.setInt(6, tahun);
+                pstmtInsert.setString(7, id_user);
 
                 // Eksekusi query
                 int rowsInserted = pstmtInsert.executeUpdate();
                 if (rowsInserted > 0) {
+                    JOptionPane.showMessageDialog(null, "Surat berhasil dibuat, tunggu hingga surat divalidasi", "Surat", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    (new MAIN_PAGE_UI()).setVisible(true);
                     System.out.println("Data berhasil disimpan ke tabel surat dengan nomor surat: " + nomor_surat);
                 }
             }
@@ -323,17 +303,14 @@ public class InsertDataSurat extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSubmitSurat;
     private javax.swing.JComboBox<String> inputJenisSurat;
-    private javax.swing.JTextField inputKeperluan;
+    private javax.swing.JTextArea inputKeperluan;
     private javax.swing.JTextField inputNIK;
-    private com.toedter.calendar.JDateChooser inputTglMulai;
-    private com.toedter.calendar.JDateChooser inputTglSelesai;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

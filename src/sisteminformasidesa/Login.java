@@ -36,7 +36,7 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.INFORMATION_MESSAGE);
                 Session.id_user = id_user;
                 
-                String nama_class = "sisteminformasidesa.MainPage";
+                String nama_class = "sisteminformasidesa.MAIN_PAGE_UI";
                 try {
                     Class class_gui = Class.forName(nama_class);
                     Constructor constructor = class_gui.getConstructor();
@@ -196,7 +196,8 @@ public class Login extends javax.swing.JFrame {
         String password = this.password.getText();
         boolean success = Session.login(email, password);
         if (success) {
-            new MainPage().setVisible(true);
+            JOptionPane.showMessageDialog(null, "Login berhasil", "Login", JOptionPane.INFORMATION_MESSAGE);
+            new MAIN_PAGE_UI().setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Email atau password salah", "Login", JOptionPane.ERROR_MESSAGE);

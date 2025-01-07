@@ -34,6 +34,7 @@ public class User {
                 this.id_jabatan = r.getInt("id_jabatan");
                 this.email = r.getString("email");
                 this.password = r.getString("password");
+                this.nama_lengkap = r.getString("nama_lengkap");
                 this.nik = r.getString("nik");
                 this.no_kk = r.getString("no_kk");
                 this.tempat_lahir = r.getString("tempat_lahir");
