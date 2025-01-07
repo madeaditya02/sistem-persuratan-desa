@@ -53,7 +53,21 @@ public class pagePimpinan extends javax.swing.JFrame {
         modelDisposisi.addColumn("Catatan");
         modelDisposisi.addColumn("Deadline");
         modelDisposisi.addColumn("Respon");
-        modelDisposisi.addColumn("Lampiran");  
+        modelDisposisi.addColumn("Lampiran");
+        
+        DefaultTableModel modelPengajuan = new DefaultTableModel();
+        jTable4.setModel(modelPengajuan);
+        
+        modelPengajuan.addColumn("nomor_surat");
+        modelPengajuan.addColumn("judul_surat");
+        modelPengajuan.addColumn("nama_lengkap");
+        modelPengajuan.addColumn("status_sekdes");
+        modelPengajuan.addColumn("status_kepdes");
+        modelPengajuan.addColumn("sekdes");
+        modelPengajuan.addColumn("kepdes");
+        modelPengajuan.addColumn("waktu_dibuka_sekdes");
+        modelPengajuan.addColumn("waktu_divalidasi_sekdes");
+        modelPengajuan.addColumn("keperluan");
         
         kirimSurat.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -103,8 +117,66 @@ public class pagePimpinan extends javax.swing.JFrame {
                 kirimDisposisi.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
             }
         });
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = jTable4.getSelectedRow();
+                if (row != -1){
+                    String nomor_surat = (String) jTable4.getValueAt (row, 0);
+                    String judul_surat = (String) jTable4.getValueAt (row, 1);
+                    String nama_lengkap = (String) jTable4.getValueAt (row, 2);
+                    String status_sekdes = (String) jTable4.getValueAt (row, 3);
+                    String status_kepdes = (String) jTable4.getValueAt (row, 4);
+                    int sekdes = (int) jTable4.getValueAt (row, 5);
+                    int kepdes = (int) jTable4.getValueAt (row, 6);
+                    String waktu_dibuka_sekdes = (String) jTable4.getValueAt (row, 7);
+                    String waktu_divalidasi_sekdes = (String) jTable4.getValueAt (row, 8);
+                    String keperluan = (String) jTable4.getValueAt (row, 9);
+                    
+                    DetailSurat detailSurat = new DetailSurat();
+                    detailSurat.setVisible(true);
+                    
+                }// White text
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                kirimDisposisi.setBackground(java.awt.Color.WHITE);          // Restore background
+                kirimDisposisi.setForeground(new java.awt.Color(0, 128, 0)); // Restore text color
+            }
+        });
     }
-   
+    private void loadTablePengajuan() {
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged();
+        try {
+            DatabaseCRUD db = new DatabaseCRUD();
+            Connection conn = db.koneksi;
+            String query = "SELECT desa.kode_desa, surat.judul_surat, status_validasi.status_sekdes, status_validasi.status_kepdes, status_validasi.sekdes, status_validasi.kepdes, status_validasi.waktu_dibuka_sekdes, status_validasi.waktu_divalidasi_sekdes, jenis_surat.kode_surat, surat.tahun, surat.nomor_surat, warga.nama_lengkap, warga.tempat_lahir, warga.tanggal_lahir, TIMESTAMPDIFF(YEAR, warga.tanggal_lahir, CURRENT_DATE()) AS usia, warga.warga_negara, warga.agama, warga.jenis_kelamin, warga.Pekerjaan, warga.alamat_desa, warga.alamat_kec, warga.alamat_kab, warga.nik, warga.no_kk, surat.keperluan, surat.mulai_berlaku, surat.tgl_berakhir, warga.gol_darah\n" +
+"FROM desa LEFT JOIN warga ON desa.kode_desa = warga.kode_desa LEFT JOIN surat ON surat.nik = warga.nik LEFT JOIN jenis_surat ON surat.kode_surat = jenis_surat.kode_surat LEFT JOIN status_validasi ON status_validasi.nomor_surat = surat.nomor_surat WHERE surat.kode_surat IS NOT NULL ";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+
+            DefaultTableModel modelPengajuan= (DefaultTableModel) jTable4.getModel();
+            //model.setRowCount(0); 
+
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getString("nomor_surat"),
+                    rs.getString("judul_surat"),
+                    rs.getString("nama_lengkap"),
+                    rs.getString("status_sekdes"),
+                    rs.getString("status_kepdes"),
+                    rs.getString("sekdes"),
+                    rs.getString("kepdes"),
+                    rs.getString("waktu_dibuka_sekdes"),
+                    rs.getString("waktu_divalidasi_sekdes"),
+                    rs.getString("keperluan"),
+                };
+                modelPengajuan.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());}
+}
     private void loadSuratLuarTable() {
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
@@ -115,7 +187,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
-            DefaultTableModel model = (DefaultTableModel) TabelSuratLuar.getModel();
+            DefaultTableModel modelPengajuan = (DefaultTableModel) TabelSuratLuar.getModel();
             //model.setRowCount(0); 
 
             while (rs.next()) {
@@ -130,7 +202,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                     rs.getString("catatan"),
                     rs.getBytes("lampiran"),
                 };
-                model.addRow(row);
+                modelPengajuan.addRow(row);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
@@ -453,43 +525,8 @@ public class pagePimpinan extends javax.swing.JFrame {
         View = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel58 = new javax.swing.JLabel();
-        jLabel59 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
-        jLabel61 = new javax.swing.JLabel();
-        jLabel63 = new javax.swing.JLabel();
-        jTextField51 = new javax.swing.JTextField();
-        jTextField52 = new javax.swing.JTextField();
-        jTextField53 = new javax.swing.JTextField();
-        jTextField54 = new javax.swing.JTextField();
-        jTextField55 = new javax.swing.JTextField();
-        jTextField56 = new javax.swing.JTextField();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
         jScrollPane14 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
-        jLabel64 = new javax.swing.JLabel();
-        jTextField57 = new javax.swing.JTextField();
-        jLabel65 = new javax.swing.JLabel();
-        jTextField58 = new javax.swing.JTextField();
-        jLabel66 = new javax.swing.JLabel();
-        jTextField59 = new javax.swing.JTextField();
-        jLabel67 = new javax.swing.JLabel();
-        jTextField60 = new javax.swing.JTextField();
-        jLabel68 = new javax.swing.JLabel();
-        jTextField61 = new javax.swing.JTextField();
-        jLabel69 = new javax.swing.JLabel();
-        jLabel70 = new javax.swing.JLabel();
-        jTextField62 = new javax.swing.JTextField();
-        jLabel71 = new javax.swing.JLabel();
-        jTextField63 = new javax.swing.JTextField();
-        jLabel62 = new javax.swing.JLabel();
-        jTextField64 = new javax.swing.JTextField();
-        jTextField65 = new javax.swing.JTextField();
-        jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
-        jTextField66 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -1324,44 +1361,6 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         kirimDisposisiTab.addTab("Disposisi Masuk", jPanel7);
 
-        jLabel54.setText("Agama");
-
-        jLabel58.setText("Nama");
-
-        jLabel59.setText("TTL");
-
-        jLabel60.setText("Warga Negara");
-
-        jLabel61.setText("Umur");
-
-        jLabel63.setText("Jenis Kelamin");
-
-        jTextField51.setText("jTextField1");
-
-        jTextField52.setText("jTextField3");
-
-        jTextField53.setText("jTextField4");
-
-        jTextField54.setText("jTextField6");
-
-        jTextField55.setText("jTextField8");
-
-        jTextField56.setText("jTextField9");
-
-        jButton15.setText("Validasi");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
-        jButton16.setText("Front Office");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1373,220 +1372,28 @@ public class pagePimpinan extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane14.setViewportView(jTable4);
-
-        jLabel64.setText("Pekerjaan");
-
-        jTextField57.setText("jTextField9");
-
-        jLabel65.setText("Tempat Tinggal");
-
-        jTextField58.setText("jTextField9");
-
-        jLabel66.setText("Surat Bukti Diri :");
-
-        jTextField59.setText("jTextField9");
-        jTextField59.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField59ActionPerformed(evt);
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
             }
         });
-
-        jLabel67.setText("Keperluan");
-
-        jTextField60.setText("jTextField9");
-
-        jLabel68.setText("Berlaku");
-
-        jTextField61.setText("jTextField9");
-
-        jLabel69.setText("KTP :");
-
-        jLabel70.setText("KK :");
-
-        jTextField62.setText("jTextField9");
-
-        jLabel71.setText("Golongan Darah");
-
-        jTextField63.setText("jTextField9");
-
-        jLabel62.setText("Judul");
-
-        jTextField64.setText("jTextField3");
-
-        jTextField65.setText("jTextField3");
-
-        jLabel72.setText("No Surat");
-
-        jLabel73.setText("Tanggal");
-
-        jTextField66.setText("jTextField3");
+        jScrollPane14.setViewportView(jTable4);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel15Layout.createSequentialGroup()
-                                    .addComponent(jLabel63)
-                                    .addGap(34, 34, 34)
-                                    .addComponent(jTextField56, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel60)
-                                        .addComponent(jLabel61)
-                                        .addComponent(jLabel59))
-                                    .addGap(31, 31, 31)
-                                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jTextField54, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField55, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jTextField51, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
-                                    .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(24, 24, 24)
-                                    .addComponent(jTextField52, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel68)
-                                        .addGap(49, 49, 49)
-                                        .addComponent(jTextField61))
-                                    .addGroup(jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel67)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(jTextField60, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel66)
-                                        .addGap(11, 11, 11)
-                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel70)
-                                            .addComponent(jLabel69))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                                .addComponent(jTextField62)
-                                                .addGap(130, 130, 130))
-                                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                                .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))))
-                                    .addGroup(jPanel15Layout.createSequentialGroup()
-                                        .addComponent(jLabel65)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel15Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel64)
-                                .addGap(37, 37, 37)
-                                .addComponent(jTextField57, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel15Layout.createSequentialGroup()
-                            .addComponent(jLabel72, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField65, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel15Layout.createSequentialGroup()
-                            .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(24, 24, 24)
-                            .addComponent(jTextField64, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel15Layout.createSequentialGroup()
-                            .addComponent(jLabel73, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField66, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jLabel71)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField63, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jButton15)
-                        .addGap(6, 6, 6)
-                        .addComponent(jButton16)))
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField64, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel62))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField65, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel72))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField66, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel73))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField52, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel58)
-                    .addComponent(jLabel64)
-                    .addComponent(jTextField57, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField53, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel59))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel61))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField54, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel60))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel54))
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField56, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel63)))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel65))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel66)
-                            .addComponent(jTextField59, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel69))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField62, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel70))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField60, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel67))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField61, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel68))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField63, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel71))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton15)
-                    .addComponent(jButton16))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(370, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -1602,7 +1409,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 815, Short.MAX_VALUE)
+            .addGap(0, 812, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1683,7 +1490,7 @@ public class pagePimpinan extends javax.swing.JFrame {
 
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
-        usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/folder/User_fill@3x (2).png"))); // NOI18N
+        usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_fill@3x (2).png"))); // NOI18N
         usernameLabel.setText("Username");
         usernameLabel.setMaximumSize(new java.awt.Dimension(501, 444));
 
@@ -1741,6 +1548,371 @@ public class pagePimpinan extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
   
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        populatesifatBox();
+        populatesifatBoxDisposisi();
+        populatepnerimaBoxDisposisi();
+        populateintruksiDisposisi();
+        loadSuratLuarTable();
+        loadDisposisiTable();
+        loadHistoryTable();
+        loadTablePengajuan();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+
+    }//GEN-LAST:event_jTable4MouseClicked
+
+    private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
+        int selectedRow = tabelDisposisi.getSelectedRow();
+
+        if (selectedRow != -1) { // Check if a row is selected
+            try {
+                // 1. Fetch the byte array from the table model
+                byte[] fileData = (byte[]) tabelDisposisi.getValueAt(selectedRow, 10);
+
+                // 2. Determine the file type (you'll need to know this beforehand)
+                String fileType = "pdf"; // Example: Assuming it's a PDF
+
+                // 3. Create a temporary file
+                File tempFile = File.createTempFile("tempFile", "." + fileType);
+                tempFile.deleteOnExit(); // Delete the file when the JVM exits
+
+                // 4. Write the byte array to the temporary file
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(fileData);
+                fos.close();
+
+                // 5. Open the file with the default application associated with the file type
+                Desktop.getDesktop().open(tempFile);
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row.");
+        }
+    }//GEN-LAST:event_ViewActionPerformed
+
+    private void tabelDisposisiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDisposisiMouseClicked
+        try {
+            int x = tabelDisposisi.getSelectedRow();
+
+            String noSurat = tabelDisposisi.getValueAt(x, 1).toString();
+            String tanggalSurat = tabelDisposisi.getValueAt(x, 2).toString();
+            String perihal = tabelDisposisi.getValueAt(x, 3).toString();
+            String instruksi = tabelDisposisi.getValueAt(x, 5).toString();
+            String sifat = tabelDisposisi.getValueAt(x, 6).toString();
+            String catatan = tabelDisposisi.getValueAt(x, 7).toString();
+            String deadline = tabelDisposisi.getValueAt(x, 8).toString();
+            String lampiranDisposisi = tabelDisposisi.getValueAt(x, 10).toString();
+
+            // Set values to UI components
+            noDisposisiMasuk.setText(noSurat);
+            tanggalDisposisiMasuk.setText(tanggalSurat);
+            perihalDisposisiMasuk.setText(perihal);
+            instruksiDisposisiMasuk.setText(instruksi);
+            sifatDisposisiMasuk.setText(sifat);
+            catatanDisposisiMasuk.setText(catatan);
+            deadlineDisposisiMasuk.setText(deadline);
+            lampiranDisposisiMasuk.setText(lampiranDisposisi);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_tabelDisposisiMouseClicked
+
+    private void tolakBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tolakBTNActionPerformed
+        try {
+            int x = tabelDisposisi.getSelectedRow();
+
+            if (x == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+
+            // Database update query
+            String query = "UPDATE disposisi SET respon = 'Ditolak' WHERE id_disposisi = ?";
+
+            DatabaseCRUD db = new DatabaseCRUD();
+            Connection conn = db.koneksi;
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idDisposisi);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Response updated to 'Ditolak' successfully!");
+                loadDisposisiTable(); // Refresh table
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_tolakBTNActionPerformed
+
+    private void terimaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terimaBTNActionPerformed
+        try {
+            int x = tabelDisposisi.getSelectedRow();
+
+            if (x == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+
+            // Database update query
+            String query = "UPDATE disposisi SET respon = 'Diterima' WHERE id_disposisi = ?";
+
+            DatabaseCRUD db = new DatabaseCRUD();
+            Connection conn = db.koneksi;
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idDisposisi);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Response updated to 'Diterima' successfully!");
+                loadDisposisiTable(); // Refresh table
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_terimaBTNActionPerformed
+
+    private void sifatsuratdisposisiboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatsuratdisposisiboxActionPerformed
+        String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
+        sifatSuratDisposisi.setText(selectedValue);            // TODO add your handling code here:
+    }//GEN-LAST:event_sifatsuratdisposisiboxActionPerformed
+
+    private void instruksiDisposisiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instruksiDisposisiBoxActionPerformed
+        String selectedValue = (String) instruksiDisposisiBox.getSelectedItem();
+        disposisiIntruksi.setText(selectedValue); // TODO add your handling code here:
+    }//GEN-LAST:event_instruksiDisposisiBoxActionPerformed
+
+    private void penerimaDisposisiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penerimaDisposisiBoxActionPerformed
+        String selectedValue = (String) penerimaDisposisiBox.getSelectedItem();
+        penerimaDisposisi.setText(selectedValue);
+    }//GEN-LAST:event_penerimaDisposisiBoxActionPerformed
+
+    private void kirimDisposisiSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kirimDisposisiSuratActionPerformed
+        String PenerimaDisposisi = penerimaDisposisi.getText();
+        String IntruksiDisposisi = disposisiIntruksi.getText();
+        String SifatSuratDisposisi = sifatSuratDisposisi.getText();
+        String CatatanDisposisi = catatanIntruksiDisposisi.getText();
+        String DeadlineDisposisi = deadlineDisposisi.getText();
+        String nomorSurat = nomorSuratDisposisi.getText();
+        try{
+            DatabaseCRUD db = new DatabaseCRUD();
+            Connection conn = db.koneksi;
+
+            // 3. Fetch Penerima ID
+            String getIdJabatanQuery = "SELECT Id_Jabatan FROM jabatan WHERE Nama_Jabatan = ?";
+            PreparedStatement getidJabatanStmt = conn.prepareStatement(getIdJabatanQuery);
+            getidJabatanStmt.setString(1, PenerimaDisposisi);
+            ResultSet JabatanIdResult = getidJabatanStmt.executeQuery();
+            int JabatanId = -1;
+            if (JabatanIdResult.next()) {
+                JabatanId = JabatanIdResult.getInt("Id_Jabatan");
+            }
+            // 3. Fetch Penerima ID
+            String getIdMailQuery = "SELECT id_mail FROM surat_luar WHERE no_surat = ?";
+            PreparedStatement getIdMailStmt = conn.prepareStatement(getIdMailQuery);
+            getIdMailStmt.setString(1, nomorSurat); // Replace 'noSurat' with the actual variable containing the no_surat value
+            ResultSet mailIdResult = getIdMailStmt.executeQuery();
+            int mailId = -1;
+            if (mailIdResult.next()) {
+                mailId = mailIdResult.getInt("id_mail");
+            }
+
+            String query = "INSERT INTO disposisi (id_mail, penerima, instruksi, sifat, catatan, deadline) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, mailId);
+            stmt.setInt(2, JabatanId);
+            stmt.setString(3, IntruksiDisposisi);
+            stmt.setString(4, SifatSuratDisposisi);
+            stmt.setString(5, CatatanDisposisi);
+            stmt.setString(6, DeadlineDisposisi);
+
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Data successfully added!");
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_kirimDisposisiSuratActionPerformed
+
+    private void disposisiIntruksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disposisiIntruksiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_disposisiIntruksiActionPerformed
+
+    private void nomorSuratDisposisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomorSuratDisposisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomorSuratDisposisiActionPerformed
+
+    private void sifatSuratDisposisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatSuratDisposisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sifatSuratDisposisiActionPerformed
+
+    private void ViewfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewfileButtonActionPerformed
+        int selectedRow = TabelSuratLuar.getSelectedRow();
+
+        if (selectedRow != -1) { // Check if a row is selected
+            try {
+                // 1. Fetch the byte array from the table model
+                byte[] fileData = (byte[]) TabelSuratLuar.getValueAt(selectedRow, 8);
+
+                // 2. Determine the file type (you'll need to know this beforehand)
+                String fileType = "pdf"; // Example: Assuming it's a PDF
+
+                // 3. Create a temporary file
+                File tempFile = File.createTempFile("tempFile", "." + fileType);
+                tempFile.deleteOnExit(); // Delete the file when the JVM exits
+
+                // 4. Write the byte array to the temporary file
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(fileData);
+                fos.close();
+
+                // 5. Open the file with the default application associated with the file type
+                Desktop.getDesktop().open(tempFile);
+
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row.");
+        }
+    }//GEN-LAST:event_ViewfileButtonActionPerformed
+
+    private void dispossiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispossiBtnActionPerformed
+        String SifatSurat = SifatField.getText();
+        String NomorSurat = NomorField.getText();
+        String TanggalSurat = tanggalField.getText();
+        String Perihal = perihalField.getText();
+
+        sifatSuratDisposisi.setText(SifatSurat);
+        sifatSuratDisposisi.setEditable(false);
+        nomorSuratDisposisi.setText(NomorSurat);
+        nomorSuratDisposisi.setEditable(false);
+        tanggalSuratDisposisi.setText(TanggalSurat);
+        tanggalSuratDisposisi.setEditable(false);
+        perihalDisposisi.setText(Perihal);
+        perihalDisposisi.setEditable(false);
+        kirimDisposisiTab.setSelectedIndex(2);
+
+    }//GEN-LAST:event_dispossiBtnActionPerformed
+
+    private void jabatanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jabatanFieldActionPerformed
+
+    private void perihalFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_perihalFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_perihalFieldActionPerformed
+
+    private void jenisFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jenisFieldActionPerformed
+
+    private void SifatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SifatFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SifatFieldActionPerformed
+
+    private void TabelSuratLuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelSuratLuarMouseClicked
+        int x = TabelSuratLuar.getSelectedRow();
+        String SifatSurat = TabelSuratLuar.getValueAt(x, 0).toString();
+        String JenisSurat = TabelSuratLuar.getValueAt(x, 1).toString();
+        String NomorSurat = TabelSuratLuar.getValueAt(x, 2).toString();
+        String TanggalSurat = TabelSuratLuar.getValueAt(x, 3).toString();
+        String Pengirim = TabelSuratLuar.getValueAt(x, 4).toString();
+        String jabatan = TabelSuratLuar.getValueAt(x, 5).toString();
+        String Perihal = TabelSuratLuar.getValueAt(x, 6).toString();
+        String Catatan = TabelSuratLuar.getValueAt(x, 7).toString();
+        String lampiran = TabelSuratLuar.getValueAt(x, 8).toString();
+
+        SifatField.setText(SifatSurat);
+        jenisField.setText(JenisSurat);
+        NomorField.setText(NomorSurat);
+        tanggalField.setText(TanggalSurat);
+        PengirimField.setText(Pengirim);
+        jabatanField.setText(jabatan);
+        perihalField.setText(Perihal);
+        catatanField.setText(Catatan);
+        FileNameField.setText(lampiran);
+    }//GEN-LAST:event_TabelSuratLuarMouseClicked
+
+    private void jComboBox18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox18ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jabatanPengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanPengirimActionPerformed
+        String selectedValue = (String) jabatanPengirim.getSelectedItem();
+        if (selectedValue == "Other"){
+            jabatanPengirimField.setEditable(true);
+        } else {
+            jabatanPengirimField.setEditable(false);
+            jabatanPengirimField.setText(selectedValue);
+        }
+    }//GEN-LAST:event_jabatanPengirimActionPerformed
+
+    private void sifatBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatBoxActionPerformed
+        String selectedValue = (String) sifatBox.getSelectedItem();
+        sifatSurat.setText(selectedValue);
+    }//GEN-LAST:event_sifatBoxActionPerformed
+
+    private void attachFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attachFileActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select a file to upload");
+
+        int userChoice = fileChooser.showOpenDialog(this); // Open the file chooser
+
+        if (userChoice == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile(); // Get the selected file
+            String fileName = selectedFile.getName();     // Extract the file name
+
+            // Display the file name in the JTextField (replace fileNameTextField with your JTextField name)
+            lampiran.setText(fileName);
+
+            try {
+                // Read the file into a byte array
+                fileData = Files.readAllBytes(selectedFile.toPath());
+                System.out.println("File selected: " + fileName);
+                System.out.println("File size: " + fileData.length + " bytes");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error reading file: " + ex.getMessage(),
+                    "File Read Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("File selection cancelled.");
+        }
+    }//GEN-LAST:event_attachFileActionPerformed
+
+    private void jabatanPengirimFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanPengirimFieldActionPerformed
+
+    }//GEN-LAST:event_jabatanPengirimFieldActionPerformed
+
+    private void pengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pengirimActionPerformed
+
+    private void tanggalSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalSuratActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tanggalSuratActionPerformed
+
+    private void sifatSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatSuratActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sifatSuratActionPerformed
+
     private void kirimdatasuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kirimdatasuratActionPerformed
         String SifatSurat = sifatSurat.getText();
         String JenisSurat = jenisSurat.getText();
@@ -1751,20 +1923,20 @@ public class pagePimpinan extends javax.swing.JFrame {
         String Penerima = jabatanPengirimField.getText();
         String Perihal = perihal.getText();
         String Catatan = catatan.getText();
-        
+
         try{
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            
+
             String getPengirimIdQuery = "SELECT id_user FROM user WHERE nama_lengkap = ?";
             PreparedStatement getPengirimIdStmt = conn.prepareStatement(getPengirimIdQuery);
             getPengirimIdStmt.setString(1, Pengirim);
             ResultSet pengirimIdResult = getPengirimIdStmt.executeQuery();
-            int pengirimId = -1; 
+            int pengirimId = -1;
             if (pengirimIdResult.next()) {
                 pengirimId = pengirimIdResult.getInt("id_user");
             }
-            
+
             String query = "INSERT INTO surat_luar (sifat_surat, jenis_surat, no_surat, tanggal_surat, NamaPengirim, jabatan, perihal, catatan, lampiran) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, SifatSurat);
@@ -1783,378 +1955,6 @@ public class pagePimpinan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }//GEN-LAST:event_kirimdatasuratActionPerformed
-
-    private void attachFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attachFileActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select a file to upload");
-    
-        int userChoice = fileChooser.showOpenDialog(this); // Open the file chooser
-    
-        if (userChoice == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile(); // Get the selected file
-            String fileName = selectedFile.getName();     // Extract the file name
-        
-            // Display the file name in the JTextField (replace fileNameTextField with your JTextField name)
-            lampiran.setText(fileName);
-        
-            try {
-                // Read the file into a byte array
-                fileData = Files.readAllBytes(selectedFile.toPath());
-                System.out.println("File selected: " + fileName);
-                System.out.println("File size: " + fileData.length + " bytes");
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error reading file: " + ex.getMessage(),
-                                          "File Read Error", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
-            }
-        } else {
-            System.out.println("File selection cancelled.");
-        }
-    }//GEN-LAST:event_attachFileActionPerformed
-
-    private void kirimDisposisiSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kirimDisposisiSuratActionPerformed
-        String PenerimaDisposisi = penerimaDisposisi.getText();
-        String IntruksiDisposisi = disposisiIntruksi.getText();
-        String SifatSuratDisposisi = sifatSuratDisposisi.getText();
-        String CatatanDisposisi = catatanIntruksiDisposisi.getText();
-        String DeadlineDisposisi = deadlineDisposisi.getText();
-        String nomorSurat = nomorSuratDisposisi.getText();
-        try{
-            DatabaseCRUD db = new DatabaseCRUD();
-            Connection conn = db.koneksi;
-
-            // 3. Fetch Penerima ID
-            String getIdJabatanQuery = "SELECT Id_Jabatan FROM jabatan WHERE Nama_Jabatan = ?";
-            PreparedStatement getidJabatanStmt = conn.prepareStatement(getIdJabatanQuery);
-            getidJabatanStmt.setString(1, PenerimaDisposisi);
-            ResultSet JabatanIdResult = getidJabatanStmt.executeQuery();
-            int JabatanId = -1; 
-            if (JabatanIdResult.next()) {
-                JabatanId = JabatanIdResult.getInt("Id_Jabatan");
-            }
-            // 3. Fetch Penerima ID
-            String getIdMailQuery = "SELECT id_mail FROM surat_luar WHERE no_surat = ?"; 
-            PreparedStatement getIdMailStmt = conn.prepareStatement(getIdMailQuery); 
-            getIdMailStmt.setString(1, nomorSurat); // Replace 'noSurat' with the actual variable containing the no_surat value 
-            ResultSet mailIdResult = getIdMailStmt.executeQuery(); 
-            int mailId = -1;  
-            if (mailIdResult.next()) { 
-                mailId = mailIdResult.getInt("id_mail"); 
-            }
-            
-            String query = "INSERT INTO disposisi (id_mail, penerima, instruksi, sifat, catatan, deadline) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, mailId);
-            stmt.setInt(2, JabatanId);
-            stmt.setString(3, IntruksiDisposisi);
-            stmt.setString(4, SifatSuratDisposisi);
-            stmt.setString(5, CatatanDisposisi);
-            stmt.setString(6, DeadlineDisposisi);
-
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data successfully added!");
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }          
-    }//GEN-LAST:event_kirimDisposisiSuratActionPerformed
-
-    private void penerimaDisposisiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penerimaDisposisiBoxActionPerformed
-        String selectedValue = (String) penerimaDisposisiBox.getSelectedItem();
-        penerimaDisposisi.setText(selectedValue);
-    }//GEN-LAST:event_penerimaDisposisiBoxActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jComboBox18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox18ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox18ActionPerformed
-
-    private void dispossiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispossiBtnActionPerformed
-        String SifatSurat = SifatField.getText();
-        String NomorSurat = NomorField.getText();
-        String TanggalSurat = tanggalField.getText();
-        String Perihal = perihalField.getText();
-        
-        sifatSuratDisposisi.setText(SifatSurat);
-        sifatSuratDisposisi.setEditable(false);
-        nomorSuratDisposisi.setText(NomorSurat);
-        nomorSuratDisposisi.setEditable(false);
-        tanggalSuratDisposisi.setText(TanggalSurat);
-        tanggalSuratDisposisi.setEditable(false);
-        perihalDisposisi.setText(Perihal);
-        perihalDisposisi.setEditable(false);
-        kirimDisposisiTab.setSelectedIndex(2);
-        
-    }//GEN-LAST:event_dispossiBtnActionPerformed
-
-    private void terimaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terimaBTNActionPerformed
-        try {
-        int x = tabelDisposisi.getSelectedRow();
-        
-        if (x == -1) { 
-            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
-        
-        // Database update query
-        String query = "UPDATE disposisi SET respon = 'Diterima' WHERE id_disposisi = ?";
-        
-        DatabaseCRUD db = new DatabaseCRUD();
-        Connection conn = db.koneksi;
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setInt(1, idDisposisi);
-        
-        int rowsUpdated = stmt.executeUpdate();
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Response updated to 'Diterima' successfully!");
-            loadDisposisiTable(); // Refresh table
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_terimaBTNActionPerformed
-
-    private void tolakBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tolakBTNActionPerformed
-        try {
-        int x = tabelDisposisi.getSelectedRow();
-        
-        if (x == -1) { 
-            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
-        
-        // Database update query
-        String query = "UPDATE disposisi SET respon = 'Ditolak' WHERE id_disposisi = ?";
-        
-        DatabaseCRUD db = new DatabaseCRUD();
-        Connection conn = db.koneksi;
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setInt(1, idDisposisi);
-        
-        int rowsUpdated = stmt.executeUpdate();
-        
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Response updated to 'Ditolak' successfully!");
-            loadDisposisiTable(); // Refresh table
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    }
-    }//GEN-LAST:event_tolakBTNActionPerformed
-
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
-
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton16ActionPerformed
-
-    private void jTextField59ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField59ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField59ActionPerformed
-
-    private void tanggalSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tanggalSuratActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tanggalSuratActionPerformed
-
-    private void sifatBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatBoxActionPerformed
-        String selectedValue = (String) sifatBox.getSelectedItem();
-        sifatSurat.setText(selectedValue);
-    }//GEN-LAST:event_sifatBoxActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        populatesifatBox();
-        populatesifatBoxDisposisi();
-        populatepnerimaBoxDisposisi();
-        populateintruksiDisposisi();
-        loadSuratLuarTable();
-        loadDisposisiTable();
-        loadHistoryTable();
-    }//GEN-LAST:event_formWindowOpened
-
-    private void pengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengirimActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pengirimActionPerformed
-
-    private void sifatSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatSuratActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sifatSuratActionPerformed
-
-    private void sifatsuratdisposisiboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatsuratdisposisiboxActionPerformed
-String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
-        sifatSuratDisposisi.setText(selectedValue);            // TODO add your handling code here:
-    }//GEN-LAST:event_sifatsuratdisposisiboxActionPerformed
-
-    private void instruksiDisposisiBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instruksiDisposisiBoxActionPerformed
-        String selectedValue = (String) instruksiDisposisiBox.getSelectedItem();
-        disposisiIntruksi.setText(selectedValue); // TODO add your handling code here:
-    }//GEN-LAST:event_instruksiDisposisiBoxActionPerformed
-
-    private void sifatSuratDisposisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatSuratDisposisiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sifatSuratDisposisiActionPerformed
-
-    private void disposisiIntruksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disposisiIntruksiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_disposisiIntruksiActionPerformed
-
-    private void jabatanPengirimFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanPengirimFieldActionPerformed
-
-    }//GEN-LAST:event_jabatanPengirimFieldActionPerformed
-
-    private void jabatanPengirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanPengirimActionPerformed
-        String selectedValue = (String) jabatanPengirim.getSelectedItem();
-        if (selectedValue == "Other"){
-            jabatanPengirimField.setEditable(true);
-        } else {
-            jabatanPengirimField.setEditable(false);
-            jabatanPengirimField.setText(selectedValue);
-        }
-    }//GEN-LAST:event_jabatanPengirimActionPerformed
-
-    private void ViewfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewfileButtonActionPerformed
-        int selectedRow = TabelSuratLuar.getSelectedRow();
-
-    if (selectedRow != -1) { // Check if a row is selected
-        try {
-            // 1. Fetch the byte array from the table model
-            byte[] fileData = (byte[]) TabelSuratLuar.getValueAt(selectedRow, 8); 
-
-            // 2. Determine the file type (you'll need to know this beforehand)
-            String fileType = "pdf"; // Example: Assuming it's a PDF
-
-            // 3. Create a temporary file
-            File tempFile = File.createTempFile("tempFile", "." + fileType);
-            tempFile.deleteOnExit(); // Delete the file when the JVM exits
-
-            // 4. Write the byte array to the temporary file
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(fileData);
-            fos.close();
-
-            // 5. Open the file with the default application associated with the file type
-            Desktop.getDesktop().open(tempFile);
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a row.");
-    }
-    }//GEN-LAST:event_ViewfileButtonActionPerformed
-
-    private void SifatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SifatFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SifatFieldActionPerformed
-
-    private void jenisFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jenisFieldActionPerformed
-
-    private void TabelSuratLuarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelSuratLuarMouseClicked
-        int x = TabelSuratLuar.getSelectedRow();
-        String SifatSurat = TabelSuratLuar.getValueAt(x, 0).toString();
-        String JenisSurat = TabelSuratLuar.getValueAt(x, 1).toString();
-        String NomorSurat = TabelSuratLuar.getValueAt(x, 2).toString();
-        String TanggalSurat = TabelSuratLuar.getValueAt(x, 3).toString();
-        String Pengirim = TabelSuratLuar.getValueAt(x, 4).toString();
-        String jabatan = TabelSuratLuar.getValueAt(x, 5).toString();
-        String Perihal = TabelSuratLuar.getValueAt(x, 6).toString();
-        String Catatan = TabelSuratLuar.getValueAt(x, 7).toString();
-        String lampiran = TabelSuratLuar.getValueAt(x, 8).toString();
-        
-        SifatField.setText(SifatSurat);
-        jenisField.setText(JenisSurat);
-        NomorField.setText(NomorSurat);
-        tanggalField.setText(TanggalSurat);
-        PengirimField.setText(Pengirim);
-        jabatanField.setText(jabatan);
-        perihalField.setText(Perihal);
-        catatanField.setText(Catatan);
-        FileNameField.setText(lampiran);
-    }//GEN-LAST:event_TabelSuratLuarMouseClicked
-
-    private void perihalFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_perihalFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_perihalFieldActionPerformed
-
-    private void nomorSuratDisposisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomorSuratDisposisiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomorSuratDisposisiActionPerformed
-
-    private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
-        int selectedRow = tabelDisposisi.getSelectedRow();
-
-    if (selectedRow != -1) { // Check if a row is selected
-        try {
-            // 1. Fetch the byte array from the table model
-            byte[] fileData = (byte[]) tabelDisposisi.getValueAt(selectedRow, 10); 
-
-            // 2. Determine the file type (you'll need to know this beforehand)
-            String fileType = "pdf"; // Example: Assuming it's a PDF
-
-            // 3. Create a temporary file
-            File tempFile = File.createTempFile("tempFile", "." + fileType);
-            tempFile.deleteOnExit(); // Delete the file when the JVM exits
-
-            // 4. Write the byte array to the temporary file
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(fileData);
-            fos.close();
-
-            // 5. Open the file with the default application associated with the file type
-            Desktop.getDesktop().open(tempFile);
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a row.");
-    }
-    }//GEN-LAST:event_ViewActionPerformed
-
-    private void tabelDisposisiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDisposisiMouseClicked
-        try {
-    int x = tabelDisposisi.getSelectedRow();
-
-    String noSurat = tabelDisposisi.getValueAt(x, 1).toString(); 
-    String tanggalSurat = tabelDisposisi.getValueAt(x, 2).toString(); 
-    String perihal = tabelDisposisi.getValueAt(x, 3).toString(); 
-    String instruksi = tabelDisposisi.getValueAt(x, 5).toString(); 
-    String sifat = tabelDisposisi.getValueAt(x, 6).toString(); 
-    String catatan = tabelDisposisi.getValueAt(x, 7).toString(); 
-    String deadline = tabelDisposisi.getValueAt(x, 8).toString(); 
-    String lampiranDisposisi = tabelDisposisi.getValueAt(x, 10).toString(); 
-
-    // Set values to UI components
-    noDisposisiMasuk.setText(noSurat);
-    tanggalDisposisiMasuk.setText(tanggalSurat);
-    perihalDisposisiMasuk.setText(perihal);
-    instruksiDisposisiMasuk.setText(instruksi);
-    sifatDisposisiMasuk.setText(sifat);
-    catatanDisposisiMasuk.setText(catatan);
-    deadlineDisposisiMasuk.setText(deadline);
-    lampiranDisposisiMasuk.setText(lampiranDisposisi);
-
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-    }//GEN-LAST:event_tabelDisposisiMouseClicked
-
-    private void jabatanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jabatanFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jabatanFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2213,8 +2013,6 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JComboBox<String> instruksiDisposisiBox;
     private javax.swing.JTextField instruksiDisposisiMasuk;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JComboBox<String> jComboBox18;
     private javax.swing.JComboBox<String> jComboBox19;
     private javax.swing.JComboBox<String> jComboBox20;
@@ -2248,27 +2046,10 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
-    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2299,22 +2080,6 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField51;
-    private javax.swing.JTextField jTextField52;
-    private javax.swing.JTextField jTextField53;
-    private javax.swing.JTextField jTextField54;
-    private javax.swing.JTextField jTextField55;
-    private javax.swing.JTextField jTextField56;
-    private javax.swing.JTextField jTextField57;
-    private javax.swing.JTextField jTextField58;
-    private javax.swing.JTextField jTextField59;
-    private javax.swing.JTextField jTextField60;
-    private javax.swing.JTextField jTextField61;
-    private javax.swing.JTextField jTextField62;
-    private javax.swing.JTextField jTextField63;
-    private javax.swing.JTextField jTextField64;
-    private javax.swing.JTextField jTextField65;
-    private javax.swing.JTextField jTextField66;
     private javax.swing.JTextField jabatanField;
     private javax.swing.JComboBox<String> jabatanPengirim;
     private javax.swing.JTextField jabatanPengirimField;
