@@ -19,9 +19,9 @@ public class DatabaseCRUD {
     public Connection koneksi;
     public DatabaseCRUD() {
         try {
-            String url = "jdbc:mysql://localhost:3306/sistem_desa";
+            String url = "jdbc:mysql://localhost:3306/kantordesa";
             String username = "root";
-            String password = "";
+            String password = "anjaymabar";
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             this.koneksi = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {

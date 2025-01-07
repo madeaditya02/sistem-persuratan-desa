@@ -154,7 +154,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                     String tempat_lahir = (String) jTable4.getValueAt(row, 8);
                     String tanggal_lahir = (String) jTable4.getValueAt(row, 9);
                     String usia = (String) jTable4.getValueAt(row, 10);
-                    String wargaNegara = (String) jTable4.getValueAt(row, 11);
+                    String warga_negara = (String) jTable4.getValueAt(row, 11);
 //                    String agama = (String) jTable4.getValueAt(row, 12);
 //                    String jenisKelamin = (String) jTable4.getValueAt(row, 13);
 //                    String pekerjaan = (String) jTable4.getValueAt(row, 14);
@@ -176,7 +176,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                     detailSurat.setTempatLahir(tempat_lahir);
                     detailSurat.setTanggalLahir(tanggal_lahir);
                     detailSurat.setUsia(usia);
-                    detailSurat.setUsia(wargaNegara);
+                    detailSurat.setUsia(warga_negara);
 //                    detailSurat.setUsia(agama);
 //                    detailSurat.setUsia(jenisKelamin);
 //                    detailSurat.setUsia(pekerjaan);

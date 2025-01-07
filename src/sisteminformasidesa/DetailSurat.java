@@ -15,6 +15,70 @@ public class DetailSurat extends javax.swing.JFrame {
      */
     public DetailSurat() {
         initComponents();
+        updateValidasiButton(); // Memastikan tombol Validasi diatur dengan benar saat inisialisasi
+
+        // Menambahkan listener pada setiap checkbox
+        jCheckBox1.addItemListener(e -> updateValidasiButton());
+        jCheckBox2.addItemListener(e -> updateValidasiButton());
+        jCheckBox3.addItemListener(e -> updateValidasiButton());
+        jCheckBox4.addItemListener(e -> updateValidasiButton());
+        jCheckBox5.addItemListener(e -> updateValidasiButton());
+        jCheckBox6.addItemListener(e -> updateValidasiButton());
+        jCheckBox7.addItemListener(e -> updateValidasiButton());
+        jCheckBox8.addItemListener(e -> updateValidasiButton());
+        jCheckBox9.addItemListener(e -> updateValidasiButton());
+        jCheckBox10.addItemListener(e -> updateValidasiButton());
+        jCheckBox11.addItemListener(e -> updateValidasiButton());
+        jCheckBox12.addItemListener(e -> updateValidasiButton());
+    }
+    
+    private void updateValidasiButton() {
+        boolean allChecked = jCheckBox1.isSelected() && jCheckBox2.isSelected()
+                && jCheckBox3.isSelected() && jCheckBox4.isSelected()
+                && jCheckBox5.isSelected() && jCheckBox6.isSelected()
+                && jCheckBox7.isSelected() && jCheckBox8.isSelected()
+                && jCheckBox9.isSelected() && jCheckBox10.isSelected()
+                && jCheckBox11.isSelected() && jCheckBox12.isSelected();
+
+        jButton2.setEnabled(allChecked); // Mengaktifkan atau menonaktifkan tombol Validasi
+    }
+    
+    // Setter untuk Nomor Surat
+    public void setNomorSurat(String nomorSurat) {
+        // Misalnya, jika Anda memiliki JTextField bernama nomorSuratField
+        this.nomorSuratField.setText(nomorSurat); // Ganti dengan field yang sesuai
+    }
+
+    // Setter untuk Judul Surat
+    public void setJudulSurat(String judulSurat) {
+        // Misalnya, jika Anda memiliki JTextField bernama judulSuratField
+        this.judulSuratField.setText(judulSurat); // Ganti dengan field yang sesuai
+    }
+
+    // Setter untuk Nama Lengkap
+    public void setNamaLengkap(String namaLengkap) {
+        // Misalnya, jika Anda memiliki JTextField bernama namaLengkapField
+        this.namaLengkapField.setText(namaLengkap); // Ganti dengan field yang sesuai
+    }
+
+    public void setTahun(String tahun) {
+        this.tahunField.setText(tahun); // Ganti dengan field yang sesuai
+    }
+
+    public void setTempatLahir(String tempat_lahir) {
+        this.tempatLahirField.setText(tempat_lahir); // Ganti dengan field yang sesuai    
+    }
+    
+    public void setTanggalLahir(String tanggal_lahir) {
+        this.tanggalLahirField.setText(tanggal_lahir); // Ganti dengan field yang sesuai    
+    }
+    
+    public void setUsia(String usia) {
+        this.usiaField.setText(usia); // Ganti dengan field yang sesuai    
+    }
+    
+    public void setwargaNegara(String warga_negara) {
+        this.wargaNegaraField.setText(warga_negara); // Ganti dengan field yang sesuai    
     }
 
     /**
@@ -32,28 +96,25 @@ public class DetailSurat extends javax.swing.JFrame {
         jCheckBox7 = new javax.swing.JCheckBox();
         jLabel22 = new javax.swing.JLabel();
         jCheckBox8 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
+        tahunField = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jCheckBox9 = new javax.swing.JCheckBox();
-        jTextField2 = new javax.swing.JTextField();
+        judulSuratField = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jCheckBox10 = new javax.swing.JCheckBox();
-        jTextField3 = new javax.swing.JTextField();
+        tanggalLahirField = new javax.swing.JTextField();
         jCheckBox11 = new javax.swing.JCheckBox();
-        jTextField4 = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         jCheckBox12 = new javax.swing.JCheckBox();
-        jTextField5 = new javax.swing.JTextField();
+        tempatLahirField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTextField6 = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jTextField7 = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        agamaField = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
         jTextField11 = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
@@ -71,10 +132,15 @@ public class DetailSurat extends javax.swing.JFrame {
         jTextField18 = new javax.swing.JTextField();
         jCheckBox4 = new javax.swing.JCheckBox();
         jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
+        nomorSuratField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
+        namaLengkapField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        usiaField = new javax.swing.JTextField();
+        wargaNegaraField = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         kirimSurat = new javax.swing.JButton();
         suratMasuk = new javax.swing.JButton();
@@ -90,11 +156,17 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jLabel22.setText("Nomor Surat");
 
+        tahunField.setEditable(false);
+
         jLabel23.setText("Tahun");
 
-        jLabel24.setText("Kode Surat");
+        judulSuratField.setEditable(false);
 
-        jLabel26.setText("/");
+        jLabel24.setText("Judul Surat");
+
+        tanggalLahirField.setEditable(false);
+
+        tempatLahirField.setEditable(false);
 
         jButton1.setText("Tidak Valid");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -103,11 +175,17 @@ public class DetailSurat extends javax.swing.JFrame {
             }
         });
 
+        jTextField6.setEditable(false);
+
         jLabel28.setText("Warga Negara");
 
         jButton2.setText("Validasi");
 
+        jTextField7.setEditable(false);
+
         jLabel29.setText("Agama");
+
+        agamaField.setEditable(false);
 
         jLabel30.setText("Jenis Kelamin");
 
@@ -125,73 +203,100 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jLabel36.setText("Gol Darah");
 
+        jTextField15.setEditable(false);
+
+        jTextField16.setEditable(false);
+
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        jTextField17.setEditable(false);
+
+        jTextField18.setEditable(false);
+
+        jTextField19.setEditable(false);
+
+        nomorSuratField.setEditable(false);
+
         jLabel7.setText("Nama");
 
         jLabel25.setText("TTL");
 
         jLabel27.setText("Usia");
 
+        namaLengkapField.setEditable(false);
+
+        jLabel1.setText("/");
+
+        jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        usiaField.setEditable(false);
+
+        wargaNegaraField.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel37)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel29)
-                            .addComponent(jLabel30))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel37)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel22))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel23)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel25)
+                                    .addComponent(jLabel27)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel29)
+                                    .addComponent(jLabel30))
+                                .addGap(72, 72, 72)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel36)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jCheckBox1))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                    .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel26)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jTextField7)
+                                                    .addComponent(agamaField)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                                .addComponent(jLabel26)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(76, 76, 76))
+                                                            .addComponent(usiaField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(wargaNegaraField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jCheckBox2)
                                                     .addComponent(jCheckBox3)
                                                     .addComponent(jCheckBox4)
                                                     .addComponent(jCheckBox5)
-                                                    .addComponent(jCheckBox6))))
+                                                    .addComponent(jCheckBox6)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(namaLengkapField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(tempatLahirField, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(tanggalLahirField, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jCheckBox1)
+                                                    .addComponent(jCheckBox2))))
                                         .addGap(44, 44, 44)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel32)
@@ -224,8 +329,33 @@ public class DetailSurat extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jCheckBox7)))))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                                        .addComponent(jCheckBox7))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jButton2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel24))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel22))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jButton1))))
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,52 +368,52 @@ public class DetailSurat extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jButton3))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel24)
-                                                        .addGap(2, 2, 2)
-                                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel22)
-                                                        .addGap(2, 2, 2)
-                                                        .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel23)
-                                                        .addGap(2, 2, 2)
-                                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel7))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel31)
-                                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addComponent(jCheckBox1)
-                                            .addComponent(jCheckBox12))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(jLabel22)
+                                                    .addComponent(jLabel23)
+                                                    .addComponent(jLabel24))
+                                                .addGap(24, 24, 24))
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel25)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel26)
-                                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel32)
-                                                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(jCheckBox11)))
-                                    .addComponent(jCheckBox2))
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(namaLengkapField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(jLabel31)
+                                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jCheckBox1)))
+                                    .addComponent(jCheckBox12))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel25)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel32)
+                                            .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jCheckBox2)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel26)
+                                                .addComponent(tanggalLahirField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(tempatLahirField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel1))))
+                                    .addComponent(jCheckBox11))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jCheckBox3)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel27)
-                                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jCheckBox3))
+                                                .addComponent(usiaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel27)))
                                         .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jCheckBox10)))
                             .addComponent(jLabel33))
@@ -291,17 +421,16 @@ public class DetailSurat extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel28)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel28)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel34)
-                                        .addComponent(jCheckBox4)))
+                                        .addComponent(jCheckBox4))
+                                    .addComponent(wargaNegaraField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel29)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(agamaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jCheckBox5)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,7 +527,7 @@ public class DetailSurat extends javax.swing.JFrame {
                 .addComponent(pengajuanSurat)
                 .addGap(7, 7, 7)
                 .addComponent(pengajuanSurat1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -424,6 +553,24 @@ public class DetailSurat extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Membuat instance dari pagePimpinan
+        pagePimpinan pimpinanPage = new pagePimpinan();
+
+        // Mengatur tab "Pengajuan Surat"
+        pimpinanPage.setActiveTab(4); // Pastikan index 3 adalah tab "Pengajuan Surat"
+
+        // Menampilkan halaman pimpinan
+        pimpinanPage.setVisible(true);
+
+        // Menutup halaman DetailSurat
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -463,11 +610,14 @@ public class DetailSurat extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField agamaField;
     private javax.swing.JButton disposisiMasuk;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
@@ -481,6 +631,7 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -501,28 +652,27 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField judulSuratField;
     private javax.swing.JButton kirimDisposisi;
     private javax.swing.JButton kirimSurat;
+    private javax.swing.JTextField namaLengkapField;
+    private javax.swing.JTextField nomorSuratField;
     private javax.swing.JButton pengajuanSurat;
     private javax.swing.JButton pengajuanSurat1;
     private javax.swing.JButton suratMasuk;
+    private javax.swing.JTextField tahunField;
+    private javax.swing.JTextField tanggalLahirField;
+    private javax.swing.JTextField tempatLahirField;
     private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField usiaField;
+    private javax.swing.JTextField wargaNegaraField;
     // End of variables declaration//GEN-END:variables
 }
