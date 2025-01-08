@@ -20,6 +20,8 @@ import javax.swing.table.*;
 import java.awt.event.*;
 import java.sql.*;
 import sisteminformasidesa.pagePimpinan;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 
 /**
@@ -168,7 +170,6 @@ public class pagePimpinan extends javax.swing.JFrame {
                     String keperluan = (String) jTable4.getValueAt(row, 18);
                     String golDarah = (String) jTable4.getValueAt(row, 19);
 
-
                     // Buat instance DetailSurat
                     DetailSurat detailSurat = new DetailSurat();
 
@@ -190,9 +191,32 @@ public class pagePimpinan extends javax.swing.JFrame {
                     detailSurat.setKeperluan(keperluan);
                     detailSurat.setGolDarah(golDarah);
 
-                    
                     // Tampilkan DetailSurat
                     detailSurat.setVisible(true);
+                    
+                    try {
+                        DatabaseCRUD db = new DatabaseCRUD();
+                        Connection conn = db.koneksi;
+                     // SQL untuk menambahkan baris baru
+                        String sql = "INSERT INTO status_validasi (waktu_dibuka_kepdes) VALUES (?)"; // Sesuaikan kolom_lain dengan nama kolom sebenarnya
+                        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                            Timestamp timestamp = Timestamp.from(Instant.now()); // Mendapatkan waktu sekarang
+                            stmt.setTimestamp(1, timestamp); // Ganti dengan data yang sesuai untuk kolom_lain
+        
+                            stmt.executeUpdate();
+
+                            // Ambil ID yang baru saja dibuat (opsional)
+                            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                                if (generatedKeys.next()) {
+                                    int idBaru = generatedKeys.getInt(1);
+                                    detailSurat.setIdValidasi(idBaru);
+                                }
+                            }
+                        }
+                        
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     
                     pagePimpinan.this.dispose();
                     

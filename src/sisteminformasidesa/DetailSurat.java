@@ -4,25 +4,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package sisteminformasidesa;
-import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.io.File;
+import java.io.FileInputStream;
+import java.time.Instant;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 /**
  *
  * @author nanda
  */
 public class DetailSurat extends javax.swing.JFrame {
+    
+    public void setIdValidasi(int idBaru) {
+        this.idValidasi = idBaru;
+    }
+    
 
     /**
      * Creates new form DetailSurat
      */
     public DetailSurat() {
         initComponents();
-        updateValidasiButton(); // Memastikan tombol Validasi diatur dengan benar saat inisialisasi
+        updateValidasiButton();
+// Memastikan tombol Validasi diatur dengan benar saat inisialisasi
 
         // Menambahkan listener pada setiap checkbox
         jCheckBox1.addItemListener(e -> updateValidasiButton());
@@ -181,8 +191,6 @@ public class DetailSurat extends javax.swing.JFrame {
         wargaNegaraField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        judulSuratField1 = new javax.swing.JTextField();
-        jLabel38 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         kirimSurat = new javax.swing.JButton();
         suratMasuk = new javax.swing.JButton();
@@ -291,8 +299,6 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTextPane1);
 
-        jLabel38.setText("Id Validasi");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -374,42 +380,38 @@ public class DetailSurat extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBox7))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel23)
-                                        .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(pekerjaanField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(pekerjaanField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jCheckBox12))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel24))
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel22)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel37)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel37)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(17, 17, 17))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel38)
-                            .addComponent(judulSuratField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel22))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -424,23 +426,16 @@ public class DetailSurat extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jButton3)
-                                            .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(judulSuratField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                            .addComponent(jLabel24)
-                                                            .addComponent(jLabel38))
-                                                        .addGap(23, 23, 23)))
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jLabel23)
-                                                        .addComponent(jLabel22))
-                                                    .addGap(24, 24, 24))))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(jLabel24)
+                                                    .addComponent(jLabel22)
+                                                    .addComponent(jLabel23))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(judulSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(nomorSuratField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(tahunField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -520,7 +515,7 @@ public class DetailSurat extends javax.swing.JFrame {
                 .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         jPanel10.setBackground(new java.awt.Color(0, 146, 89));
@@ -634,10 +629,39 @@ public class DetailSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String dbURL = "jdbc:mysql://localhost:3306/kantordesafix"; // Ganti dengan URL database Anda
+        String dbUser = "root"; // Ganti dengan username database Anda
+        String dbPassword = ""; // Ganti dengan password database Anda
+
+        // ID validasi yang ingin diperbarui
+        idValidasi = pagePimpinan.idBaru; // Anda perlu menetapkan nilai idValidasi sesuai dengan logika aplikasi Anda
+
+        String sql = "UPDATE status_validasi SET status_sekdes = 'Tidak Valid' WHERE id_validasi = ?";
+    
+        try (Connection conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+        
+            // Set parameter id_validasi
+            stmt.setInt(1, idValidasi);
+        
+            // Eksekusi update
+            int rowsUpdated = stmt.executeUpdate();
+        
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Status berhasil diubah menjadi 'Tidak Valid'.", 
+                                          "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "ID Validasi tidak ditemukan.", 
+                                            "Informasi", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Gagal mengubah status: " + e.getMessage(), 
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Upload Scan Tanda Tangan");
 
@@ -673,15 +697,19 @@ public class DetailSurat extends javax.swing.JFrame {
                 return;
             }
 
-            // Konfirmasi unggahan
             int confirm = JOptionPane.showConfirmDialog(this,
                     "Apakah Anda yakin ingin mengunggah file ini?", "Konfirmasi Unggahan",
                     JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                // Simpan file ke database
                 try (FileInputStream fis = new FileInputStream(selectedFile)) {
-                    saveFileToDatabase(fis);
-                    JOptionPane.showMessageDialog(this, "File berhasil diunggah ke database!",
+                    int idValidasi = saveFileToDatabase(fis);
+
+                    // Update status dan waktu di database
+                    String statusSekdes = "Valid";
+                    Timestamp waktuValidasiSekdes = new Timestamp(System.currentTimeMillis());
+                    updateValidationStatus(idValidasi, statusSekdes, waktuValidasiSekdes);
+
+                    JOptionPane.showMessageDialog(this, "File berhasil diunggah dan status diperbarui ke database!",
                             "Sukses", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Gagal mengunggah file: " + ex.getMessage(),
@@ -694,25 +722,58 @@ public class DetailSurat extends javax.swing.JFrame {
         }
     }
 
-// Metode untuk menyimpan file ke database
-    private void saveFileToDatabase(FileInputStream fileInputStream) throws Exception {
-        // Konfigurasi database
-        String dbURL = "jdbc:mysql://localhost:3306/kantordesa";
+    // Simpan file ke database
+    private int saveFileToDatabase(FileInputStream fis) throws SQLException {
+        String dbURL = "jdbc:mysql://localhost:3306/kantordesafix";
         String dbUser = "root";
-        String dbPassword = "anjaymabar";
+        String dbPassword = "";
 
-        // Query SQL untuk menyimpan data
         String sql = "INSERT INTO ttd_sekdes (ttd_sekredes) VALUES (?)";
+        try (Connection conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            stmt.setBinaryStream(1, fis);
 
-        // Koneksi ke database
-        try (Connection connection = DriverManager.getConnection(dbURL, dbUser, dbPassword); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            // Set parameter file
-            preparedStatement.setBinaryStream(1, fileInputStream, fileInputStream.available());
-
-            // Eksekusi query
-            preparedStatement.executeUpdate();
+            int rowsInserted = stmt.executeUpdate();
+            System.out.println("Baris yang dimasukkan: " + rowsInserted);
+            if (rowsInserted > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1); // Mengembalikan id_validasi
+                    }
+                }
+            }
         }
+        return -1; // Jika gagal
+    }
+
+    // Perbarui status validasi
+    private void updateValidationStatus(int idValidasi, String statusSekdes, Timestamp waktuValidasiSekdes) throws SQLException {
+        String dbURL = "jdbc:mysql://localhost:3306/kantordesafix";
+        String dbUser = "root";
+        String dbPassword = "";
+
+        String sql = "UPDATE status_validasi SET status_sekdes = ?, waktu_divalidasi_sekdes = ? WHERE id_validasi = ?";
+        try (Connection conn = DriverManager.getConnection(dbURL, dbUser, dbPassword);
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            Timestamp timestamp = Timestamp.from(Instant.now()); // Mendapatkan waktu sekarang
+            stmt.setString(1, "Valid");
+            stmt.setTimestamp(2, timestamp);
+            stmt.setInt(3, idValidasi);
+
+            stmt.executeUpdate();
+            
+            System.out.println("ID Validasi: " + idValidasi);
+            System.out.println("Status Sekdes: Valid");
+            System.out.println("Waktu Validasi Sekdes: " + timestamp);
+        }
+        pagePimpinan pimpinanPage = new pagePimpinan();
+
+        // Mengatur tab "Pengajuan Surat"
+        pimpinanPage.setActiveTab(4); // Pastikan index 3 adalah tab "Pengajuan Surat"
+
+        // Menampilkan halaman pimpinan
+        pimpinanPage.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
@@ -790,7 +851,6 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -798,7 +858,6 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextField jenisKelaminField;
     private javax.swing.JTextField judulSuratField;
-    private javax.swing.JTextField judulSuratField1;
     private javax.swing.JTextField keperluanField;
     private javax.swing.JButton kirimDisposisi;
     private javax.swing.JButton kirimSurat;
