@@ -18,7 +18,6 @@ public class SistemInformasiDesa {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        DatabaseCRUD db = new DatabaseCRUD();
         new Login().setVisible(true);
     }
     
