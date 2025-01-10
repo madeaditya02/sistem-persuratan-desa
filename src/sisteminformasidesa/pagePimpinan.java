@@ -6,7 +6,6 @@ package sisteminformasidesa;
 
 import java.awt.Desktop;
 import java.util.List; 
-import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -184,7 +184,7 @@ public class pagePimpinan extends javax.swing.JFrame {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            String query = "SELECT * FROM surat_luar";
+            String query = "SELECT * FROM surat_luar ORDER BY created_at";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             //model.setRowCount(0); 
@@ -211,7 +211,6 @@ public class pagePimpinan extends javax.swing.JFrame {
         // Membersihkan data yang ada di tabel
         DefaultTableModel modelhistoryTable = (DefaultTableModel) tabelhistory.getModel();
         modelhistoryTable.getDataVector().removeAllElements();
-        modelhistoryTable.fireTableDataChanged();
 
         try {
             // Membuat koneksi ke database
@@ -220,12 +219,12 @@ public class pagePimpinan extends javax.swing.JFrame {
 
             // Query untuk mengambil data dari tabel disposisi dan surat_luar
 
-             String query = "SELECT surat_luar.id_mail, surat_luar.sifat_surat, "
-                    + "surat_luar.no_surat, surat_luar.tanggal_surat, surat_luar.NamaPengirim, "
-                    + "surat_luar.perihal, surat_luar.lampiran, "
-                    + "status_surat_luar.status, status_surat_luar.timestamp "
-                    + "FROM surat_luar INNER JOIN status_surat_luar "
-                     + "ON surat_luar.id_mail = status_surat_luar.id_mail; ";
+             String query = "SELECT surat_luar.id_mail, surat_luar.sifat_surat, surat_luar.no_surat, "
+                     + "surat_luar.tanggal_surat, surat_luar.NamaPengirim, surat_luar.catatan, "
+                     + "disposisi.respon, status_surat_luar.status, status_surat_luar.timestamp "
+                     + "FROM surat_luar "
+                     + "LEFT JOIN status_surat_luar ON surat_luar.id_mail = status_surat_luar.id_mail "
+                     + "LEFT JOIN disposisi ON surat_luar.id_mail = disposisi.id_mail ORDER BY `status_surat_luar`.`timestamp` DESC;";
 
             // Menyiapkan statement dan eksekusi query
             PreparedStatement stmt = conn.prepareStatement(query);
@@ -239,8 +238,8 @@ public class pagePimpinan extends javax.swing.JFrame {
                     rs.getString("no_surat"),       // Nomor surat
                     rs.getString("tanggal_surat"),  // Tanggal surat
                     rs.getString("NamaPengirim"),  // Nama pengirim
-                    rs.getString("perihal"),        // Perihal
-                    rs.getBytes("lampiran"),        // Lampiran
+                    rs.getString("catatan"),  
+                    rs.getString("respon"), // Perihal
                     rs.getString("status"),         // Status surat
                     rs.getString("timestamp")       // Timestamp
                 };
@@ -268,7 +267,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 + "disposisi.penerima, disposisi.instruksi, disposisi.sifat, disposisi.catatan, "
                 + "disposisi.deadline, disposisi.respon, surat_luar.lampiran "
                 + "FROM disposisi "
-                + "INNER JOIN surat_luar ON disposisi.id_mail = surat_luar.id_mail WHERE disposisi.penerima = ?;";
+                + "INNER JOIN surat_luar ON disposisi.id_mail = surat_luar.id_mail WHERE disposisi.penerima = ? ORDER BY disposisi.id_disposisi DESC;";
         
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setInt(1, IdJabatan);
@@ -305,7 +304,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             String query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS " +
                            "WHERE TABLE_SCHEMA = 'kantor_desa' " +
                            "AND TABLE_NAME = 'surat_luar' " +
-                           "AND COLUMN_NAME = 'sifat_surat'"; // Replace with your column and table name
+                           "AND COLUMN_NAME = 'sifat_surat'";
 
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
@@ -360,7 +359,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
 
-            String query = "SELECT * FROM jabatan WHERE Id_Jabatan > 4"; 
+            String query = "SELECT * FROM jabatan WHERE Id_Jabatan > 2"; 
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -768,7 +767,7 @@ public class pagePimpinan extends javax.swing.JFrame {
             kirimSuratPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kirimSuratPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1664,7 +1663,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id mail", "Sifat surat", "No surat", "Tanggal surat", "Nama pengirim", "Perihal", "Lampiran", "Status", "Timestamp"
+                "Id mail", "Sifat surat", "No surat", "Tanggal surat", "Nama pengirim", "Catatan", "Respon", "Status", "Timestamp"
             }
         ));
         jScrollPane7.setViewportView(tabelhistory);
@@ -1901,8 +1900,7 @@ public class pagePimpinan extends javax.swing.JFrame {
                 System.out.println("File selected: " + fileName);
                 System.out.println("File size: " + fileData.length + " bytes");
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error reading file: " + ex.getMessage(),
-                                          "File Read Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error reading file: " + ex.getMessage(), "File Read Error", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
         } else {
@@ -1917,11 +1915,11 @@ public class pagePimpinan extends javax.swing.JFrame {
         String CatatanDisposisi = catatanIntruksiDisposisi.getText();
         String DeadlineDisposisi = deadlineDisposisi.getText();
         String nomorSurat = nomorSuratDisposisi.getText();
+        String Status = "Didisposisi";
         try{
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
 
-            // 3. Fetch Penerima ID
             String getIdJabatanQuery = "SELECT Id_Jabatan FROM jabatan WHERE Nama_Jabatan = ?";
             PreparedStatement getidJabatanStmt = conn.prepareStatement(getIdJabatanQuery);
             getidJabatanStmt.setString(1, PenerimaDisposisi);
@@ -1930,21 +1928,16 @@ public class pagePimpinan extends javax.swing.JFrame {
             if (JabatanIdResult.next()) {
                 JabatanId = JabatanIdResult.getInt("Id_Jabatan");
             }
-            // 3. Fetch Penerima ID
+            
             String getIdMailQuery = "SELECT id_mail FROM surat_luar WHERE no_surat = ?"; 
             PreparedStatement getIdMailStmt = conn.prepareStatement(getIdMailQuery); 
-            getIdMailStmt.setString(1, nomorSurat); // Replace 'noSurat' with the actual variable containing the no_surat value 
+            getIdMailStmt.setString(1, nomorSurat);  
             ResultSet mailIdResult = getIdMailStmt.executeQuery(); 
             int mailId = -1;  
             if (mailIdResult.next()) { 
                 mailId = mailIdResult.getInt("id_mail"); 
             }
-            String updateQuery = "UPDATE status_surat_luar SET status='Didisposisi' WHERE id_mail = ?";
-                PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
-                updateStmt.setInt(1, mailId);
-                updateStmt.executeUpdate(); 
-                updateStmt.close(); 
-                loadHistoryTable();
+               
             String query = "INSERT INTO disposisi (id_mail, penerima, instruksi, sifat, catatan, deadline) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, mailId);
@@ -1953,10 +1946,15 @@ public class pagePimpinan extends javax.swing.JFrame {
             stmt.setString(4, SifatSuratDisposisi);
             stmt.setString(5, CatatanDisposisi);
             stmt.setString(6, DeadlineDisposisi);
-            
-            
-                
             stmt.executeUpdate();
+            
+            String queryStatus = "INSERT INTO status_surat_luar (id_mail, status) VALUES (?,?); ";
+            PreparedStatement queryStatuStmt = conn.prepareStatement(queryStatus);
+            queryStatuStmt.setInt(1, mailId);
+            queryStatuStmt.setString(2, Status);
+            queryStatuStmt.executeUpdate();
+            loadHistoryTable();
+            
             JOptionPane.showMessageDialog(this, "Data successfully added!");
         } catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
@@ -1992,65 +1990,102 @@ public class pagePimpinan extends javax.swing.JFrame {
 
     private void terimaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terimaBTNActionPerformed
         try {
-        int x = tabelDisposisi.getSelectedRow();
-        
-        if (x == -1) { 
-            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            int x = tabelDisposisi.getSelectedRow();
+
+            if (x == -1) { 
+                JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+
+            // Create input dialog
+            JTextField responseField = new JTextField();
+            Object[] message = {
+                "Enter Response:", responseField
+            };
+
+            int option = JOptionPane.showConfirmDialog(this, message, "Input Response", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                String responseText = responseField.getText().trim();
+
+                if (responseText.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Response cannot be empty!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Database update query
+                String query = "UPDATE disposisi SET respon = ? WHERE id_disposisi = ?";
+
+                DatabaseCRUD db = new DatabaseCRUD();
+                Connection conn = db.koneksi;
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, responseText);
+                stmt.setInt(2, idDisposisi);
+
+                int rowsUpdated = stmt.executeUpdate();
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(this, "Response updated successfully!");
+                    loadDisposisiTable(); // Refresh table
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
-        
-        // Database update query
-        String query = "UPDATE disposisi SET respon = 'Diterima' WHERE id_disposisi = ?";
-        
-        DatabaseCRUD db = new DatabaseCRUD();
-        Connection conn = db.koneksi;
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setInt(1, idDisposisi);
-        
-        int rowsUpdated = stmt.executeUpdate();
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Response updated to 'Diterima' successfully!");
-            loadDisposisiTable(); // Refresh table
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    }
+        loadDisposisiTable();
+        loadHistoryTable();
     }//GEN-LAST:event_terimaBTNActionPerformed
 
     private void tolakBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tolakBTNActionPerformed
         try {
-        int x = tabelDisposisi.getSelectedRow();
-        
-        if (x == -1) { 
-            JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            int x = tabelDisposisi.getSelectedRow();
+
+            if (x == -1) { 
+                JOptionPane.showMessageDialog(this, "Please select a row first!", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
+
+            // Create input dialog
+            JTextField responseField = new JTextField();
+            Object[] message = {
+                "Enter Response:", responseField
+            };
+
+            int option = JOptionPane.showConfirmDialog(this, message, "Input Response", JOptionPane.OK_CANCEL_OPTION);
+            if (option == JOptionPane.OK_OPTION) {
+                String responseText = responseField.getText().trim();
+
+                if (responseText.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Response cannot be empty!", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Database update query
+                String query = "UPDATE disposisi SET respon = ? WHERE id_disposisi = ?";
+
+                DatabaseCRUD db = new DatabaseCRUD();
+                Connection conn = db.koneksi;
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, responseText);
+                stmt.setInt(2, idDisposisi);
+
+                int rowsUpdated = stmt.executeUpdate();
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(this, "Response updated successfully!");
+                    loadDisposisiTable(); // Refresh table
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        int idDisposisi = Integer.parseInt(tabelDisposisi.getValueAt(x, 0).toString()); // Assuming column 0 is id_disposisi
-        
-        // Database update query
-        String query = "UPDATE disposisi SET respon = 'Ditolak' WHERE id_disposisi = ?";
-        
-        DatabaseCRUD db = new DatabaseCRUD();
-        Connection conn = db.koneksi;
-        PreparedStatement stmt = conn.prepareStatement(query);
-        stmt.setInt(1, idDisposisi);
-        
-        int rowsUpdated = stmt.executeUpdate();
-        
-        if (rowsUpdated > 0) {
-            JOptionPane.showMessageDialog(this, "Response updated to 'Ditolak' successfully!");
-            loadDisposisiTable(); // Refresh table
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to update response!", "Update Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-    }
+        loadDisposisiTable();
+        loadHistoryTable();
     }//GEN-LAST:event_tolakBTNActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -2096,7 +2131,7 @@ public class pagePimpinan extends javax.swing.JFrame {
     }//GEN-LAST:event_sifatSuratActionPerformed
 
     private void sifatsuratdisposisiboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifatsuratdisposisiboxActionPerformed
-String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
+        String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
         sifatSuratDisposisi.setText(selectedValue);            // TODO add your handling code here:
     }//GEN-LAST:event_sifatsuratdisposisiboxActionPerformed
 
@@ -2130,32 +2165,32 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private void ViewfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewfileButtonActionPerformed
         int selectedRow = TabelSuratLuar.getSelectedRow();
 
-    if (selectedRow != -1) { // Check if a row is selected
-        try {
-            // 1. Fetch the byte array from the table model
-            byte[] fileData = (byte[]) TabelSuratLuar.getValueAt(selectedRow, 8); 
+        if (selectedRow != -1) { 
+            try {
+                // 1. Fetch the byte array from the table model
+                byte[] fileData = (byte[]) TabelSuratLuar.getValueAt(selectedRow, 8); 
 
-            // 2. Determine the file type (you'll need to know this beforehand)
-            String fileType = "pdf"; // Example: Assuming it's a PDF
+                // 2. Determine the file type (you'll need to know this beforehand)
+                String fileType = "pdf"; // Example: Assuming it's a PDF
 
-            // 3. Create a temporary file
-            File tempFile = File.createTempFile("tempFile", "." + fileType);
-            tempFile.deleteOnExit(); // Delete the file when the JVM exits
+                // 3. Create a temporary file
+                File tempFile = File.createTempFile("tempFile", "." + fileType);
+                tempFile.deleteOnExit(); 
 
-            // 4. Write the byte array to the temporary file
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(fileData);
-            fos.close();
+                // 4. Write the byte array to the temporary file
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(fileData);
+                fos.close();
 
-            // 5. Open the file with the default application associated with the file type
-            Desktop.getDesktop().open(tempFile);
+                // 5. Open the file with the default application associated with the file type
+                Desktop.getDesktop().open(tempFile);
 
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a row.");
-    }
     }//GEN-LAST:event_ViewfileButtonActionPerformed
 
     private void SifatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SifatFieldActionPerformed
@@ -2246,32 +2281,32 @@ String selectedValue = (String) sifatsuratdisposisibox.getSelectedItem();
     private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
         int selectedRow = tabelDisposisi.getSelectedRow();
 
-    if (selectedRow != -1) { // Check if a row is selected
-        try {
-            // 1. Fetch the byte array from the table model
-            byte[] fileData = (byte[]) tabelDisposisi.getValueAt(selectedRow, 10); 
+        if (selectedRow != -1) { // Check if a row is selected
+            try {
+                // 1. Fetch the byte array from the table model
+                byte[] fileData = (byte[]) tabelDisposisi.getValueAt(selectedRow, 10); 
 
-            // 2. Determine the file type (you'll need to know this beforehand)
-            String fileType = "pdf"; // Example: Assuming it's a PDF
+                // 2. Determine the file type (you'll need to know this beforehand)
+                String fileType = "pdf"; // Example: Assuming it's a PDF
 
-            // 3. Create a temporary file
-            File tempFile = File.createTempFile("tempFile", "." + fileType);
-            tempFile.deleteOnExit(); // Delete the file when the JVM exits
+                // 3. Create a temporary file
+                File tempFile = File.createTempFile("tempFile", "." + fileType);
+                tempFile.deleteOnExit(); // Delete the file when the JVM exits
 
-            // 4. Write the byte array to the temporary file
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            fos.write(fileData);
-            fos.close();
+                // 4. Write the byte array to the temporary file
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(fileData);
+                fos.close();
 
-            // 5. Open the file with the default application associated with the file type
-            Desktop.getDesktop().open(tempFile);
+                // 5. Open the file with the default application associated with the file type
+                Desktop.getDesktop().open(tempFile);
 
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error opening file: " + ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a row.");
-    }
     }//GEN-LAST:event_ViewActionPerformed
 
     private void tabelDisposisiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelDisposisiMouseClicked
