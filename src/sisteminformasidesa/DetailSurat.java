@@ -11,21 +11,23 @@ import java.sql.Timestamp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 /**
  *
- * @author nanda
+ * @author satria
  */
 public class DetailSurat extends javax.swing.JFrame { 
-    private String catatan;
-    private String NomorSurat;
     User user = Session.loggedUser;
+    int idJabatan = user.id_jabatan;    
     String NIK = user.nik;
-    
-    ValidasiSurat validasisurat = new ValidasiSurat();
-    int idValidasi = validasisurat.getIdBaru();
-
+    String catatan;
+    String nomorSurat;
+    String NomorSurat;
+    int idValidasi;
+    String idvalidasi;
     
     public DetailSurat() {
         initComponents();
@@ -136,12 +138,24 @@ public class DetailSurat extends javax.swing.JFrame {
         this.golDarahField.setText(golDarah);    
     }
     
-    public void setIdValidasi(String idvalidasi) {
+    public void setIDValidasi(String idvalidasi) {
         this.idValidasiField.setText(idvalidasi);
+    }    
+    
+    public int getIdValidasi1(String idvalidasi) {
+        try {
+            this.idValidasi = Integer.parseInt(idValidasiField.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(DetailSurat.this, 
+            "ID Validasi harus berupa angka.", "Error", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+        return idValidasi;
     }
     
-    public void IdValidasi(int idBaru) {
-        this.idValidasi = idBaru;
+        public int getIdValidasi2(int idBaru) {
+            this.idValidasi = idBaru;
+            return idValidasi;
     }
     
     public void saveCatatanToDatabase() {
@@ -149,7 +163,7 @@ public class DetailSurat extends javax.swing.JFrame {
     }
     
     public void getNomorSurat(String nomorSurat) {
-        this.NomorSurat = nomorSurat;
+        this.NomorSurat = nomorSuratField.getText();
     }
 
     /**
@@ -208,7 +222,7 @@ public class DetailSurat extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         namaLengkapField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
         usiaField = new javax.swing.JTextField();
         wargaNegaraField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -216,11 +230,8 @@ public class DetailSurat extends javax.swing.JFrame {
         idValidasiField = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        pengajuanSurat = new javax.swing.JButton();
         usernameLabel = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        pengajuanSurat1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -311,10 +322,10 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jLabel1.setText("/");
 
-        jButton3.setText("Back");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setText("Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                backButtonActionPerformed(evt);
             }
         });
 
@@ -425,7 +436,7 @@ public class DetailSurat extends javax.swing.JFrame {
                         .addComponent(validButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tidakvalidButton)
@@ -458,7 +469,7 @@ public class DetailSurat extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jButton3)
+                                            .addComponent(backButton)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                     .addComponent(jLabel24)
@@ -555,13 +566,6 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jPanel10.setBackground(new java.awt.Color(0, 146, 89));
 
-        pengajuanSurat.setText("Validasi Surat");
-        pengajuanSurat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pengajuanSuratActionPerformed(evt);
-            }
-        });
-
         usernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         usernameLabel.setForeground(new java.awt.Color(255, 255, 255));
         usernameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User_fill@3x (2).png"))); // NOI18N
@@ -570,16 +574,7 @@ public class DetailSurat extends javax.swing.JFrame {
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Privilege user");
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        pengajuanSurat1.setText("Laporan Surat");
-        pengajuanSurat1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pengajuanSurat1ActionPerformed(evt);
-            }
-        });
+        jLabel18.setText("Detail Surat");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -587,12 +582,9 @@ public class DetailSurat extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pengajuanSurat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pengajuanSurat1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -602,13 +594,7 @@ public class DetailSurat extends javax.swing.JFrame {
                 .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(pengajuanSurat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pengajuanSurat1)
-                .addContainerGap(307, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -634,37 +620,51 @@ public class DetailSurat extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        DetailSurat detailsurat = new DetailSurat();
+        detailsurat.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void tidakvalidButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tidakvalidButtonActionPerformed
-        saveCatatanToDatabase();
-        try {
-            DatabaseCRUD db = new DatabaseCRUD();
-            Connection conn = db.koneksi;
-            
-            String sql = "UPDATE status_validasi SET status_sekdes = ?, Catatan = ? WHERE id_validasi = ? AND nomor_surat = ? AND nik = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+        DatabaseCRUD db = new DatabaseCRUD();
+        Connection conn = db.koneksi;      
+        if (idJabatan == 1) {
+            getIdValidasi1(idvalidasi);
+            String sqlkepdes = "UPDATE status_validasi SET status_kepdes = ?, Catatan = ? WHERE id_validasi = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sqlkepdes)) {
                 stmt.setString(1, "Tidak Valid");
                 stmt.setString(2, this.catatan);
                 stmt.setInt(3, this.idValidasi);
-                stmt.setString(4, this.NomorSurat);
-                stmt.setString(5, this.NIK);
+                System.out.print(idValidasi);
                 
                 stmt.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(DetailSurat.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } else if (idJabatan == 2) {
+            String sqlsekdes = "UPDATE status_validasi SET status_sekdes = ?, Catatan = ? WHERE id_validasi = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sqlsekdes)) {
+                stmt.setString(1, "Tidak Valid");
+                stmt.setString(2, this.catatan);
+                stmt.setInt(3, this.idValidasi);
+                
+                stmt.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(DetailSurat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(DetailSurat.this, "Tidak Berhasil Melakukan Validasi", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        DetailSurat detailsurat = new DetailSurat();
-        detailsurat.setVisible(true);
+        ValidasiSurat validasisurat = new ValidasiSurat();
+        validasisurat.setVisible(true);
         this.dispose();
+        
     }//GEN-LAST:event_tidakvalidButtonActionPerformed
 
     private void validButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validButtonMouseClicked
@@ -726,56 +726,77 @@ public class DetailSurat extends javax.swing.JFrame {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            
-            String sql = "INSERT INTO ttd_sekdes (ttd_sekredes) VALUES (?)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setBinaryStream(1, fis);
+            if (idJabatan == 1) {
+                String sqlkepdes = "INSERT INTO ttd_kades (ttd_kepdes, nik) VALUES (?, ?)";
+                try (PreparedStatement stmt = conn.prepareStatement(sqlkepdes)){
+                    stmt.setBinaryStream(1, fis);
+                    stmt.setString(2, this.NIK);
                 
-                stmt.executeUpdate();
+                    stmt.executeUpdate();
+                }
+            } else if (idJabatan == 2) {
+                String sqlsekdes = "INSERT INTO ttd_sekdes (ttd_sekredes, nik) VALUES (?, ?)";
+                try (PreparedStatement stmt = conn.prepareStatement(sqlsekdes)){
+                    stmt.setBinaryStream(1, fis);
+                    stmt.setString(2, this.NIK);
+                    
+                    stmt.executeUpdate();
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(DetailSurat.this, "Tidak Berhasil Menyimpan File", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
     }
-
  
     private void updateValidationStatus() throws SQLException {
         try {
             DatabaseCRUD db = new DatabaseCRUD();
             Connection conn = db.koneksi;
-            
-            String sql = "UPDATE status_validasi SET status_sekdes = ?, waktu_divalidasi_sekdes = ?, Catatan = ? WHERE id_validasi = ? AND nomor_surat = ? and nik = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-                Timestamp timestamp = Timestamp.from(Instant.now());
-                stmt.setString(1, "Valid");
-                stmt.setTimestamp(2, timestamp);
-                stmt.setString(3, this.catatan);
-                stmt.setInt(4, this.idValidasi);
-                stmt.setString(5, this.NomorSurat);
-                stmt.setString(6, this.NIK);
+            if (idJabatan == 1) {
+                getIdValidasi1(idvalidasi);
+                String sqlkepdes = "UPDATE status_validasi SET status_kepdes = ?, waktu_divalidasi_kepdes = ?, Catatan = ? WHERE id_validasi = ?";
+                try (PreparedStatement stmt = conn.prepareStatement(sqlkepdes)) {
+                    Timestamp timestamp = Timestamp.from(Instant.now());
+                    stmt.setString(1, "Valid");
+                    stmt.setTimestamp(2, timestamp);
+                    stmt.setString(3, this.catatan);
+                    stmt.setInt(4, this.idValidasi);
+                    System.out.print(timestamp);
+                    System.out.print(catatan);
+                    System.out.print(idValidasi);
+                    System.out.print(NomorSurat);
                 
-                stmt.executeUpdate();
-            }
-            
+                    stmt.executeUpdate();
+                }
+            } else if (idJabatan == 2) {
+                String sqlsekdes = "UPDATE status_validasi SET status_sekdes = ?, waktu_divalidasi_sekdes = ?, Catatan = ? WHERE id_validasi = ?";
+                try (PreparedStatement stmt = conn.prepareStatement(sqlsekdes)) {
+                    Timestamp timestamp = Timestamp.from(Instant.now());
+                    stmt.setString(1, "Valid");
+                    stmt.setTimestamp(2, timestamp);
+                    stmt.setString(3, this.catatan);
+                    stmt.setInt(4, this.idValidasi);
+                
+                    stmt.executeUpdate();
+                }    
+            } else {
+                JOptionPane.showMessageDialog(DetailSurat.this, "Tidak Berhasil Melakukan Validasi", "Error", JOptionPane.ERROR_MESSAGE);
+            }            
         } catch (SQLException e) {
         }
-        DetailSurat detailsurat = new DetailSurat();
-        detailsurat.setVisible(true);
+        ValidasiSurat validasisurat = new ValidasiSurat();
+        validasisurat.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_validButtonMouseClicked
 
     private void tidakvalidButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tidakvalidButtonMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tidakvalidButtonMouseClicked
-
-    private void pengajuanSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengajuanSuratActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pengajuanSuratActionPerformed
-
-    private void pengajuanSurat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pengajuanSurat1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pengajuanSurat1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -814,10 +835,10 @@ public class DetailSurat extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField agamaField;
     private javax.swing.JTextField alamatLengkapField;
+    private javax.swing.JButton backButton;
     private javax.swing.JTextPane catatanTextPane;
     private javax.swing.JTextField golDarahField;
     private javax.swing.JTextField idValidasiField;
-    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
@@ -830,7 +851,6 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel22;
@@ -862,8 +882,6 @@ public class DetailSurat extends javax.swing.JFrame {
     private javax.swing.JTextField nokkField;
     private javax.swing.JTextField nomorSuratField;
     private javax.swing.JTextField pekerjaanField;
-    private javax.swing.JButton pengajuanSurat;
-    private javax.swing.JButton pengajuanSurat1;
     private javax.swing.JTextField tahunField;
     private javax.swing.JTextField tanggalLahirField;
     private javax.swing.JTextField tempatLahirField;

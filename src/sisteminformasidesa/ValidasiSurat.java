@@ -21,7 +21,7 @@ public class ValidasiSurat extends javax.swing.JFrame {
     User user = Session.loggedUser;
     int idJabatan = user.id_jabatan;
     String NIK = user.nik;
-    int idBaru;
+    public int idBaru;
 
     /**
      * Creates new form PengajuanSurat
@@ -115,22 +115,23 @@ public class ValidasiSurat extends javax.swing.JFrame {
                     
                     if (idJabatan == 1) {
                         String idvalidasi = (String) validasiTable.getValueAt(row, 20);
-                        int idBaru = Integer.parseInt(idvalidasi);
+                        detailSurat.setIDValidasi(idvalidasi);
                         loadTableValidasiKepdes();
+                        idBaru = Integer.parseInt(idvalidasi);
                         updateWaktuDibukaKepdes(nomorSurat, idBaru);
                         detailSurat.setVisible(true);
                     } else if (idJabatan == 2) {
                         loadTableValidasiSekdes();
-                        int idBaru = updateWaktuDibukaSekdes(nomorSurat);
+                        idBaru = updateWaktuDibukaSekdes(nomorSurat);
                         if (idBaru != -1) {
-                            detailSurat.IdValidasi(idBaru);
+                            detailSurat.getIdValidasi2(idBaru);
                             detailSurat.setVisible(true);
                             detailSurat.getNomorSurat(nomorSurat);
                         } else {
                             JOptionPane.showMessageDialog(ValidasiSurat.this, "Gagal menyimpan waktu dibuka.", "Error", JOptionPane.ERROR_MESSAGE);
                         }  
                     } else {
-                        JOptionPane.showMessageDialog(ValidasiSurat.this, "Gagal menyimpan waktu dibuka.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(ValidasiSurat.this, "Tidak Menemukan Akses", "Error", JOptionPane.ERROR_MESSAGE);
                     }
 
                     ValidasiSurat.this.dispose();
@@ -145,9 +146,6 @@ public class ValidasiSurat extends javax.swing.JFrame {
         });        
     }
     
-    public int getIdBaru() {
-        return idBaru;
-    }
     
     private void loadTableValidasiSekdes() {
         model.getDataVector().removeAllElements();
@@ -240,7 +238,7 @@ public class ValidasiSurat extends javax.swing.JFrame {
     }
 
     public int updateWaktuDibukaSekdes(String nomorSurat) {
-        int idbaru = -1;
+        int idBaru = -1;
         
         try {
             DatabaseCRUD db = new DatabaseCRUD();
@@ -257,14 +255,14 @@ public class ValidasiSurat extends javax.swing.JFrame {
               
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                            idbaru = generatedKeys.getInt(1);
+                            idBaru = generatedKeys.getInt(1);
                     }
                                 
                 }                
             }
         } catch (SQLException e) {
         }
-        return idbaru;
+        return idBaru;
     }
 
     public void updateWaktuDibukaKepdes(String nomorSurat, int idBaru) {
@@ -431,7 +429,10 @@ public class ValidasiSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_validasiSuratActionPerformed
 
     private void laporanSuratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanSuratActionPerformed
-        // TODO add your handling code here:
+        LaporanSurat laporansurat = new LaporanSurat();
+        laporansurat.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_laporanSuratActionPerformed
 
     private void validasiTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_validasiTableMouseClicked
@@ -445,7 +446,11 @@ public class ValidasiSurat extends javax.swing.JFrame {
     }//GEN-LAST:event_laporanSuratMouseClicked
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
- 
+        if (idJabatan == 1) {
+            loadTableValidasiKepdes();            
+        } else if (idJabatan == 2) {
+            loadTableValidasiSekdes();
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
