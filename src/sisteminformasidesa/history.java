@@ -4,17 +4,12 @@
  */
 package sisteminformasidesa;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JFileChooser;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.io.FileOutputStream;
 
 
 
@@ -70,7 +65,7 @@ public class history extends javax.swing.JFrame {
         rs.close();
         stmt.close();
         conn.close();
-    } catch (Exception e) {
+    } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Error loading table: " + e.getMessage());
     }
 }
@@ -197,10 +192,8 @@ public class history extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new history().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new history().setVisible(true);
         });
     }
     

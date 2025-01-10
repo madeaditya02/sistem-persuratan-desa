@@ -28,7 +28,6 @@
               <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -168,7 +167,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <Component id="validButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
@@ -177,7 +176,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="tidakvalidButton" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="judulSuratField" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
@@ -190,8 +189,13 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                              <Component id="tahunField" min="-2" pref="138" max="-2" attributes="0"/>
+                              <Component id="tahunField" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
+                              <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
+                              <Component id="idValidasiField" min="-2" pref="138" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -216,12 +220,14 @@
                                                       <Component id="jLabel24" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="3" attributes="0">
                                                       <Component id="judulSuratField" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="nomorSuratField" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="tahunField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="idValidasiField" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -329,14 +335,14 @@
                   </Group>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="validButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tidakvalidButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel37" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="110" max="-2" attributes="0"/>
-                  <EmptySpace pref="126" max="32767" attributes="0"/>
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -395,12 +401,13 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="tidakvalidButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tidak Valid"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tidakvalidButtonMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tidakvalidButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="pekerjaanField">
@@ -413,12 +420,12 @@
             <Property name="text" type="java.lang.String" value="Warga Negara"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="validButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Validasi"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton2MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="validButtonMouseClicked"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jenisKelaminField">
@@ -567,10 +574,20 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextPane" name="jTextPane1">
+            <Component class="javax.swing.JTextPane" name="catatanTextPane">
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JTextField" name="idValidasiField">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel38">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Id Validasi"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel10">
@@ -586,15 +603,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="kirimSurat" alignment="1" max="32767" attributes="0"/>
-                      <Component id="suratMasuk" alignment="1" max="32767" attributes="0"/>
-                      <Component id="kirimDisposisi" alignment="1" max="32767" attributes="0"/>
-                      <Component id="disposisiMasuk" alignment="1" max="32767" attributes="0"/>
                       <Component id="pengajuanSurat" alignment="1" max="32767" attributes="0"/>
                       <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="usernameLabel" alignment="0" pref="160" max="32767" attributes="0"/>
                       <Component id="jComboBox5" alignment="1" max="32767" attributes="0"/>
-                      <Component id="pengajuanSurat1" alignment="1" max="32767" attributes="0"/>
+                      <Component id="pengajuanSurat1" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="35" max="32767" attributes="0"/>
               </Group>
@@ -609,48 +622,23 @@
                   <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBox5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                  <Component id="kirimSurat" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
-                  <Component id="suratMasuk" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
-                  <Component id="kirimDisposisi" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
-                  <Component id="disposisiMasuk" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="pengajuanSurat" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="pengajuanSurat1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="236" max="32767" attributes="0"/>
+                  <EmptySpace pref="307" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="kirimSurat">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Kirim Surat"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="suratMasuk">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Surat Masuk"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="kirimDisposisi">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Kirim Disposisi"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="disposisiMasuk">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Disposisi Masuk"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="pengajuanSurat">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pengajuan surat"/>
+            <Property name="text" type="java.lang.String" value="Validasi Surat"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pengajuanSuratActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="usernameLabel">
           <Properties>
@@ -697,8 +685,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="pengajuanSurat1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Histori surat"/>
+            <Property name="text" type="java.lang.String" value="Laporan Surat"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pengajuanSurat1ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

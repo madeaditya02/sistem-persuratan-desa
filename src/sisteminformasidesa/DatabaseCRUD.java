@@ -43,7 +43,7 @@ public class DatabaseCRUD {
     }
 //    public static Connection getConnection() {
 //        try {
-//            String url = "jdbc:mysql://localhost/sistem_desa";
+//            String url = "jdbc:mysql://localhost/kantordesafix";
 //            String username = "root";
 //            String password = "";
 //            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
